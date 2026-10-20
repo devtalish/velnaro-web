@@ -2,15 +2,15 @@ import { Vector3 } from "three";
 import { type GlobeKey, type Orbit, type SectionKey } from "@/types/globe-types";
 
 export const THEME = {
-  deep: "#1f1e39",
-  base: "#6a3fd6",
-  hot: "#ea4884",
-  spark: "#33c2cc",
-  rim: "#33c2cc",
-  core: "#08071a",
+  deep: "#171B1F",
+  base: "#176B65",
+  hot: "#176B65",
+  spark: "#D9E7E2",
+  rim: "#D9E7E2",
+  core: "#0D1012",
 } as const;
 
-export const ORB_COLORS = ["#ea4884", "#33c2cc", "#ca2f8c", "#57db96"] as const;
+export const ORB_COLORS = ["#176B65", "#D9E7E2", "#30373D", "#5D666C"] as const;
 
 export const GLOBE = {
   sphereRadius: 1.5,
@@ -61,19 +61,17 @@ const DIP = { x: 0, y: -0.66, scale: 1.06, presence: 1 } as const;
 export const SECTION_KEYS: SectionKey[] = [
   { id: "home", at: 0.5, x: -0.46, y: -0.58, scale: 1.0, presence: 0 },
 
-  { id: "about", at: 0.5, x: -0.47, y: -0.32, scale: 1.1, presence: 1 },
-  { id: "about", at: 1, ...DIP },
-
-  { id: "services", at: 0.5, x: 0.47, y: -0.3, scale: 1.0, presence: 1 },
+  { id: "services", at: 0.5, x: -0.47, y: -0.32, scale: 1.1, presence: 1 },
   { id: "services", at: 1, ...DIP },
 
-  { id: "work", at: 0.5, x: -0.46, y: -0.34, scale: 1.14, presence: 1 },
+  { id: "work", at: 0.5, x: 0.47, y: -0.3, scale: 1.0, presence: 1 },
   { id: "work", at: 1, ...DIP },
 
-  { id: "testimonials", at: 0.5, x: 0.46, y: -0.31, scale: 1.02, presence: 1 },
-  { id: "testimonials", at: 1, ...DIP },
+  { id: "process", at: 0.5, x: -0.46, y: -0.34, scale: 1.14, presence: 1 },
+  { id: "process", at: 1, ...DIP },
 
-  { id: "contact", at: 0.5, x: -0.47, y: -0.33, scale: 1.1, presence: 1 },
+  { id: "contact", at: 0.5, x: 0.46, y: -0.31, scale: 1.02, presence: 1 },
+  { id: "contact", at: 1, ...DIP },
 ];
 
 export const TAIL_KEY: GlobeKey = { x: 0.3, y: -0.44, scale: 1.2, presence: 1 };

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Funnel_Display } from "next/font/google";
 import { JsonLd } from "@/components/seo/json-ld";
-import { HERO_NAME } from "@/constants/hero-constants";
 import {
   GOOGLE_SITE_VERIFICATION,
   OG_IMAGES,
@@ -25,13 +24,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: `%s | ${HERO_NAME}`,
+    template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   keywords: SITE_KEYWORDS,
-  authors: [{ name: HERO_NAME, url: SITE_URL }],
-  creator: HERO_NAME,
-  publisher: HERO_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   applicationName: SITE_NAME,
   openGraph: {
     type: "website",
@@ -61,10 +60,10 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#030412" },
-    { media: "(prefers-color-scheme: light)", color: "#5c33cc" },
+    { media: "(prefers-color-scheme: dark)", color: "#171B1F" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F2EC" },
   ],
-  colorScheme: "dark",
+  colorScheme: "light",
 };
 
 const INTRO_SKIP_SCRIPT = `try{if(sessionStorage.getItem("intro-played")==="1"){document.documentElement.dataset.introPlayed="1"}}catch(e){}`;

@@ -1,8 +1,8 @@
 export const SERVICE_ACCENTS = [
-  "from-coral via-fuchsia to-royal",
-  "from-aqua via-mint to-royal",
-  "from-lavender via-fuchsia to-coral",
-  "from-sand via-coral to-fuchsia",
+  "from-deep-teal via-slate to-graphite",
+  "from-pale-sage via-deep-teal to-slate",
+  "from-graphite via-slate to-deep-teal",
+  "from-slate via-graphite to-pale-sage",
 ] as const;
 
 export const STACK_SCALE_STEP = 0.04;

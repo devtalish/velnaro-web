@@ -13,7 +13,7 @@ const Rig: FC = () => {
   useFrame((state: RootState, delta: number) => {
     easing.damp3(
       state.camera.position,
-      [state.mouse.x / 10, 1 + state.mouse.y / 10, 3],
+      [state.mouse.x / 15, 1 + state.mouse.y / 15, 4],
       0.5,
       delta
     );
@@ -33,14 +33,18 @@ export const HeroScene: FC = () => {
       style={{ width: "100vw", height: "100vh" }}
     >
       <Canvas
-        camera={{ position: [0, 1, 3] }}
+        camera={{ position: [0, 1, 4] }}
         frameloop={active ? "always" : "never"}
       >
         <Suspense fallback={<Loader />}>
-          <Float>
+          <Float
+            rotationIntensity={0.3}
+            floatIntensity={0.5}
+            speed={0.5}
+          >
             <Astronaut
-              scale={isMobile ? 0.23 : undefined}
-              position={isMobile ? [0, -1.5, 0] : undefined}
+              scale={isMobile ? 0.15 : 0.2}
+              position={isMobile ? [0, -0.8, 0] : [0, -0.5, 0]}
             />
           </Float>
           <Rig />

@@ -14,24 +14,19 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 8,
-          background:
-            "linear-gradient(135deg, #5c33cc 0%, #ca2f8c 55%, #ea4884 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.35)",
+          background: "#176B65",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            color: "white",
-            fontFamily: "system-ui, sans-serif",
-            fontWeight: 800,
-            fontSize: 23,
-            lineHeight: 1,
-            letterSpacing: -1,
-          }}
+        <svg
+          viewBox="0 0 360 360"
+          width="24"
+          height="24"
+          fill="white"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          H
-        </div>
+          <path d="M67 84H116L180 217L244 84H293L180 318L67 84Z" />
+          <path d="M144 84H194L293 276V318L244 318L144 117V84Z" />
+        </svg>
       </div>
     ),
     { ...size }

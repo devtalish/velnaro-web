@@ -9,7 +9,7 @@ import {
 import { type FloatingFieldProps } from "@/types/contact-types";
 
 const SHARED_INPUT =
-  "block w-full bg-transparent text-sm text-white placeholder-transparent focus:outline-none";
+  "block w-full bg-transparent text-sm text-graphite placeholder-muted focus:outline-none";
 
 export const FloatingField: FC<FloatingFieldProps> = ({
   id,
@@ -40,16 +40,16 @@ export const FloatingField: FC<FloatingFieldProps> = ({
     <div
       className={`relative rounded-xl border transition-colors ${
         focused
-          ? "border-coral/60 bg-white/[0.06]"
-          : "border-white/10 bg-white/[0.03]"
+          ? "border-deep-teal/60 bg-white/80"
+          : "border-slate/20 bg-white/50"
       }`}
     >
       <label
         htmlFor={id}
         className={`pointer-events-none absolute left-4 transition-all duration-300 ${
           floated
-            ? "top-1 text-[10px] tracking-[0.25em] uppercase text-neutral-400"
-            : "top-1/2 -translate-y-1/2 text-sm text-neutral-500"
+            ? "top-1 text-[10px] tracking-[0.25em] uppercase text-muted"
+            : "top-1/2 -translate-y-1/2 text-sm text-muted"
         } ${textarea && floated ? "translate-y-0" : ""}`}
       >
         {label}
@@ -79,7 +79,7 @@ export const FloatingField: FC<FloatingFieldProps> = ({
             exit="exit"
             transition={UNDERLINE_TRANSITION}
             style={{ originX: 0 }}
-            className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-coral to-lavender"
+            className="absolute bottom-0 left-0 right-0 h-px bg-deep-teal"
           />
         )}
       </AnimatePresence>

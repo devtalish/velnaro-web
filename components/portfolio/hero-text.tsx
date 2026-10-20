@@ -1,11 +1,9 @@
 "use client";
 
 import { type CSSProperties, type FC } from "react";
-import { FlipWords } from "@/components/portfolio/flip-words";
 import {
-  FLIP_WORDS,
-  HERO_NAME,
   HERO_ROLE,
+  HERO_TAGLINE,
 } from "@/constants/portfolio-constants";
 
 const delay = (seconds: number): CSSProperties => ({
@@ -17,110 +15,81 @@ export const HeroText: FC = () => {
     <div className="z-10 mt-24 text-center md:mt-32 md:text-left max-w-3xl">
       <div className="flex-col hidden md:flex c-space">
         <div
-          className="reveal inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md px-3 py-1.5 mb-6"
+          className="reveal inline-flex items-center gap-2 self-start rounded-full border border-graphite/20 bg-ivory/80 backdrop-blur-md px-3 py-1.5 mb-6"
           style={delay(0.05)}
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inset-0 rounded-full bg-mint animate-ping opacity-75" />
-            <span className="relative rounded-full bg-mint h-2 w-2" />
+            <span className="absolute inset-0 rounded-full bg-deep-teal animate-ping opacity-75" />
+            <span className="relative rounded-full bg-deep-teal h-2 w-2" />
           </span>
-          <span className="text-xs tracking-[0.25em] uppercase text-neutral-300">
-            Available for new projects
+          <span className="text-xs tracking-[0.25em] uppercase text-muted">
+            {HERO_ROLE}
           </span>
         </div>
 
         <h1
-          className="reveal text-3xl font-light text-neutral-400"
+          className="reveal text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-graphite"
           style={delay(0.12)}
         >
-          Hi, I&apos;m {HERO_NAME}
+          Build with purpose. Engineer for what&apos;s next.
         </h1>
 
         <p
-          className="reveal text-5xl lg:text-6xl font-bold mt-2 text-gradient leading-tight"
+          className="reveal mt-6 text-base md:text-lg leading-relaxed text-muted max-w-2xl"
           style={delay(0.19)}
         >
-          {HERO_ROLE} <br />
-          crafting
-        </p>
-
-        <div className="reveal" style={delay(0.26)}>
-          <FlipWords
-            words={[...FLIP_WORDS]}
-            className="font-black text-white text-7xl lg:text-8xl"
-          />
-        </div>
-
-        <p
-          className="reveal text-3xl lg:text-4xl font-semibold text-neutral-300"
-          style={delay(0.33)}
-        >
-          web & mobile products.
+          {HERO_TAGLINE}
         </p>
 
         <div className="reveal flex flex-wrap gap-4 mt-10" style={delay(0.4)}>
           <a href="#contact" className="btn-primary">
-            <span>Hire Me</span>
+            <span>Discuss a Project</span>
             <span aria-hidden>→</span>
           </a>
           <a href="#work" className="btn-ghost">
-            <span>View My Work</span>
+            <span>Explore Our Work</span>
           </a>
         </div>
       </div>
 
       <div className="flex flex-col space-y-5 md:hidden px-2">
         <div
-          className="reveal inline-flex self-center items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5"
+          className="reveal inline-flex self-center items-center gap-2 rounded-full border border-graphite/20 bg-ivory/80 px-3 py-1.5"
           style={delay(0.05)}
         >
           <span className="relative flex h-2 w-2">
-            <span className="absolute inset-0 rounded-full bg-mint animate-ping opacity-75" />
-            <span className="relative rounded-full bg-mint h-2 w-2" />
+            <span className="absolute inset-0 rounded-full bg-deep-teal animate-ping opacity-75" />
+            <span className="relative rounded-full bg-deep-teal h-2 w-2" />
           </span>
-          <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-300">
-            Open for Work
+          <span className="text-[10px] tracking-[0.25em] uppercase text-muted">
+            {HERO_ROLE}
           </span>
         </div>
 
-        <p
-          className="reveal text-3xl font-light text-neutral-400"
+        <h1
+          className="reveal text-4xl lg:text-5xl font-bold leading-[1.05] tracking-tight text-graphite"
           style={delay(0.12)}
         >
-          Hi, I&apos;m {HERO_NAME.split(" ")[0]}
-        </p>
+          Build with purpose. Engineer for what&apos;s next.
+        </h1>
 
         <p
-          className="reveal text-4xl font-bold text-gradient"
+          className="reveal mt-4 text-base leading-relaxed text-muted"
           style={delay(0.19)}
         >
-          {HERO_ROLE}
-        </p>
-
-        <div className="reveal" style={delay(0.26)}>
-          <FlipWords
-            words={[...FLIP_WORDS]}
-            className="font-bold text-white text-5xl"
-          />
-        </div>
-
-        <p
-          className="reveal text-3xl font-semibold text-neutral-300"
-          style={delay(0.33)}
-        >
-          web & mobile apps.
+          {HERO_TAGLINE}
         </p>
 
         <div
-          className="reveal flex flex-col gap-3 mt-4 items-center"
+          className="reveal flex flex-col gap-3 mt-6 items-center"
           style={delay(0.4)}
         >
           <a href="#contact" className="btn-primary w-full">
-            <span>Hire Me</span>
+            <span>Discuss a Project</span>
             <span aria-hidden>→</span>
           </a>
           <a href="#work" className="btn-ghost w-full">
-            <span>View My Work</span>
+            <span>Explore Our Work</span>
           </a>
         </div>
       </div>

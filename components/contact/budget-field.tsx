@@ -8,7 +8,7 @@ import { type BudgetFieldProps } from "@/types/contact-types";
 
 export const BudgetField: FC<BudgetFieldProps> = ({ value, onChange }) => (
   <div>
-    <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-neutral-400">
+    <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-muted">
       Project budget
     </p>
     <div className="flex flex-wrap gap-2">
@@ -22,15 +22,15 @@ export const BudgetField: FC<BudgetFieldProps> = ({ value, onChange }) => (
             aria-pressed={active}
             className={`group relative rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
               active
-                ? "border-coral/60 bg-white/[0.06] text-white"
-                : "border-white/10 text-neutral-300 hover:border-white/30"
+                ? "border-deep-teal/60 bg-white/80 text-graphite"
+                : "border-slate/20 text-muted hover:border-deep-teal/50"
             }`}
           >
             {active && (
               <motion.span
                 layoutId="budget-bg"
                 transition={SPRING_SNAPPY}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-coral/20 to-lavender/20"
+                className="absolute inset-0 rounded-full bg-deep-teal/10"
               />
             )}
             <span className="relative">{option.label}</span>

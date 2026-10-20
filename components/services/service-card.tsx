@@ -2,6 +2,7 @@
 
 import { useRef, type FC } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import Image from "next/image";
 import {
   SERVICE_ACCENTS,
   STACK_OFFSET_REM,
@@ -38,30 +39,28 @@ export const ServiceCard: FC<ServiceCardProps> = ({
     >
       <motion.article
         style={{ scale, opacity }}
-        className="relative h-[80vh] overflow-hidden rounded-3xl border border-white/10 bg-midnight md:h-[78vh]"
+        className="relative h-[80vh] overflow-hidden rounded-3xl border border-slate/20 bg-white md:h-[78vh]"
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-br opacity-30 ${
-            SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]
-          }`}
+          className={`absolute inset-0 bg-gradient-to-br opacity-30 ${SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]}`}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.10),transparent_45%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(0,0,0,0.5),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(23,107,101,0.10),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(23,27,31,0.3),transparent_45%)]" />
 
         <div className="relative grid h-full grid-cols-1 gap-8 p-8 md:p-12 lg:grid-cols-12 lg:p-16">
           <div className="flex flex-col justify-between lg:col-span-7">
             <div>
               <div className="flex items-center gap-4">
-                <span className="rounded-full border border-white/20 px-3 py-1 text-[10px] uppercase tracking-[0.4em] text-white/60">
+                <span className="rounded-full border border-slate/20 px-3 py-1 text-[10px] uppercase tracking-[0.4em] text-muted">
                   Service {formatCounter(index, total)}
                 </span>
-                <span className="block h-px w-12 bg-white/30" />
+                <span className="block h-px w-12 bg-slate/30" />
               </div>
 
-              <h3 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl">
+              <h3 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-graphite md:text-6xl">
                 {service.title}
               </h3>
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
                 {service.description}
               </p>
             </div>
@@ -73,13 +72,15 @@ export const ServiceCard: FC<ServiceCardProps> = ({
 
           <div className="flex flex-col justify-between gap-8 lg:col-span-5">
             <div className="relative flex items-start justify-end">
-              <span className="text-[7rem] font-black leading-none tracking-tighter text-white/10 md:text-[10rem]">
+              <span className="text-[7rem] font-black leading-none tracking-tighter text-slate/10 md:text-[10rem]">
                 {padIndex(index + 1)}
               </span>
-              <div className="absolute right-0 top-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-md md:h-20 md:w-20">
-                <img
+              <div className="absolute right-0 top-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate/20 bg-white/80 backdrop-blur-md md:h-20 md:w-20">
+                <Image
                   src={service.icon}
                   alt=""
+                  width={32}
+                  height={32}
                   loading="lazy"
                   decoding="async"
                   className="h-8 w-8 opacity-90 md:h-9 md:w-9"
@@ -91,7 +92,7 @@ export const ServiceCard: FC<ServiceCardProps> = ({
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
+        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-slate/20" />
       </motion.article>
     </div>
   );

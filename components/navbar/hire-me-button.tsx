@@ -16,12 +16,12 @@ export const HireMeButton: FC<HireMeButtonProps> = ({ onClick, full }) => {
     <a
       href="#contact"
       onClick={handleClick}
-      className={`group relative inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] py-1.5 pl-4 pr-1.5 text-sm font-medium text-white backdrop-blur-md transition-colors hover:border-white/30 ${
+      className={`group relative inline-flex items-center gap-2 rounded-full border border-slate/30 bg-white py-1.5 pl-4 pr-1.5 text-sm font-medium text-graphite transition-colors hover:border-deep-teal/50 ${
         full ? "w-full justify-between" : ""
       }`}
     >
-      <span>Hire Me</span>
-      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-primary transition-transform duration-300 group-hover:translate-x-0.5">
+      <span>Discuss a Project</span>
+      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-graphite text-ivory transition-transform duration-300 group-hover:translate-x-0.5">
         <ArrowIcon />
       </span>
     </a>

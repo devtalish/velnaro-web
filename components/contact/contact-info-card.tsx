@@ -16,12 +16,12 @@ export const ContactInfoCard: FC<ContactInfoCardProps> = ({
         {icon}
       </div>
       <div className="overflow-hidden">
-        <p className="text-xs uppercase tracking-widest text-neutral-500">
+        <p className="text-xs uppercase tracking-widest text-muted">
           {label}
         </p>
         <p
-          className={`truncate text-sm text-white ${
-            href ? "transition-colors group-hover:text-coral" : ""
+          className={`truncate text-sm text-graphite ${
+            href ? "transition-colors group-hover:text-deep-teal" : ""
           }`}
         >
           {value}
@@ -30,12 +30,12 @@ export const ContactInfoCard: FC<ContactInfoCardProps> = ({
     </>
   );
 
-  const className = "glass gradient-border flex items-center gap-4 p-4";
+  const className = "glass-strong gradient-border flex items-center gap-4 p-4";
 
   return href ? (
     <a
       href={href}
-      className={`${className} group transition-colors hover:bg-white/[0.06]`}
+      className={`${className} group transition-colors hover:bg-slate/10`}
     >
       {body}
     </a>

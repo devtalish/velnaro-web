@@ -3,50 +3,50 @@ import { type Service } from "@/types/portfolio-types";
 export const SERVICES: Service[] = [
   {
     id: 1,
-    title: "Web Applications",
+    title: "Custom Software & Web Applications",
     description:
-      "Production-grade Next.js & React apps that are fast, accessible, SEO-friendly and built to scale.",
+      "Purpose-built web applications and digital products designed around your users, workflows, and business requirements.",
     icon: "/assets/logos/react.svg",
     bullets: [
-      "Landing pages & marketing sites",
-      "Dashboards & SaaS platforms",
-      "Server rendering & edge runtime",
+      "User-centered product design",
+      "Scalable architecture & clean code",
+      "Performance & accessibility built-in",
     ],
   },
   {
     id: 2,
-    title: "Mobile Apps",
+    title: "AI-Enabled Applications",
     description:
-      "Cross-platform mobile apps with React Native + Expo, polished UI and native-grade performance.",
-    icon: "/assets/logos/react.svg",
+      "Applications that incorporate AI capabilities where they offer a practical, meaningful improvement to the experience or workflow.",
+    icon: "/assets/logos/javascript.svg",
     bullets: [
-      "iOS & Android from one codebase",
-      "Push notifications & deep links",
-      "Offline-first patterns",
+      "LLM integration & prompt engineering",
+      "Computer vision & gesture recognition",
+      "AI-assisted workflows & automation",
     ],
   },
   {
     id: 3,
-    title: "Admin Panels & CMS",
+    title: "Workflow Automation",
     description:
-      "Powerful internal tools and admin portals with reusable components and role-based access.",
+      "Connected workflows that reduce repetitive manual work and help information move more consistently between tools and systems.",
     icon: "/assets/logos/tailwindcss.svg",
     bullets: [
-      "Bespoke admin dashboards",
-      "Data tables, filters & exports",
-      "Auth, roles & permissions",
+      "Process mapping & optimization",
+      "System integrations & API orchestration",
+      "Custom automation tooling",
     ],
   },
   {
     id: 4,
-    title: "APIs & Backends",
+    title: "Software Architecture & Integrations",
     description:
-      "Robust Node.js / Express APIs with SQL or MongoDB, cron jobs, and clean integration patterns.",
-    icon: "/assets/logos/javascript.svg",
+      "Thoughtful technical foundations and integrations that help applications, services, and data work together.",
+    icon: "/assets/logos/react.svg",
     bullets: [
-      "REST API design & docs",
-      "Database modelling (SQL & NoSQL)",
-      "Background jobs & webhooks",
+      "Architecture assessment & design",
+      "Legacy system modernization",
+      "Cross-platform data synchronization",
     ],
   },
 ];

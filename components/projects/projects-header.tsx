@@ -1,18 +1,19 @@
 import { type FC } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { padIndex } from "@/helpers/format-helpers";
 
-export const ProjectsHeader: FC<{ total: number }> = ({ total }) => (
+export const ProjectsHeader: FC<{ total: number }> = () => (
   <div className="c-space pt-24 md:pt-32">
     <SectionHeader
-      eyebrow={`Selected Work · ${padIndex(total)}`}
+      eyebrow="SELECTED WORK"
       title={
         <>
-          Projects that{" "}
-          <span className="text-gradient">shipped &amp; scaled.</span>
+          Work shaped around the problem.
         </>
       }
-      hint={["Scroll", "Pinned"]}
     />
+    <p className="mt-4 text-muted max-w-2xl">
+      Explore a selection of digital products and concepts across web experiences,
+      AI-enabled applications, and operational tools.
+    </p>
   </div>
 );

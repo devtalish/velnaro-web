@@ -29,7 +29,7 @@ export const ContactForm: FC = () => {
 
   const pointerX = useMotionValue(50);
   const pointerY = useMotionValue(50);
-  const glow = useMotionTemplate`radial-gradient(600px circle at ${pointerX}% ${pointerY}%, rgba(234,72,132,0.15), transparent 40%)`;
+  const glow = useMotionTemplate`radial-gradient(600px circle at ${pointerX}% ${pointerY}%, rgba(23,107,101,0.15), transparent 40%)`;
 
   const disabled = isLoading || completion < 1;
 
@@ -44,7 +44,7 @@ export const ContactForm: FC = () => {
           pointerX.set(((event.clientX - bounds.left) / bounds.width) * 100);
           pointerY.set(((event.clientY - bounds.top) / bounds.height) * 100);
         }}
-        className="glass gradient-border relative overflow-hidden p-7 md:p-10 lg:col-span-7"
+        className="glass-strong gradient-border relative overflow-hidden p-7 md:p-10 lg:col-span-7"
       >
         <motion.div
           aria-hidden
@@ -54,22 +54,22 @@ export const ContactForm: FC = () => {
 
         <div className="relative mb-7 flex items-end justify-between gap-6">
           <div>
-            <p className="text-eyebrow">Place an order</p>
-            <h3 className="mt-1 text-xl font-bold md:text-2xl">
-              Tell me about your project
+            <p className="text-eyebrow">START A CONVERSATION</p>
+            <h3 className="mt-1 text-xl font-bold md:text-2xl text-graphite">
+              Send a project inquiry
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-neutral-400">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted">
               <motion.span>{completionPercent}</motion.span>%
             </span>
-            <div className="relative h-1.5 w-24 overflow-hidden rounded-full bg-white/5">
+            <div className="relative h-1.5 w-24 overflow-hidden rounded-full bg-slate/20">
               <motion.div
                 style={{
                   scaleX: completionSpring,
                   transformOrigin: "0% 50%",
                 }}
-                className="absolute inset-0 bg-gradient-to-r from-coral to-lavender"
+                className="absolute inset-0 bg-deep-teal"
               />
             </div>
           </div>
@@ -118,8 +118,8 @@ export const ContactForm: FC = () => {
               disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
             }`}
             style={{
-              background: "linear-gradient(135deg, #5c33cc 0%, #ea4884 100%)",
-              boxShadow: "0 10px 30px -10px rgba(234, 72, 132, 0.55)",
+              background: "var(--color-deep-teal)",
+              boxShadow: "0 10px 30px -10px rgba(23, 107, 101, 0.4)",
             }}
           >
             <AnimatePresence mode="wait">
@@ -138,7 +138,7 @@ export const ContactForm: FC = () => {
                   </>
                 ) : (
                   <>
-                    Send message
+                    Send Project Inquiry
                     <span aria-hidden>→</span>
                   </>
                 )}
@@ -146,7 +146,7 @@ export const ContactForm: FC = () => {
             </AnimatePresence>
           </motion.button>
 
-          <p className="text-center text-[11px] text-neutral-500">
+          <p className="text-center text-[11px] text-muted">
             By sending, you agree to be contacted at the email provided.
           </p>
         </form>

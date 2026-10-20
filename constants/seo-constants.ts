@@ -1,25 +1,24 @@
-import { HERO_LOCATION, HERO_NAME, HERO_ROLE } from "./hero-constants";
-import { CONTACT_EMAIL, MY_SOCIALS } from "./social-constants";
+import { CONTACT_EMAIL } from "./social-constants";
 
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.hasnainirfan.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://velnaro.com"
 ).replace(/\/$/, "");
 
 export const absoluteUrl = (path: string) =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
-export const SITE_NAME = `${HERO_NAME} | ${HERO_ROLE}`;
+export const SITE_NAME = "VELNARO";
 
-export const SITE_TITLE = `${HERO_NAME} | ${HERO_ROLE}`;
+export const SITE_TITLE = "VELNARO — Software Development & Technology Solutions";
 
 export const SITE_DESCRIPTION =
-  "Senior Software Engineer with 5+ years building scalable web and mobile products in React, Next.js and Node.js. Open to freelance and contract work.";
+  "VELNARO designs and develops custom software, web applications, AI-enabled products, and workflow automation shaped around real problems.";
 
 export const SITE_TAGLINE =
-  "Scalable web & mobile products built with React, Next.js and Node.js.";
+  "Software and technology solutions built with purpose.";
 
 export const OG_IMAGE = "/og.jpg";
-export const OG_IMAGE_ALT = `${HERO_NAME}, ${HERO_ROLE} portfolio`;
+export const OG_IMAGE_ALT = "VELNARO — Software Development & Technology Solutions";
 export const OG_LOCALE = "en_US";
 
 export const OG_IMAGES = [
@@ -35,27 +34,22 @@ export const GOOGLE_SITE_VERIFICATION =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "";
 
 export const SITE_KEYWORDS = [
-  HERO_NAME,
-  "Software Engineer",
-  "Senior Software Engineer",
-  "Full Stack Developer",
-  "Next.js Developer",
-  "React Developer",
-  "React Native Developer",
-  "Node.js Developer",
-  "Frontend Developer",
-  "Web Developer Portfolio",
-  "Freelance Developer",
-  "Hire Software Engineer",
-  HERO_LOCATION,
-  "Pakistan",
-  "Remote Developer",
+  "VELNARO",
+  "Software Development",
+  "Technology Solutions",
+  "Custom Software",
+  "Web Applications",
+  "AI-Enabled Applications",
+  "Workflow Automation",
+  "Software Architecture",
+  "System Integrations",
+  "Digital Products",
 ];
 
-export const HOME_TITLE = `${HERO_NAME} | ${HERO_ROLE} & Next.js Developer`;
+export const HOME_TITLE = "VELNARO — Software Development & Technology Solutions";
 
 export const HOME_DESCRIPTION =
-  "Senior Software Engineer in Karachi building scalable web, mobile and API products with React, Next.js and Node.js. Open to freelance and contract work.";
+  "VELNARO designs and develops custom software, web applications, AI-enabled products, and workflow automation shaped around real problems.";
 
 export const ADMIN_TITLE = "Contact submissions";
 
@@ -71,37 +65,30 @@ export const SITE_SECTIONS = [
   {
     name: "Home",
     hash: "#home",
-    description: `${HERO_NAME}, ${HERO_ROLE} building scalable web and mobile products.`,
-  },
-  {
-    name: "About",
-    hash: "#about",
-    description: `Background, stack and working style of ${HERO_NAME}, a ${HERO_ROLE} based in ${HERO_LOCATION}.`,
+    description: "VELNARO — Software Development & Technology Solutions.",
   },
   {
     name: "Services",
     hash: "#services",
-    description:
-      "Web applications, cross-platform mobile apps, APIs and technical consulting for startups and product teams.",
+    description: "Custom software, AI-enabled applications, workflow automation, and software architecture.",
   },
   {
     name: "Work",
     hash: "#work",
-    description:
-      "Selected projects and case studies built with React, Next.js, React Native and Node.js.",
+    description: "Selected digital products and concepts across web experiences, AI applications, and operational tools.",
   },
   {
-    name: "Testimonials",
-    hash: "#testimonials",
-    description: `What clients and teammates say about working with ${HERO_NAME}.`,
+    name: "Process",
+    hash: "#process",
+    description: "A clear path from idea to delivery — discover, plan, build, validate, deliver.",
   },
   {
     name: "Contact",
     hash: "#contact",
-    description: `Get in touch with ${HERO_NAME} about freelance, contract or full-time work.`,
+    description: "Start a conversation about your project with VELNARO.",
   },
 ] as const;
 
-export const SOCIAL_PROFILES = MY_SOCIALS.map((social) => social.href);
+export const SOCIAL_PROFILES = [];
 
 export const CONTACT_POINT_EMAIL = CONTACT_EMAIL;
