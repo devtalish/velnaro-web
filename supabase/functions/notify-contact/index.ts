@@ -31,17 +31,18 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   const expectedSecret = env("NOTIFY_WEBHOOK_SECRET");
-  if (expectedSecret) {
-    const provided = req.headers.get("x-webhook-secret");
-    if (provided !== expectedSecret) {
-      return json({ error: "Unauthorized" }, 401);
-    }
-  } else {
-    console.warn(
-      "NOTIFY_WEBHOOK_SECRET is not set. Anyone who discovers this function's " +
-        "URL can trigger it. Set it and add the matching x-webhook-secret " +
-        "header to the webhook."
+  if (!expectedSecret) {
+    console.error(
+      "NOTIFY_WEBHOOK_SECRET is not set. The webhook is not protected, so the " +
+        "function will not process requests. Set it and add the matching " +
+        "x-webhook-secret header to the webhook."
     );
+    return json({ error: "Webhook secret not configured" }, 503);
+  }
+
+  const provided = req.headers.get("x-webhook-secret");
+  if (provided !== expectedSecret) {
+    return json({ error: "Unauthorized" }, 401);
   }
 
   let payload: WebhookPayload;

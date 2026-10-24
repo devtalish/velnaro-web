@@ -13,15 +13,15 @@ environment variables at all.
 ## 1. Supabase
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. Open `supabase/migrations/0001_init.sql` and **change the placeholder login**
-   in section 6 at the bottom:
+2. **Create your admin account.** Open `supabase/migrations/0001_init.sql` and run
+   it in the SQL Editor, then create your admin manually:
 
    ```sql
-   select public.create_admin_user('admin@test.com', 'admin123');
+   select public.create_admin_user('your@email.com', 'a-long-unique-password');
    ```
 
-   This repository is public, so those values are known to anyone who reads it.
-   Use your own address and a long, unique password.
+   This repository is public, so the migration deliberately does **not** ship with
+   hardcoded credentials. Use your own email and a long password.
 
 3. Paste the whole file into **SQL Editor** and run it. One file, idempotent:
    it creates the table, the admin allowlist, every RLS policy, the
@@ -64,7 +64,8 @@ Then Dashboard → **Database → Webhooks → Create a new hook**:
 | HTTP Headers | `x-webhook-secret: <the value you generated>` |
 
 That header is the only thing standing between the function and anyone who
-learns its URL. Skip it and your SMTP account becomes an open relay.
+learns its URL. The function refuses to run at all if the secret is missing —
+it returns `503` instead of processing the payload.
 
 Any provider works: Gmail with an **App Password**, Zoho, Resend, Mailgun,
 Amazon SES. Port 465 is implicit TLS; 587 negotiates STARTTLS.
@@ -119,7 +120,7 @@ transport to worry about either.
 ## Production checklist
 
 - [ ] `0001_init.sql` run in the SQL editor
-- [ ] `select email from public.admin_users;` returns **your** address, not `admin@test.com`
+- [ ] `select email from public.admin_users;` returns **your** address (no hardcoded defaults)
 - [ ] Public signup disabled in Authentication → Providers → Email
 - [ ] Both `NEXT_PUBLIC_` values set in the host's dashboard, not just local `.env`
 - [ ] Edge Function deployed and its secrets set

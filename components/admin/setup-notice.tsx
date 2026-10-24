@@ -33,8 +33,11 @@ export const SetupNotice: FC<SetupNoticeProps> = ({
             in the SQL editor.
           </li>
           <li>
-            It creates your admin account too. Change the placeholder login at
-            the bottom of that file first.
+            Then create your admin account in the SQL editor with
+            <code className="text-neutral-300">
+              select public.create_admin_user(&apos;you@your.email&apos;,{" "}
+              &apos;a-long-unique-password&apos;);
+            </code>
           </li>
         </ol>
       </>

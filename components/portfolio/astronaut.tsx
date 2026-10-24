@@ -49,14 +49,17 @@ export const Astronaut: FC<AstronautProps> = (props) => {
     "AstronautFallingTexture.png"
   ] as Material;
 
+  const defaultRotation = [-Math.PI / 2, -0.2, 2.2] as const;
+  const defaultPosition = [1.3, -1, 0] as const;
+  const defaultScale = 0.3;
+
   return (
     <group
       ref={group}
-      {...props}
       dispose={null}
-      rotation={[-Math.PI / 2, -0.2, 2.2]}
-      scale={props.scale ?? 0.3}
-      position={props.position ?? [1.3, -1, 0]}
+      rotation={props.rotation ?? defaultRotation}
+      scale={props.scale ?? defaultScale}
+      position={props.position ?? defaultPosition}
     >
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model">

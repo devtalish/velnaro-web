@@ -1,9 +1,118 @@
-"use client";
+﻿"use client";
 
-import { useRef, type FC } from "react";
-import { motion, useInView } from "motion/react";
+import { useRef, useEffect, type FC } from "react";
+import { motion, useInView, useMotionValue, useReducedMotion } from "motion/react";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { VelnaroLogoWithWordmark } from "@/components/ui/velnaro-logo";
+
+const WaterWordmark: FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const hoverProgress = useMotionValue(0);
+  const rippleX = useMotionValue(0);
+  const rippleY = useMotionValue(0);
+
+  const filterId = "waterRipple";
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      rippleX.set((e.clientX - rect.left) / rect.width);
+      rippleY.set((e.clientY - rect.top) / rect.height);
+      hoverProgress.set(1);
+    };
+
+    const handleMouseEnter = () => {
+      hoverProgress.set(1);
+    };
+
+    const handleMouseLeave = () => {
+      hoverProgress.set(0);
+      rippleX.set(0.5);
+      rippleY.set(0.5);
+    };
+
+    el.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mouseenter", handleMouseEnter);
+    el.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      el.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseenter", handleMouseEnter);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [hoverProgress, rippleX, rippleY, prefersReducedMotion]);
+
+  return (
+    <div ref={ref} className="relative">
+      <svg className="absolute inset-0 -z-10 w-full h-full" style={{ pointerEvents: "none" }}>
+        <defs>
+          <filter id={filterId} x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.02"
+              numOctaves={3}
+              result="noise"
+            >
+              <animate
+                attributeName="baseFrequency"
+                values="0.02;0.05;0.02"
+                dur="3s"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="0"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            >
+              <animate
+                attributeName="scale"
+                values="0;15;0"
+                dur="3s"
+                repeatCount="indefinite"
+              />
+            </feDisplacementMap>
+          </filter>
+        </defs>
+      </svg>
+
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="text-center text-[20vw] md:text-[14rem] font-black leading-none text-slate/10 select-none"
+        style={{
+          filter: `url(#${filterId})`,
+          transformOrigin: "center center",
+        }}
+        onMouseMove={(e) => {
+          if (prefersReducedMotion) return;
+          const rect = e.currentTarget.getBoundingClientRect();
+          rippleX.set((e.clientX - rect.left) / rect.width);
+          rippleY.set((e.clientY - rect.top) / rect.height);
+        }}
+        onMouseEnter={() => {
+          if (!prefersReducedMotion) hoverProgress.set(1);
+        }}
+        onMouseLeave={() => {
+          if (!prefersReducedMotion) {
+            hoverProgress.set(0);
+            rippleX.set(0.5);
+            rippleY.set(0.5);
+          }
+        }}
+      >
+        VELNARO
+      </motion.p>
+    </div>
+  );
+};
 
 export const Footer: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -30,7 +139,7 @@ export const Footer: FC = () => {
         className="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
       >
         <div>
-          <VelnaroLogoWithWordmark logoSize={36} className="text-graphite" />
+          <VelnaroLogoWithWordmark logoSize={6} className="text-graphite" />
           <p className="mt-3 text-sm text-muted max-w-sm">
             VELNARO builds software and technology solutions shaped around real problems.
           </p>
@@ -55,22 +164,15 @@ export const Footer: FC = () => {
           </nav>
           <div className="flex gap-3 text-sm text-muted">
             <span>
-              © {new Date().getFullYear()} VELNARO
+              Â© {new Date().getFullYear()} VELNARO
             </span>
-            <span>·</span>
+            <span>Â·</span>
             <span>All rights reserved.</span>
           </div>
         </div>
       </motion.div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mt-16 text-center text-[20vw] md:text-[14rem] font-black leading-none text-slate/10 select-none"
-      >
-        VELNARO
-      </motion.p>
+      <WaterWordmark />
     </footer>
   );
 };

@@ -1,8 +1,8 @@
 -- Portfolio schema. Run once, top to bottom, in Supabase → SQL Editor.
 -- Safe to re-run.
 
--- Your admin login is created at the bottom of this file.
--- CHANGE IT BEFORE YOU RUN THIS. See section 6.
+-- Your admin account is created separately, after running this file. See section 6
+-- below for instructions.
 
 create extension if not exists "pgcrypto";
 
@@ -230,26 +230,27 @@ $$;
 revoke all on function public.create_admin_user(text, text) from public, anon, authenticated;
 
 
--- 6. Create the admin ---------------------------------------------------------
+-- 6. Create your admin --------------------------------------------------------
 --
--- ############################################################################
--- #  CHANGE THESE TWO VALUES BEFORE RUNNING THIS FILE                        #
--- #                                                                          #
--- #  They are a placeholder so the file works out of the box. This           #
--- #  repository is public, so anyone who reads it knows them. Left as they    #
--- #  are, a stranger can sign in at /admin and read every visitor's name,     #
--- #  email address and IP address.                                            #
--- #                                                                          #
--- #  Use your own address and a long, unique password. Already ran it with    #
--- #  the placeholder? Change the password in Supabase → Authentication →      #
--- #  Users, or run:                                                           #
--- #      select public.revoke_admin('admin@test.com');                        #
--- ############################################################################
-
-select public.create_admin_user('Admin@gmail.com', 'Admin@inUS2');
-
-
--- Useful later:
+-- This migration does NOT create an admin account. Hardcoding credentials
+-- in a migration would be a security hole: this repository is public, so
+-- anyone who reads it would know the email and password.
+--
+-- Create your admin manually, after running this file, in the Supabase SQL
+-- editor:
+--
+--   select public.create_admin_user('your@email.com', 'a-long-unique-password');
+--
+-- Use your own email and a long password. You will sign in at /admin/login.
+--
+-- To add another admin later, create the user in the Dashboard
+-- (Authentication → Users → Add user), then:
+--
+--   select public.grant_admin('them@example.com');
+--
+-- To remove access:
+--
+--   select public.revoke_admin('them@example.com');
+--
+-- Useful queries:
 --   select email, created_at from public.admin_users order by created_at;
---   select public.grant_admin('someone@example.com');
---   select public.revoke_admin('someone@example.com');

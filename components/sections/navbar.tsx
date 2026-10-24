@@ -27,7 +27,7 @@ export const Navbar: FC = () => {
       }`}
     >
       <div className="c-space">
-        <div className="flex items-center justify-between py-3">
+        <div className="flex items-center justify-between py-2">
           <NavBrand />
 
           <nav className="hidden sm:flex">

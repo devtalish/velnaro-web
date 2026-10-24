@@ -13,6 +13,6 @@ export const NavBrand: FC = () => (
     }}
     className="group flex items-center gap-2 text-base font-semibold tracking-tight text-graphite"
   >
-    <VelnaroLogoWithWordmark logoSize={32} />
+    <VelnaroLogoWithWordmark logoSize={24} />
   </a>
 );

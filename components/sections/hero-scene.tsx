@@ -43,8 +43,9 @@ export const HeroScene: FC = () => {
             speed={0.5}
           >
             <Astronaut
-              scale={isMobile ? 0.15 : 0.2}
-              position={isMobile ? [0, -0.8, 0] : [0, -0.5, 0]}
+              scale={isMobile ? 0.2 : 0.27}
+              position={isMobile ? [0, -0.8, 0] : [3.2, -0.5, 0]}
+              rotation={[-Math.PI / 2, -0.2, 2.2]}
             />
           </Float>
           <Rig />

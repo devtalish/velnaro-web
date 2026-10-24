@@ -11,8 +11,7 @@ export const VelnaroLogo: FC<SVGProps<SVGSVGElement>> = ({ className, "aria-labe
     className={className}
     {...props}
   >
-    <rect width="360" height="360" fill="#000000" />
-    <g fill="#FFFFFF">
+    <g fill="#000000">
       <path d="M67 84H116L180 217L244 84H293L180 318L67 84Z" />
       <path d="M144 84H194L293 276V318L244 318L144 117V84Z" />
     </g>

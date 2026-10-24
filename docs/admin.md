@@ -67,35 +67,19 @@ It creates:
 | The policies | Anonymous insert; admin select and delete; no update for anyone |
 | `grant_admin()` and friends | How you add and remove admins |
 
-### 2. Change the placeholder login
+### 2. Create your admin account
 
-The file creates your admin account for you, using the two values in **section
-6** at the bottom:
-
-```sql
-select public.create_admin_user('admin@test.com', 'admin123');
-```
-
-**Change both before you run it.** They are a placeholder so the file works out
-of the box, and this repository is public, so anyone who reads it knows them. Left
-as they are, a stranger can sign in at `/admin` and read every visitor's name,
-email address and IP.
-
-Already ran it with the placeholder? Change the password under Supabase →
-Authentication → Users, or drop the account's access with:
+The migration file does **not** create an admin for you — hardcoding credentials
+in a SQL file that lives in a public repository would be a security hole.
+Create the account yourself, after running the file, in the SQL editor:
 
 ```sql
-select public.revoke_admin('admin@test.com');
+select public.create_admin_user('your@email.com', 'a-long-unique-password');
 ```
 
-Adding another admin later: create the user in the Dashboard (Authentication →
-Users → Add user, "Auto Confirm User" ticked), then
-
-```sql
-select public.grant_admin('them@example.com');
-```
-
-`create_admin_user` writes to `auth.users` and `auth.identities` directly, which
+Use your own email and a long password. This repository is public, so there are
+no known credentials anyone could use. `create_admin_user` writes to
+`auth.users` and `auth.identities` directly, which
 is a shortcut worth knowing about, because those tables belong to Supabase's auth
 service and their shape can change between releases. The Dashboard route is the
 more durable one for accounts you add later.
@@ -169,8 +153,8 @@ Dashboard → **Database → Webhooks → Create a new hook**:
 
 **That header is what protects the function.** Without it, anyone who discovers
 the URL can post a payload and make your SMTP account send mail from your
-domain. The function logs a warning and runs unprotected if the secret is unset,
-rather than silently pretending to be secure.
+domain. The function refuses to process requests if the secret is unset — it
+returns `503` and logs the error, rather than silently running unprotected.
 
 ### What gets sent
 

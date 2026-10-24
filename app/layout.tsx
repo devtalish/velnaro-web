@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Funnel_Display } from "next/font/google";
 import { JsonLd } from "@/components/seo/json-ld";
+import Script from "next/script";
 import {
   GOOGLE_SITE_VERIFICATION,
   OG_IMAGES,
@@ -92,7 +93,9 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         suppressHydrationWarning
       >
-        <script
+        <Script
+          id="intro-skip-script"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: INTRO_SKIP_SCRIPT }}
         />
         <noscript>
