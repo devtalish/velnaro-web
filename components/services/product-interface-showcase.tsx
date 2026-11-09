@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import Image from "next/image";
 
 type ProductInterfaceShowcaseProps = {
   mainAlt: string;
@@ -27,13 +28,14 @@ export const ProductInterfaceShowcase: FC<ProductInterfaceShowcaseProps> = ({
     <div className="grid lg:grid-cols-2 gap-12 items-center">
       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8 lg:mb-0">
         <div className="absolute inset-0 bg-slate/20"></div>
-        <img
+                <Image
           src="/placeholder-product-main.svg"
           alt={mainAlt}
-          className={mainClassName}
-          loading="lazy"
+          fill
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className={`object-cover ${mainClassName || ""}`}
         />
-        <h3 className="text-sm uppercase tracking-wider text-deep-teal position-absolute top-6 left-6">
+        <h3 className="text-sm uppercase tracking-wider text-deep-teal absolute top-6 left-6">
           {panel1Title}
         </h3>
       </div>
