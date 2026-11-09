@@ -96,9 +96,9 @@ export const MY_PROJECTS: Project[] = [
   },
   {
     id: 5,
-    title: "Atlas Knowledge Hub",
+    title: "DocChat",
     section: "interactive-demo",
-    category: "AI Knowledge Assistant",
+    category: "Document AI Assistant",
     description:
       "An AI knowledge-hub concept intended to help people work with information through an assistant-style experience.",
     subDescription: [
@@ -119,9 +119,9 @@ export const MY_PROJECTS: Project[] = [
   },
   {
     id: 6,
-    title: "OpsPilot Dashboard",
+    title: "Dashboard Starter",
     section: "interactive-demo",
-    category: "Workflow Dashboard",
+    category: "Dashboard Interface",
     description:
       "A workflow-dashboard concept focused on bringing operational information and tasks into a structured interface.",
     subDescription: [
