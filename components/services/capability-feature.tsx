@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import Image from "next/image";
 
 type CapabilityFeatureProps = {
   title: string;
@@ -33,11 +34,12 @@ export const CapabilityFeature: FC<CapabilityFeatureProps> = ({
         </ul>
       </div>
       <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate/20">
-        <img
+                <Image
           src="/placeholder-feature-visual.svg"
           alt={visualAlt}
-          className={visualClassName}
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 40vw"
+          className={visualClassName || "object-cover"}
         />
       </div>
     </div>
