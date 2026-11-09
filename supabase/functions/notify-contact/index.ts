@@ -16,7 +16,8 @@ interface WebhookPayload {
 const env = (key: string): string | undefined => Deno.env.get(key);
 const json = (body: unknown, status = 200): Response =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
-const safeHeader = (value: string) => value.replace(/[\r\n\u0000-\u001f\u007f]/g, " ").trim().slice(0, 120);
+const safeHeader = (value: string) =>
+  value.replace(/\r/g, " ").replace(/\n/g, " ").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 120);
 
 Deno.serve(async (req: Request): Promise<Response> => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
@@ -41,22 +42,55 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json({ error: "Invalid submission record" }, 400);
   }
 
+  const supabaseUrl = env("SUPABASE_URL");
+  const serviceKey = env("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceKey) {
+    console.error("Notification service credentials are missing.");
+    return json({ error: "Notification service is not configured" }, 503);
+  }
+  const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
+
+  const { data: claimed, error: claimError } = await supabase.rpc("claim_contact_notification", {
+    p_submission_id: submission.id,
+  });
+  if (claimError) {
+    console.error("Could not claim notification:", claimError.message);
+    return json({ error: "Could not claim notification" }, 503);
+  }
+  if (claimed !== true) return json({ skipped: true, duplicate: true });
+
+  const { data: previous, error: readError } = await supabase
+    .from("contact_submissions")
+    .select("owner_email_sent, owner_email_error, acknowledgement_email_sent, acknowledgement_email_error")
+    .eq("id", submission.id)
+    .maybeSingle();
+
+  if (readError || !previous) {
+    console.error("Could not read notification state:", readError?.message ?? "Submission not found");
+    await finishNotification(supabase, submission.id, false);
+    return json({ error: "Could not read notification state" }, 503);
+  }
+
+  let ownerSent = previous.owner_email_sent === true;
+  let ownerError: string | null = previous.owner_email_error ?? null;
+  let acknowledgementSent = previous.acknowledgement_email_sent === true;
+  let acknowledgementError: string | null = previous.acknowledgement_email_error ?? null;
+
   const host = env("SMTP_HOST");
   const user = env("SMTP_USER");
   const pass = env("SMTP_PASS");
   const port = Number(env("SMTP_PORT") ?? "465");
   const recipient = env("CONTACT_RECIPIENT_EMAIL") ?? user;
+
   if (!host || !user || !pass || !recipient || !Number.isInteger(port) || port < 1 || port > 65535) {
-    await recordResult(submission.id, false, "SMTP is not configured", false, "SMTP is not configured");
+    ownerError = ownerSent ? ownerError : "SMTP is not configured";
+    acknowledgementError = acknowledgementSent ? acknowledgementError : "SMTP is not configured";
+    await persistResult(supabase, submission.id, ownerSent, ownerError, acknowledgementSent, acknowledgementError);
     return json({ ok: false, reason: "smtp-not-configured" }, 503);
   }
 
   const ownerName = safeHeader(env("OWNER_NAME") ?? "VELNARO") || "VELNARO";
   const siteUrl = env("SITE_URL");
-  let acknowledgementSent = false;
-  let acknowledgementError: string | null = null;
-  let ownerSent = false;
-  let ownerError: string | null = null;
   let client: SMTPClient | undefined;
 
   try {
@@ -64,72 +98,88 @@ Deno.serve(async (req: Request): Promise<Response> => {
       connection: { hostname: host, port, tls: port === 465, auth: { username: user, password: pass } },
     });
 
-    try {
-      await client.send({
-        from: `${ownerName} <${user}>`,
-        to: submission.email,
-        replyTo: recipient,
-        subject: buildReplySubject(ownerName),
-        content: buildReplyText(submission, ownerName),
-        html: buildReplyHtml(submission, ownerName, siteUrl),
-      });
-      acknowledgementSent = true;
-    } catch (error) {
-      acknowledgementError = (error instanceof Error ? error.message : String(error)).slice(0, 300);
-      console.error("Acknowledgement email failed:", acknowledgementError);
+    if (!acknowledgementSent) {
+      try {
+        await client.send({
+          from: `${ownerName} <${user}>`,
+          to: submission.email,
+          replyTo: recipient,
+          subject: buildReplySubject(ownerName),
+          content: buildReplyText(submission, ownerName),
+          html: buildReplyHtml(submission, ownerName, siteUrl),
+        });
+        acknowledgementSent = true;
+        acknowledgementError = null;
+      } catch (error) {
+        acknowledgementError = (error instanceof Error ? error.message : String(error)).slice(0, 300);
+        console.error("Acknowledgement email failed:", acknowledgementError);
+      }
     }
 
-    try {
-      await client.send({
-        from: `VELNARO <${user}>`,
-        to: recipient,
-        replyTo: `${safeHeader(submission.name)} <${submission.email}>`,
-        subject: buildAlertSubject(submission),
-        content: buildAlertText(submission),
-        html: buildAlertHtml(submission, env("ADMIN_INBOX_URL")),
-      });
-      ownerSent = true;
-    } catch (error) {
-      ownerError = (error instanceof Error ? error.message : String(error)).slice(0, 300);
-      console.error("Owner notification failed:", ownerError);
+    if (!ownerSent) {
+      try {
+        await client.send({
+          from: `VELNARO <${user}>`,
+          to: recipient,
+          replyTo: `${safeHeader(submission.name)} <${submission.email}>`,
+          subject: buildAlertSubject(submission),
+          content: buildAlertText(submission),
+          html: buildAlertHtml(submission, env("ADMIN_INBOX_URL")),
+        });
+        ownerSent = true;
+        ownerError = null;
+      } catch (error) {
+        ownerError = (error instanceof Error ? error.message : String(error)).slice(0, 300);
+        console.error("Owner notification failed:", ownerError);
+      }
     }
 
-    await recordResult(submission.id, ownerSent, ownerError, acknowledgementSent, acknowledgementError);
-    return json({ ok: ownerSent, acknowledgement: acknowledgementSent ? "sent" : "failed" }, ownerSent ? 200 : 502);
+    await persistResult(supabase, submission.id, ownerSent, ownerError, acknowledgementSent, acknowledgementError);
+    const complete = ownerSent && acknowledgementSent;
+    return json({ ok: complete, ownerNotification: ownerSent ? "sent" : "failed", acknowledgement: acknowledgementSent ? "sent" : "failed" }, complete ? 200 : 502);
   } catch (error) {
-    ownerError = (error instanceof Error ? error.message : String(error)).slice(0, 300);
-    await recordResult(submission.id, ownerSent, ownerError, acknowledgementSent, acknowledgementError);
-    return json({ ok: false, error: "Email delivery failed" }, 502);
+    const detail = (error instanceof Error ? error.message : String(error)).slice(0, 300);
+    console.error("Notification handler failed:", detail);
+    await persistResult(supabase, submission.id, ownerSent, ownerError ?? detail, acknowledgementSent, acknowledgementError);
+    return json({ error: "Email delivery failed" }, 502);
   } finally {
     await client?.close().catch(() => {});
   }
 });
 
-async function recordResult(
+async function persistResult(
+  supabase: ReturnType<typeof createClient>,
   id: string,
   ownerSent: boolean,
   ownerError: string | null,
   acknowledgementSent: boolean,
   acknowledgementError: string | null,
 ): Promise<void> {
-  const url = env("SUPABASE_URL");
-  const serviceKey = env("SUPABASE_SERVICE_ROLE_KEY");
-  if (!url || !serviceKey) {
-    console.error("Cannot persist email delivery state: service credentials are missing.");
+  const { error } = await supabase.from("contact_submissions").update({
+    email_sent: ownerSent,
+    email_error: ownerError,
+    owner_email_sent: ownerSent,
+    owner_email_error: ownerError,
+    acknowledgement_email_sent: acknowledgementSent,
+    acknowledgement_email_error: acknowledgementError,
+  }).eq("id", id);
+
+  if (error) {
+    console.error("Could not persist email delivery state:", error.message);
+    await finishNotification(supabase, id, false);
     return;
   }
-  try {
-    const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
-    const { error } = await supabase.from("contact_submissions").update({
-      email_sent: ownerSent,
-      email_error: ownerError,
-      owner_email_sent: ownerSent,
-      owner_email_error: ownerError,
-      acknowledgement_email_sent: acknowledgementSent,
-      acknowledgement_email_error: acknowledgementError,
-    }).eq("id", id);
-    if (error) console.error("Could not persist email delivery state:", error.message);
-  } catch (error) {
-    console.error("Could not persist email delivery state:", error);
-  }
+  await finishNotification(supabase, id, ownerSent && acknowledgementSent);
+}
+
+async function finishNotification(
+  supabase: ReturnType<typeof createClient>,
+  id: string,
+  completed: boolean,
+): Promise<void> {
+  const { error } = await supabase.rpc("finish_contact_notification", {
+    p_submission_id: id,
+    p_completed: completed,
+  });
+  if (error) console.error("Could not finish notification claim:", error.message);
 }
