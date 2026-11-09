@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
 
 type Step = {
@@ -310,7 +310,7 @@ export const Process = () => {
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const markerTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
-  const stepCount = STEPS.length;
+  const [progressValue, setProgressValue] = useState(0);\n  useMotionValueEvent(smoothProgress, "change", (latest) => setProgressValue(latest));\n\n  const stepCount = STEPS.length;
 
   return (
     <section
