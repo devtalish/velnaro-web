@@ -13,8 +13,9 @@ environment variables at all.
 ## 1. Supabase
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. **Create your admin account.** Open `supabase/migrations/0001_init.sql` and run
-   it in the SQL Editor, then create your admin manually:
+2. Run all SQL migrations in `supabase/migrations/` in numerical order.
+3. Create your admin in Supabase Dashboard → Authentication → Users → Add user,
+   then grant admin access in the SQL editor:
 
    ```sql
    select public.create_admin_user('your@email.com', 'a-long-unique-password');
