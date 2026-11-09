@@ -1,0 +1,75 @@
+-- Server-only contact intake and atomic abuse throttling.
+-- The public anon key must never be able to create rows or alter internal
+-- delivery metadata directly. All inserts go through the validated API route.
+revoke insert on table public.contact_submissions from anon, authenticated;
+revoke all on table public.contact_submissions from anon, authenticated;
+grant select, delete on table public.contact_submissions to authenticated;
+grant insert, select, update on table public.contact_submissions to service_role;
+
+-- The existing RLS policy is harmless once table INSERT privileges are revoked.
+-- Keep it for compatibility with environments that may have an older grant set.
+create table if not exists public.contact_rate_limits (
+  ip_hash text primary key,
+  window_started_at timestamptz not null,
+  request_count integer not null default 0,
+  constraint contact_rate_limits_count_positive check (request_count >= 0)
+);
+alter table public.contact_rate_limits enable row level security;
+revoke all on table public.contact_rate_limits from public, anon, authenticated;
+
+create or replace function public.consume_contact_rate_limit(p_ip text)
+returns boolean
+language plpgsql
+security definer
+set search_path = public, extensions, pg_temp
+as $$
+declare
+  v_hash text;
+  v_count integer;
+begin
+  if p_ip is null or length(p_ip) = 0 then
+    p_ip := 'unknown';
+  end if;
+
+  v_hash := encode(digest(p_ip, 'sha256'), 'hex');
+
+  insert into public.contact_rate_limits(ip_hash, window_started_at, request_count)
+  values (v_hash, now(), 1)
+  on conflict (ip_hash) do update
+    set window_started_at = case
+          when public.contact_rate_limits.window_started_at < now() - interval '10 minutes'
+          then now()
+          else public.contact_rate_limits.window_started_at
+        end,
+        request_count = case
+          when public.contact_rate_limits.window_started_at < now() - interval '10 minutes'
+          then 1
+          else public.contact_rate_limits.request_count + 1
+        end
+  returning request_count into v_count;
+
+  -- Opportunistic bounded cleanup; the table stores hashes, never raw IPs.
+  if random() < 0.01 then
+    delete from public.contact_rate_limits
+    where window_started_at < now() - interval '1 day';
+  end if;
+
+  return v_count <= 5;
+end;
+$$;
+
+revoke all on function public.consume_contact_rate_limit(text) from public, anon, authenticated;
+grant execute on function public.consume_contact_rate_limit(text) to service_role;
+
+-- Separate delivery outcomes. email_sent remains the owner's notification
+-- status for backwards compatibility with the existing admin inbox.
+alter table public.contact_submissions
+  add column if not exists owner_email_sent boolean,
+  add column if not exists owner_email_error text,
+  add column if not exists acknowledgement_email_sent boolean,
+  add column if not exists acknowledgement_email_error text;
+
+update public.contact_submissions
+set owner_email_sent = email_sent,
+    owner_email_error = case when email_sent = false then email_error else null end
+where owner_email_sent is null;
