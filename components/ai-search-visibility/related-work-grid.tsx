@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import Image from "next/image";
 
 type ProjectRef = {
   title: string;
@@ -18,11 +19,13 @@ const RelatedWorkCard: FC<{ project: ProjectRef }> = ({
   return (
     <article className="group min-w-0 overflow-hidden rounded-2xl">
       <div className="relative aspect-[16/10] overflow-hidden">
-        <img
+                <Image
           src={project.image || "/placeholder-project.svg"}
           alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          unoptimized
+          className="object-cover transform transition-transform group-hover:scale-110"
         />
       </div>
 
