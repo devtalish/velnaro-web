@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import Image from "next/image";
 
 type UseCase = {
   id: number;
@@ -16,11 +17,12 @@ type AutomationUseCaseProps = { useses: UseCase[] };
 const UseCaseCard: FC<{ useCase: UseCase }> = ({ useCase }) => (
   <article className="group overflow-hidden rounded-2xl border border-slate/20 bg-white/80 p-6 shadow-sm">
     <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl bg-pale-sage">
-      <img
+            <Image
         src="/placeholder-use-case.svg"
         alt={useCase.visualAlt}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        loading="lazy"
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <span className="absolute left-3 top-3 rounded-full bg-graphite/80 px-3 py-1 text-xs font-mono text-white">
         {String(useCase.id).padStart(2, "0")}
