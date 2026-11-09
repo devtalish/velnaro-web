@@ -48,9 +48,9 @@ const WaterWordmark: FC = () => {
         </defs>
       </svg>
       <motion.p
-        initial={{ opacity: 0 }}
+        initial={prefersReducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 0.5 }}
         className="select-none text-center text-[20vw] font-black leading-none text-slate/10 md:text-[14rem]"
         style={{ filter: prefersReducedMotion ? "none" : `url(#${filterId})` }}
       >
