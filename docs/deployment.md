@@ -23,16 +23,17 @@ environment variables at all.
    This repository is public, so the migration deliberately does **not** ship with
    hardcoded credentials. Use your own email and a long password.
 
-3. Paste the whole file into **SQL Editor** and run it. One file, idempotent:
-   it creates the table, the admin allowlist, every RLS policy, the
-   `grant_admin` helpers, and your admin account.
+3. Run all files in `supabase/migrations/` in numerical order. This creates the
+   admin allowlist, RLS policies, server-only insert permissions, rate-limit
+   function and separate email-delivery status fields.
 
 4. Turn off public signup: Authentication → Providers → Email → disable
    **Enable sign-ups**.
 5. Project Settings → **API** → copy the **Project URL** and the **anon** key.
 
-> There is no service-role key in this project, and you should not add one. The
-> anon key is public by design, and row-level security decides what it can read.
+> Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the
+> server-only `SUPABASE_SERVICE_ROLE_KEY` to Vercel. Never prefix the service-role
+> key with `NEXT_PUBLIC_` or commit its value. The contact route requires it.
 
 ## 2. The lead notification email
 
@@ -82,7 +83,7 @@ this project ships no templates for them.
 1. Push the repo to GitHub.
 2. [vercel.com/new](https://vercel.com/new) → import the repo. The Next.js
    preset is detected; nothing to change.
-3. **Settings → Environment Variables** → add the two values from
+3. **Settings → Environment Variables** → add the three values from
    [`.env.example`](../.env.example), for **Production**, **Preview** and
    **Development**.
 4. Deploy.
@@ -119,10 +120,10 @@ transport to worry about either.
 
 ## Production checklist
 
-- [ ] `0001_init.sql` run in the SQL editor
+- [ ] All SQL migrations (0001, 0002, 0003) run in order
 - [ ] `select email from public.admin_users;` returns **your** address (no hardcoded defaults)
 - [ ] Public signup disabled in Authentication → Providers → Email
-- [ ] Both `NEXT_PUBLIC_` values set in the host's dashboard, not just local `.env`
+- [ ] Both `NEXT_PUBLIC_` values and server-only `SUPABASE_SERVICE_ROLE_KEY` set in Vercel
 - [ ] Edge Function deployed and its secrets set
 - [ ] Webhook created, with the `x-webhook-secret` header
 - [ ] Custom SMTP configured under Authentication → SMTP Settings
@@ -131,7 +132,7 @@ transport to worry about either.
 - [ ] `velnaro.agency` DNS resolves and `hello@velnaro.agency` receives mail
 - [ ] `NEXT_PUBLIC_SITE_URL` set to `https://velnaro.agency`
 - [ ] `/sitemap.xml` and `/robots.txt` both resolve and show that domain
-- [ ] `public/og.jpg` replaced with your own 1200×630 preview
+- [ ] `public/og.jpg` replaced with the approved VELNARO 1200×630 preview
 - [ ] `npm run build` passes
 
 Worth confirming, since the whole design rests on it:
@@ -162,7 +163,7 @@ hand-written `insert into auth.users` alone does not.
 **HTTP 429 on login.** Supabase's own sign-in rate limit. Wait a few minutes.
 
 **The form saves but no email arrives.** Check `/admin` first. A row that is
-present, with a "notification email was not delivered" warning, means SMTP,
+present, with an owner-notification or acknowledgement warning, means SMTP,
 not the form. `supabase functions logs notify-contact` has the reason. A row
 present with *no* warning means the webhook never fired: check Database →
 Webhooks.
