@@ -156,11 +156,11 @@ export const Footer: FC = () => {
 
         <div className="flex flex-col md:items-end gap-4">
           <nav className="flex flex-wrap justify-end gap-6 text-sm text-muted">
-            <a href="#home" className="hover:text-graphite transition-colors">Home</a>
-            <a href="#services" className="hover:text-graphite transition-colors">Services</a>
-            <a href="#work" className="hover:text-graphite transition-colors">Work</a>
-            <a href="#process" className="hover:text-graphite transition-colors">Process</a>
-            <a href="#contact" className="hover:text-graphite transition-colors">Contact</a>
+            <a href="/#home" className="hover:text-graphite transition-colors">Home</a>
+            <a href="/#services" className="hover:text-graphite transition-colors">Services</a>
+            <a href="/#work" className="hover:text-graphite transition-colors">Work</a>
+            <a href="/#process" className="hover:text-graphite transition-colors">Process</a>
+            <a href="/#contact" className="hover:text-graphite transition-colors">Contact</a>
             <a href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</a>
             <a href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</a>
             <a href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</a>
