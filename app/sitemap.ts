@@ -17,11 +17,8 @@ const ROUTES: Array<{
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   return ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: path === "/" ? SITE_URL : `${SITE_URL}${path}`,
-    lastModified,
     changeFrequency,
     priority,
   }));
