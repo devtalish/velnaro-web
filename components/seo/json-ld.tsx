@@ -21,7 +21,7 @@ const organization = {
   url: SITE_URL,
   description: SITE_DESCRIPTION,
   email: `mailto:${CONTACT_POINT_EMAIL}`,
-  logo: `${SITE_URL}/og.jpg`,
+  logo: `${SITE_URL}/opengraph-image`,
   sameAs: SOCIAL_PROFILES,
   ...(address ? { address } : {}),
 };
@@ -67,7 +67,7 @@ const webpage = {
   about: { "@id": `${SITE_URL}/#organization` },
   mainEntity: { "@id": `${SITE_URL}/#organization` },
   inLanguage: "en",
-  primaryImageOfPage: `${SITE_URL}/og.jpg`,
+  primaryImageOfPage: `${SITE_URL}/opengraph-image`,
   hasPart: sections.map((section) => ({ "@id": section["@id"] })),
   significantLink: SITE_SECTIONS.map((section) => sectionId(section.hash)),
 };
