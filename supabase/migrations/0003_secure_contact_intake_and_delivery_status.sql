@@ -4,11 +4,11 @@
 revoke insert (name, email, budget, message, source, user_agent, ip_address) on table public.contact_submissions from anon, authenticated;
 revoke insert on table public.contact_submissions from anon, authenticated;
 revoke all on table public.contact_submissions from anon, authenticated;
+drop policy if exists "Anyone can submit the contact form" on public.contact_submissions;
 grant select, delete on table public.contact_submissions to authenticated;
 grant insert, select, update on table public.contact_submissions to service_role;
 
--- The existing RLS policy is harmless once table INSERT privileges are revoked.
--- Keep it for compatibility with environments that may have an older grant set.
+-- Remove the legacy public-insert RLS policy as well as its table privileges.
 create table if not exists public.contact_rate_limits (
   ip_hash text primary key,
   window_started_at timestamptz not null,
