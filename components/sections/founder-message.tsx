@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type MouseEvent } from "react";
+import { type FC, type PointerEvent } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { VIEWPORT_ONCE } from "@/animations/scroll-animations";
@@ -14,7 +14,7 @@ export const FounderMessage: FC = () => {
   const rotateX = useSpring(useTransform(pointerY, [0, 1], TILT_RANGE.x), TILT_SPRING);
   const rotateY = useSpring(useTransform(pointerX, [0, 1], TILT_RANGE.y), TILT_SPRING);
 
-  const handleMove = (event: MouseEvent<HTMLDivElement>) => {
+  const handleMove = (event: PointerEvent<HTMLDivElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - bounds.left) / bounds.width);
     pointerY.set((event.clientY - bounds.top) / bounds.height);
