@@ -88,7 +88,8 @@ Project Settings → API. Copy the **Project URL** and the **anon** key into
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...\nSUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
 ```
 
 The anon key is **not** a secret. The service-role key is highly privileged and
