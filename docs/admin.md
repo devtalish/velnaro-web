@@ -44,10 +44,9 @@ editor, on purpose.
    refreshes the Supabase token on the way through.
 2. **The page and every Server Action:** `getAdminState()` re-checks, because
    Server Actions are reachable by direct POST regardless of what the proxy did.
-3. **Row-level security:** the `admins can select / delete` policies. Since
-   nothing here uses a service-role key, this is not a second opinion on top of
-   a privileged client; it is the actual enforcement. A bypassed UI check
-   returns zero rows.
+3. **Row-level security:** admin select/delete policies protect the browser
+   client. The contact API uses a server-only service-role client after input
+   validation and a database-backed rate-limit check.
 
 ---
 
