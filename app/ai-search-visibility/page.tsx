@@ -245,12 +245,13 @@ export default function AISearchVisibility() {
       <RelatedWorkGrid projects={RELATED_WORK} />
 
       <AutomationFAQ
+        eyebrow="AI SEARCH VISIBILITY"
         title="FAQ"
         items={[
           {
             question: "What is GEO?",
             answer:
-              "GEO (Generative Engine Optimization) ensures your brand, expertise and solutions are referenced in generative AI outputs where your expertise is relevant. It requires clear entity information, authoritative content and technical foundations that help AI models understand and cite your brand.",
+              "GEO (Generative Engine Optimization) improves the clarity, structure and authority of your business information so AI systems can better understand it. These practices may support discoverability and citation eligibility, but cannot guarantee that a brand will be referenced in AI-generated answers.",
           },
           {
             question: "What is AEO?",
