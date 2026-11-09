@@ -14,7 +14,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: ADMIN_LOGIN_TITLE,
-  description: ADMIN_LOGIN_DESCRIPTION,\n  robots: { index: false, follow: false },
+  description: ADMIN_LOGIN_DESCRIPTION,
+  robots: { index: false, follow: false },
   openGraph: {
     type: "website",
     title: `${ADMIN_LOGIN_TITLE} · ${HERO_NAME}`,
