@@ -16,9 +16,14 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => (
       </div>
     </header>
     <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate">{row.message}</p>
-    {row.email_sent === false && (
+    {(row.owner_email_sent === false || (row.owner_email_sent == null && row.email_sent === false)) && (
       <p className="mt-4 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-800">
-        Notification email was not delivered{row.email_error ? `: ${row.email_error}` : "."}
+        Owner notification failed{row.owner_email_error ?? row.email_error ? `: ${row.owner_email_error ?? row.email_error}` : "."}
+      </p>
+    )}
+    {row.acknowledgement_email_sent === false && (
+      <p className="mt-2 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        Visitor acknowledgement failed{row.acknowledgement_email_error ? `: ${row.acknowledgement_email_error}` : "."}
       </p>
     )}
     <details className="mt-4">
