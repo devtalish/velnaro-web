@@ -74,3 +74,58 @@ update public.contact_submissions
 set owner_email_sent = email_sent,
     owner_email_error = case when email_sent = false then email_error else null end
 where owner_email_sent is null;
+
+-- Prevent duplicate email sends when a database webhook is retried. Partial
+-- failures release the claim for retry; fully delivered notifications stay done.
+alter table public.contact_submissions
+  add column if not exists notification_claimed_at timestamptz,
+  add column if not exists notification_completed_at timestamptz;
+
+create or replace function public.claim_contact_notification(p_submission_id uuid)
+returns boolean
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  claimed_id uuid;
+begin
+  update public.contact_submissions
+  set notification_claimed_at = now()
+  where id = p_submission_id
+    and notification_completed_at is null
+    and (
+      notification_claimed_at is null
+      or notification_claimed_at < now() - interval '15 minutes'
+    )
+  returning id into claimed_id;
+
+  return claimed_id is not null;
+end;
+$$;
+
+revoke all on function public.claim_contact_notification(uuid) from public, anon, authenticated;
+grant execute on function public.claim_contact_notification(uuid) to service_role;
+
+create or replace function public.finish_contact_notification(
+  p_submission_id uuid,
+  p_completed boolean
+)
+returns void
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  update public.contact_submissions
+  set notification_completed_at = case when p_completed then now() else null end,
+      notification_claimed_at = case
+        when p_completed then notification_claimed_at
+        else now() - interval '16 minutes'
+      end
+  where id = p_submission_id;
+end;
+$$;
+
+revoke all on function public.finish_contact_notification(uuid, boolean) from public, anon, authenticated;
+grant execute on function public.finish_contact_notification(uuid, boolean) to service_role;
