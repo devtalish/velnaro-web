@@ -19,20 +19,20 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. The site runs without environment variables.
+Open <http://localhost:3000>. The visual site can run without environment variables; the contact form and admin inbox require Supabase configuration.
 
 ## Environment variables
 
-Copy `.env.example` to `.env`. All four variables are optional locally:
+Copy `.env.example` to `.env`. The frontend can run without configuration, but the contact form requires the Supabase values below:
 
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Live domain, no trailing slash. Drives `metadataBase`, canonical URLs, `sitemap.xml`, `robots.txt`, and Open Graph URLs. Target: `https://velnaro.agency`. |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console verification token. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public by design; RLS enforces access). |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public by design; RLS enforces browser access). |\n| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key required by the contact API. Never prefix with `NEXT_PUBLIC_` or commit it. |
 
-There are no server-only secrets in the Next.js app. Admin access uses Supabase Auth plus the `admin_users` allowlist. Contact notification email is sent by a Supabase Edge Function using secrets stored in Supabase.
+The contact API uses the service-role key only in a `server-only` module to validate, rate-limit and insert submissions. Admin access uses Supabase Auth plus the `admin_users` allowlist. Notification email is sent by a Supabase Edge Function using SMTP secrets stored in Supabase.
 
 ## Scripts
 
@@ -40,7 +40,7 @@ There are no server-only secrets in the Next.js app. Admin access uses Supabase 
 npm run dev     # local development
 npm run build   # production build
 npm run start   # serve the production build
-npm run lint    # ESLint
+npm run lint    # ESLint\nnpm run typecheck # TypeScript
 ```
 
 ## Project structure
