@@ -310,7 +310,10 @@ export const Process = () => {
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const markerTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
-  const [progressValue, setProgressValue] = useState(0);\n  useMotionValueEvent(smoothProgress, "change", (latest) => setProgressValue(latest));\n\n  const stepCount = STEPS.length;
+  const [progressValue, setProgressValue] = useState(0);
+  useMotionValueEvent(smoothProgress, "change", (latest) => setProgressValue(latest));
+
+  const stepCount = STEPS.length;
 
   return (
     <section
@@ -350,7 +353,6 @@ export const Process = () => {
                 {STEPS.map((step, index) => {
                   const cardProgressStart = index / (stepCount - 1);
                   const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const progressValue = smoothProgress.get();
                   const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
                   const isCompleted = progressValue >= cardProgressEnd;
                   
@@ -378,7 +380,6 @@ export const Process = () => {
                 {STEPS.map((step, index) => {
                   const cardProgressStart = index / (stepCount - 1);
                   const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const progressValue = smoothProgress.get();
                   const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
                   const isCompleted = progressValue >= cardProgressEnd;
 
