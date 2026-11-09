@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   web:
+    needs: edge-function
     name: Install, audit, lint, typecheck and build
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -55,8 +56,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
       - name: Type-check notification function
         run: deno check supabase/functions/notify-contact/index.ts
+      - name: Commit Deno lockfile to this PR branch
+        run: |
+          if ! git diff --quiet -- deno.lock; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add deno.lock
+            git commit -m "chore: lock Supabase Edge Function dependencies"
+            git push origin HEAD:${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}
+          fi
