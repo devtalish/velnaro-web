@@ -20,6 +20,7 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => (
         animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.3 }}
+        id="mobile-navigation"
         className="block overflow-hidden border-t border-slate/10 bg-ivory/95 text-center backdrop-blur-xl sm:hidden"
       >
         <nav className="py-5">
