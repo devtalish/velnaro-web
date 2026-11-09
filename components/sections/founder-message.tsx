@@ -44,8 +44,8 @@ export const FounderMessage: FC = () => {
 
       <div style={{ perspective: "1400px" }} className="relative">
         <motion.div
-          onMouseMove={handleMove}
-          onMouseLeave={handleLeave}
+          onPointerMove={handleMove}
+          onPointerLeave={handleLeave}
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
