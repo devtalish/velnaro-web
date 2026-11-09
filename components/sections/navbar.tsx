@@ -29,7 +29,7 @@ export const Navbar: FC = () => {
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isDropdownOpen]);
 
   return (
     <header
