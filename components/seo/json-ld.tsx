@@ -20,7 +20,7 @@ const organization = {
   name: SITE_NAME,
   url: SITE_URL,
   description: SITE_DESCRIPTION,
-  email: `mailto:${CONTACT_POINT_EMAIL}`,
+  email: CONTACT_POINT_EMAIL,
   logo: `${SITE_URL}/opengraph-image`,
   sameAs: SOCIAL_PROFILES,
   ...(address ? { address } : {}),
