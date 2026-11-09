@@ -1,4 +1,4 @@
-import { createClient } from "jsr:@supabase/supabase-js@2.119.0";
+import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2.119.0";
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 import {
   buildAlertHtml, buildAlertSubject, buildAlertText,
@@ -143,12 +143,16 @@ Deno.serve(async (req: Request): Promise<Response> => {
     await persistResult(supabase, submission.id, ownerSent, ownerError ?? detail, acknowledgementSent, acknowledgementError);
     return json({ error: "Email delivery failed" }, 502);
   } finally {
-    await client?.close().catch(() => {});
+    try {
+      await client?.close();
+    } catch (closeError) {
+      console.error("Could not close SMTP connection:", closeError);
+    }
   }
 });
 
 async function persistResult(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<any, "public", "public", any, any>,
   id: string,
   ownerSent: boolean,
   ownerError: string | null,
