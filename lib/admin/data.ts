@@ -12,6 +12,10 @@ export interface ContactSubmission {
   created_at: string;
   email_sent?: boolean | null;
   email_error?: string | null;
+  owner_email_sent?: boolean | null;
+  owner_email_error?: string | null;
+  acknowledgement_email_sent?: boolean | null;
+  acknowledgement_email_error?: string | null;
 }
 
 export const PAGE_SIZE = 25;
