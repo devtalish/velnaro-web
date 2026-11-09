@@ -1,87 +1,31 @@
 import { type FC } from "react";
 
-interface SetupNoticeProps {
-  variant?: "no-project" | "no-schema";
-}
+interface SetupNoticeProps { variant?: "no-project" | "no-schema"; }
 
-export const SetupNotice: FC<SetupNoticeProps> = ({
-  variant = "no-project",
-}) => (
-  <div className="space-y-4 text-sm">
+export const SetupNotice: FC<SetupNoticeProps> = ({ variant = "no-project" }) => (
+  <div className="space-y-4 text-sm text-graphite">
     <div className="flex items-center gap-2">
-      <span className="inline-block h-2 w-2 rounded-full bg-sand" />
-      <h2 className="font-semibold text-white">
-        {variant === "no-schema"
-          ? "Migrations not run yet"
-          : "Database not connected"}
-      </h2>
+      <span className="inline-block h-2 w-2 rounded-full bg-deep-teal" />
+      <h2 className="font-semibold text-graphite">{variant === "no-schema" ? "Migrations not run yet" : "Database not connected"}</h2>
     </div>
-
     {variant === "no-schema" ? (
       <>
-        <p className="text-neutral-400">
-          The Supabase project is connected, but it has no{" "}
-          <code className="text-neutral-300">admin_users</code> table, so there
-          is no way to say who is allowed in here.
-        </p>
-        <ol className="list-decimal space-y-2 pl-5 text-neutral-400 marker:text-neutral-600">
-          <li>
-            Run{" "}
-            <code className="text-neutral-300">
-              supabase/migrations/0001_init.sql
-            </code>{" "}
-            in the SQL editor.
-          </li>
-          <li>
-            Then create your admin account in the SQL editor with
-            <code className="text-neutral-300">
-              select public.create_admin_user(&apos;you@your.email&apos;,{" "}
-              &apos;a-long-unique-password&apos;);
-            </code>
-          </li>
+        <p className="text-muted">The Supabase project is connected, but it has no <code className="text-graphite">admin_users</code> table, so there is no way to say who is allowed in here.</p>
+        <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
+          <li>Run <code className="text-graphite">supabase/migrations/0001_init.sql</code> and then <code className="text-graphite">0002_restrict_public_submission_columns.sql</code> in the SQL editor.</li>
+          <li>Create your admin account in the SQL editor with <code className="text-graphite">select public.create_admin_user('you@your.email', 'a-long-unique-password');</code></li>
         </ol>
       </>
     ) : (
       <>
-        <p className="text-neutral-400">
-          The contact form and this inbox need a Supabase project. The rest of
-          the site runs fine without one. This page is the only thing waiting.
-        </p>
-        <ol className="list-decimal space-y-2 pl-5 text-neutral-400 marker:text-neutral-600">
-          <li>
-            Create a project at{" "}
-            <a
-              href="https://supabase.com/dashboard"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="text-coral hover:underline"
-            >
-              supabase.com
-            </a>
-            .
-          </li>
-          <li>
-            Run{" "}
-            <code className="text-neutral-300">
-              supabase/migrations/0001_init.sql
-            </code>{" "}
-            in the SQL editor.
-          </li>
-          <li>
-            Set{" "}
-            <code className="text-neutral-300">NEXT_PUBLIC_SUPABASE_URL</code>{" "}
-            and{" "}
-            <code className="text-neutral-300">
-              NEXT_PUBLIC_SUPABASE_ANON_KEY
-            </code>
-            , then redeploy.
-          </li>
+        <p className="text-muted">The contact form and this inbox need a Supabase project. The rest of the site runs fine without one.</p>
+        <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
+          <li>Create a project at <a href="https://supabase.com/dashboard" target="_blank" rel="noreferrer noopener" className="text-deep-teal hover:underline">supabase.com</a>.</li>
+          <li>Run both SQL migrations in <code className="text-graphite">supabase/migrations/</code> in numerical order.</li>
+          <li>Set <code className="text-graphite">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="text-graphite">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, then redeploy.</li>
         </ol>
       </>
     )}
-
-    <p className="text-xs text-neutral-500">
-      Full walkthrough in <code>docs/admin.md</code>.
-    </p>
+    <p className="text-xs text-muted">Full walkthrough in <code>docs/admin.md</code>.</p>
   </div>
 );
