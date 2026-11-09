@@ -4,13 +4,14 @@ A private page at `/admin` listing everything sent through the contact form.
 Sign-in is Supabase Auth; who counts as an admin is a row in a table you control
 from the SQL editor.
 
-**There are no secrets in this application.** No admin password, no session
-signing key, no service-role key, no SMTP credentials. The whole deployment is
-two public values:
+The app uses two public Supabase browser values and one server-only service-role
+secret for the contact API. SMTP credentials remain in Supabase Edge Function
+secrets. Never expose the service-role key with a `NEXT_PUBLIC_` prefix:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
 ```
 
 Both are optional. With neither set, the site runs normally and `/admin`
@@ -53,9 +54,9 @@ editor, on purpose.
 
 ### 1. Run the SQL
 
-Supabase Dashboard → **SQL Editor**. Paste
-`supabase/migrations/0001_init.sql` and run it. That is the whole schema: one
-file, idempotent, safe to re-run.
+Supabase Dashboard → **SQL Editor**. Run every SQL migration in `supabase/migrations/` in numerical order. This
+creates the schema, restricts public table access, and adds the atomic contact
+rate limiter and separate email delivery fields.
 
 It creates:
 
@@ -64,7 +65,7 @@ It creates:
 | `contact_submissions` | The table every enquiry lands in, with its index and length limits |
 | `admin_users` | The allowlist of people who may read it |
 | `is_admin()` | The check every policy calls |
-| The policies | Anonymous insert; admin select and delete; no update for anyone |
+| The policies | Admin select and delete; public direct inserts are denied; service-role API inserts only |
 | `grant_admin()` and friends | How you add and remove admins |
 
 ### 2. Create your admin account
@@ -91,7 +92,7 @@ Project Settings → API. Copy the **Project URL** and the **anon** key into
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...\nSUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
 ```
 
 The anon key is **not** a secret. It identifies the project; RLS decides what it
@@ -118,7 +119,7 @@ INSERT on contact_submissions
     → notify-contact Edge Function
       → acknowledgement to the visitor
       → the lead to you (Reply-To: the visitor)
-      → writes email_sent / email_error back to the row
+      → writes separate owner and visitor acknowledgement status fields back to the row
 ```
 
 ### Deploy it
@@ -203,7 +204,7 @@ reasons this moved to Supabase Auth.)
 
 **A lead never emailed.** Check `/admin` first. The row is written by the app and
 the email is sent by the Edge Function afterwards, so an enquiry present in the
-list with a "notification email was not delivered" warning is an SMTP problem,
+list with a "owner notification or visitor acknowledgement failed" warning is an SMTP problem,
 not a form problem. `supabase functions logs notify-contact` has the detail.
 
 ---
@@ -214,11 +215,9 @@ The first version kept an `admin_users` table with bcrypt hashes it managed
 itself. The second moved to `ADMIN_EMAIL` / `ADMIN_PASSWORD` in the environment,
 with a hand-rolled HMAC session cookie and an in-memory login throttle.
 
-Both worked. Supabase Auth brings password hashing, refresh-token rotation,
-shared rate limiting and password reset that this site has no business
-implementing itself, and it removed four secrets (`ADMIN_EMAIL`,
-`ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`) plus the
-four SMTP variables from the deployment.
+Supabase Auth brings password hashing, refresh-token rotation and password
+reset. The service-role key is now required only by the server-side contact
+intake route; keep it out of browser bundles and source control.
 
 
 
