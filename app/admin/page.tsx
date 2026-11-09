@@ -23,6 +23,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: ADMIN_TITLE,
   description: ADMIN_DESCRIPTION,
+  robots: { index: false, follow: false },
   openGraph: {
     type: "website",
     title: `${ADMIN_TITLE} · ${HERO_NAME}`,
@@ -90,7 +91,7 @@ const AdminPage = async ({ searchParams }: AdminPageProps) => {
         <div>
           <p className="text-eyebrow">Admin</p>
           <h1 className="text-heading mt-1">Contact submissions</h1>
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-muted">
             Signed in as {state.user.email}
           </p>
         </div>
@@ -108,7 +109,7 @@ const AdminPage = async ({ searchParams }: AdminPageProps) => {
 
       <AdminSearch search={search} />
 
-      <p className="mt-6 text-sm text-neutral-500">
+      <p className="mt-6 text-sm text-muted">
         {result.total === 0
           ? search
             ? `No submissions match “${search}”.`
