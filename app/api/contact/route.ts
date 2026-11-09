@@ -1,33 +1,29 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { createServiceClient, isServiceSupabaseConfigured } from "@/lib/supabase/admin";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const EMAIL_REGEX = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_BODY_BYTES = 16_000;
-
-interface Body {
-  name: string;
-  email: string;
-  budget: string;
-  message: string;
-}
 
 const errorResponse = (error: string, status: number) =>
   NextResponse.json({ error }, { status });
 
 export async function POST(req: Request) {
-  const contentLength = Number(req.headers.get("content-length") ?? 0);
-  if (contentLength > MAX_BODY_BYTES) {
+  const declaredLength = Number(req.headers.get("content-length") ?? 0);
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
     return errorResponse("Request body is too large.", 413);
   }
 
   let raw: unknown;
   try {
-    raw = await req.json();
+    const bodyText = await req.text();
+    if (new TextEncoder().encode(bodyText).byteLength > MAX_BODY_BYTES) {
+      return errorResponse("Request body is too large.", 413);
+    }
+    raw = JSON.parse(bodyText);
   } catch {
     return errorResponse("Invalid JSON.", 400);
   }
@@ -37,74 +33,59 @@ export async function POST(req: Request) {
   }
 
   const input = raw as Record<string, unknown>;
-  const fields = ["name", "email", "budget", "message"] as const;
-  if (fields.some((field) => input[field] !== undefined && typeof input[field] !== "string")) {
+  const keys = ["name", "email", "budget", "message"] as const;
+  if (keys.some((key) => input[key] !== undefined && typeof input[key] !== "string")) {
     return errorResponse("All contact fields must be text.", 400);
   }
 
-  const body: Body = {
-    name: (input.name as string | undefined)?.trim() ?? "",
-    email: (input.email as string | undefined)?.trim() ?? "",
-    budget: (input.budget as string | undefined)?.trim() ?? "",
-    message: (input.message as string | undefined)?.trim() ?? "",
-  };
-  const { name, email, budget, message } = body;
+  const name = (input.name as string | undefined)?.trim() ?? "";
+  const email = (input.email as string | undefined)?.trim().toLowerCase() ?? "";
+  const budget = (input.budget as string | undefined)?.trim() ?? "";
+  const message = (input.message as string | undefined)?.trim() ?? "";
 
-  if (!name || !email || !message) {
-    return errorResponse("Name, email and message are required.", 400);
-  }
-  if (!EMAIL_REGEX.test(email)) {
-    return errorResponse("Please provide a valid email address.", 400);
-  }
+  if (!name || !email || !message) return errorResponse("Name, email and message are required.", 400);
+  if (!EMAIL_REGEX.test(email)) return errorResponse("Please provide a valid email address.", 400);
   if (name.length > 120 || email.length > 200 || budget.length > 100 || message.length > 5000) {
     return errorResponse("One or more fields exceed the allowed length.", 413);
   }
-
-  if (!isSupabaseConfigured) {
-    return errorResponse(
-      `The contact form is not connected on this deployment. Please email ${CONTACT_EMAIL} directly.`,
-      503
-    );
+  if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(name + email + budget + message)) {
+    return errorResponse("Fields contain unsupported control characters.", 400);
   }
 
-  const supabase = await createClient();
-  if (!supabase) {
-    return errorResponse(`Please email ${CONTACT_EMAIL} directly.`, 503);
+  if (!isServiceSupabaseConfigured) {
+    return errorResponse(`The contact form is not connected. Please email ${CONTACT_EMAIL} directly.`, 503);
   }
+  const supabase = createServiceClient();
+  if (!supabase) return errorResponse(`Please email ${CONTACT_EMAIL} directly.`, 503);
 
-  const forwarded = req.headers.get("x-forwarded-for") ?? "";
-  const ip = forwarded.split(",")[0]?.trim() || null;
+  // Prefer the platform-provided client IP. The app is intended for Vercel;
+  // x-forwarded-for is a fallback for deployments behind a trusted proxy.
+  const ip = req.headers.get("x-real-ip")?.trim()
+    || req.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim()
+    || "unknown";
   const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 500) || null;
 
-  const { error: dbError } = await supabase.from("contact_submissions").insert({
-    name,
-    email,
-    budget: budget || null,
-    message,
-    user_agent: userAgent,
-    ip_address: ip,
-  });
-
-  if (dbError) {
-    console.error("Supabase insert failed:", {
-      message: dbError.message,
-      code: dbError.code,
-      hint: dbError.hint,
-    });
-
-    const tableMissing =
-      dbError.code === "42P01" ||
-      dbError.code === "PGRST205" ||
-      /relation .* does not exist/i.test(dbError.message || "") ||
-      /could not find the table/i.test(dbError.message || "");
-
-    return errorResponse(
-      tableMissing
-        ? "The database is connected but not set up yet. Run the Supabase migrations in order."
-        : "Could not save your message. Please try again.",
-      500
+  const { data: allowed, error: rateError } = await supabase.rpc("consume_contact_rate_limit", { p_ip: ip });
+  if (rateError) {
+    console.error("Contact rate-limit check failed:", rateError.message);
+    return errorResponse("The contact form is temporarily unavailable. Please try again shortly.", 503);
+  }
+  if (allowed !== true) {
+    return NextResponse.json(
+      { error: "Too many messages were sent from this connection. Please try again in 10 minutes." },
+      { status: 429, headers: { "Retry-After": "600" } }
     );
   }
 
+  const { error: insertError } = await supabase.from("contact_submissions").insert({
+    name, email, budget: budget || null, message,
+    source: "website-contact-form", user_agent: userAgent,
+    ip_address: ip === "unknown" ? null : ip,
+  });
+
+  if (insertError) {
+    console.error("Contact submission insert failed:", { code: insertError.code, message: insertError.message });
+    return errorResponse("Could not save your message. Please try again.", 500);
+  }
   return NextResponse.json({ ok: true }, { status: 200 });
 }
