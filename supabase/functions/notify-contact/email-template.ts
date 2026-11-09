@@ -112,7 +112,7 @@ ${
   );
 
 export const buildAlertSubject = (s: Submission): string =>
-  `New enquiry from ${s.name}${s.budget ? ` · ${s.budget}` : ""}`;
+  `New enquiry from ${safeHeader(s.name)}${s.budget ? ` · ${safeHeader(s.budget)}` : ""}`;
 
 export const buildAlertText = (s: Submission): string =>
   [
