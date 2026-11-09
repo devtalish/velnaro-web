@@ -122,6 +122,15 @@ export const getSubmissionStats = async (): Promise<{
       .maybeSingle(),
   ]);
 
+  if (totalResult.error || weekResult.error || latestResult.error) {
+    console.error("Failed to load submission stats:", {
+      total: totalResult.error?.message,
+      last7Days: weekResult.error?.message,
+      latest: latestResult.error?.message,
+    });
+    throw new Error("Could not load submission statistics.");
+  }
+
   return {
     total: totalResult.count ?? 0,
     last7Days: weekResult.count ?? 0,
