@@ -9,6 +9,7 @@ import { TILT_RANGE, TILT_SPRING } from "@/constants/projects-constants";
 const BADGE = "rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.3em] backdrop-blur-md";
 
 export const FounderMessage: FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const pointerX = useMotionValue(0.5);
   const pointerY = useMotionValue(0.5);
   const rotateX = useSpring(useTransform(pointerY, [0, 1], TILT_RANGE.x), TILT_SPRING);
@@ -46,8 +47,8 @@ export const FounderMessage: FC = () => {
         <motion.div
           onPointerMove={prefersReducedMotion ? undefined : handleMove}
           onPointerLeave={handleLeave}
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          initial={{ opacity: 0, y: 30 }}
+          style={{ rotateX: prefersReducedMotion ? 0 : rotateX, rotateY: prefersReducedMotion ? 0 : rotateY, transformStyle: "preserve-3d" }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
           transition={{ duration: prefersReducedMotion ? 0 : 0.7 }}
