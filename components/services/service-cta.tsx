@@ -6,6 +6,7 @@ import Link from "next/link";
 type ServiceCtaProps = {
   href?: string;
   ariaLabel?: string;
+  eyebrow?: string;
   headline?: string;
   subtitle?: string;
   primaryCtaText?: string;
@@ -17,6 +18,7 @@ type ServiceCtaProps = {
 export const ServiceCta: FC<ServiceCtaProps> = ({
   href,
   ariaLabel,
+  eyebrow = "LET'S TALK",
   headline,
   subtitle,
   primaryCtaText,
@@ -54,10 +56,10 @@ export const ServiceCta: FC<ServiceCtaProps> = ({
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-24 pb-16">
+    <section id="contact" className="max-w-6xl mx-auto px-6 pt-24 pb-16">
       <div className="glass-strong gradient-border rounded-3xl p-8 md:p-10">
         <div>
-          <p className="text-eyebrow uppercase tracking-wider mb-4">SOFTWARE DEVELOPMENT</p>
+          <p className="text-eyebrow uppercase tracking-wider mb-4">{eyebrow}</p>
           <h2 className="text-2xl md:text-3xl font-bold md:text-graphite mb-4">
             {headline}
           </h2>
