@@ -72,7 +72,7 @@ export default function PrivacyPolicy(): React.ReactElement {
           Our contact form API also collects the following technical data on each submission:
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">IP address (from X-Forwarded-For header)</li>
+          <li className="mb-2">IP address, obtained from the hosting platform's client-IP header or a trusted reverse-proxy header</li>
           <li className="mb-2">User agent string</li>
           <li className="mb-2">Timestamp of submission</li>
           <li className="mb-2">Form source identifier</li>
@@ -85,18 +85,18 @@ export default function PrivacyPolicy(): React.ReactElement {
         <ul className="list-disc pl-5 mb-4">
           <li className="mb-2">Respond to inquiries and contact requests</li>
           <li className="mb-2">Maintain records of communications</li>
-          <li className="mb-2">Statistical analysis of website usage</li>
+          <li className="mb-2">Detecting and limiting spam or abusive contact-form submissions</li>
           <li className="mb-2">Improve our services</li>
         </ul>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies and Tracking</h2>
         <p className="mb-4">
-          Our website does not use tracking cookies, analytics scripts, or third-party tracking technologies. We do not deploy any marketing or behavioural cookies. All page visits are anonymous and no profiling is performed.
+          We do not currently deploy analytics scripts, advertising pixels, or cross-site behavioural tracking. Contact-form submissions include technical metadata described above. The private admin area uses essential Supabase authentication cookies for sign-in and session maintenance.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Service Providers</h2>
         <p className="mb-4">
-          We use Supabase as our backend platform for storing contact form submissions and managing admin authentication. Supabase is a cloud-based platform that hosts our database and provides authentication services. By using our contact form, you acknowledge that your data may be processed on Supabase infrastructure, which may be located outside your country of residence.
+          We use Vercel to host the website and Supabase to store contact submissions and manage admin authentication. A configured SMTP/email delivery provider processes the messages needed to send the visitor acknowledgement and notify VELNARO. These providers may process information on infrastructure outside your country of residence; their locations and terms depend on the accounts configured by VELNARO.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Sharing</h2>
@@ -104,19 +104,19 @@ export default function PrivacyPolicy(): React.ReactElement {
           We do not sell or rent your personal information to third parties. We may share your data only in the following circumstances:
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">With Supabase as necessary to maintain and operate the contact form backend</li>
+          <li className="mb-2">With Vercel, Supabase and the configured email delivery provider as necessary to host the site, store enquiries and deliver emails</li>
           <li className="mb-2">With authorized personnel who need the information to respond to your inquiry</li>
           <li className="mb-2">If required by law or valid government request</li>
         </ul>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Security</h2>
         <p className="mb-4">
-          We take reasonable technical and organizational measures to protect your information. Contact form submissions are stored in Supabase with row-level security, meaning only authenticated admin users can read or delete submissions. Transmission of data via the contact form occurs over HTTPS.
+          We take reasonable technical and organizational measures to protect your information. Contact form submissions are stored in Supabase. Database policies restrict browser access to authorized admins; public visitors cannot read submissions or insert directly into the database. The server validates submissions and applies a database-backed rate limit. Transmission of data via the contact form occurs over HTTPS.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Retention</h2>
         <p className="mb-4">
-          Contact form submissions are stored in our database indefinitely unless a deletion request is made. You may request that your personal data be removed at any time by contacting us at hello@velnaro.agency. Admin users may also delete submissions via the admin dashboard.
+          Contact form submissions are currently retained until an authorized admin deletes them or a verified deletion request is processed. There is no automatic retention/deletion schedule currently implemented. You may request deletion by contacting hello@velnaro.agency; authorized admins can also delete submissions through the admin dashboard.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Individual Rights</h2>
