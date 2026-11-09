@@ -28,8 +28,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Install dependencies and refresh lockfile
-        run: npm install
+      - name: Install dependencies from committed lockfile
+        run: npm ci
       - name: Apply non-breaking dependency security updates
         run: npm audit fix || npm audit --audit-level=high
       - name: Commit refreshed lockfile to this PR branch
