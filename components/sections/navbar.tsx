@@ -2,6 +2,7 @@
 
 import { useState, type FC, useEffect } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { HireMeButton } from "@/components/navbar/hire-me-button";
 import { MobileMenu } from "@/components/navbar/mobile-menu";
 import { NavBrand } from "@/components/navbar/nav-brand";
@@ -15,6 +16,8 @@ export const Navbar: FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const scrolled = useScrolled(NAV_SCROLLED_AT);
   const active = useActiveSection();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -50,9 +53,9 @@ export const Navbar: FC = () => {
                   }}
                 >
                   <NavLink
-                    href={item.href}
+                    href={isHomePage ? item.href : `/${item.href}`}
                     label={item.label}
-                    active={active === item.href}
+                    active={isHomePage && active === item.href}
                     onFocus={() => item.label === "Services" && setIsDropdownOpen(true)}
                     ariaHaspopup={item.label === "Services"}
                     ariaExpanded={item.label === "Services" ? isDropdownOpen : undefined}
