@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, type PointerEvent } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { VIEWPORT_ONCE } from "@/animations/scroll-animations";
 import { TILT_RANGE, TILT_SPRING } from "@/constants/projects-constants";
@@ -44,13 +44,13 @@ export const FounderMessage: FC = () => {
 
       <div style={{ perspective: "1400px" }} className="relative">
         <motion.div
-          onPointerMove={handleMove}
+          onPointerMove={prefersReducedMotion ? undefined : handleMove}
           onPointerLeave={handleLeave}
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.7 }}
           className="relative overflow-hidden rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/40 to-slate/10 opacity-40" />
