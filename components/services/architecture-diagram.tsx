@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import Image from "next/image";
 
 type ArchitectureDiagramProps = {
   title: string;
@@ -36,11 +37,12 @@ export const ArchitectureDiagram: FC<ArchitectureDiagramProps> = ({
         </div>
       </div>
       <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate/20">
-        <img
+                <Image
           src="/placeholder-architecture.svg"
           alt="Software architecture diagram showing layers"
-          className="object-cover w-full h-full"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 40vw"
+          className="object-cover"
         />
       </div>
     </div>
