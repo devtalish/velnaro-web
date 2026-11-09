@@ -18,17 +18,13 @@ environment variables at all.
    then grant admin access in the SQL editor:
 
    ```sql
-   select public.create_admin_user('your@email.com', 'a-long-unique-password');
+   select public.grant_admin('your@email.com');
    ```
 
    This repository is public, so the migration deliberately does **not** ship with
    hardcoded credentials. Use your own email and a long password.
 
-3. Run all files in `supabase/migrations/` in numerical order. This creates the
-   admin allowlist, RLS policies, server-only insert permissions, rate-limit
-   function and separate email-delivery status fields.
-
-4. Turn off public signup: Authentication → Providers → Email → disable
+ 4. Turn off public signup: Authentication → Providers → Email → disable
    **Enable sign-ups**.
 5. Project Settings → **API** → copy the **Project URL** and the **anon** key.
 
