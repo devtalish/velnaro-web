@@ -115,7 +115,9 @@ export const metadata: Metadata = {
 
 export default function SoftwareDevelopment() {
   return (
-    <section
+    <>
+      <Navbar />
+      <section
       id="software-development"
       className="c-space section-spacing relative overflow-visible"
     >
@@ -243,6 +245,8 @@ export default function SoftwareDevelopment() {
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
       />
-    </section>
+      </section>
+      <Footer />
+    </>
   );
 }
