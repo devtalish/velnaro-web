@@ -61,7 +61,6 @@ export const Navbar: FC = () => {
                   {item.label === "Services" && isDropdownOpen && (
                     <div
                       id="services-navigation-menu"
-                      role="menu"
                       className="absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 rounded-2xl border border-slate/20 bg-white/95 p-4 shadow-xl backdrop-blur-xl"
                     >
                       <ul className="flex flex-col gap-1">
