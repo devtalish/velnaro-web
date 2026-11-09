@@ -311,7 +311,10 @@ export const Process = () => {
   const markerTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   const [progressValue, setProgressValue] = useState(0);
-  useMotionValueEvent(smoothProgress, "change", (latest) => setProgressValue(latest));
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    const stepProgress = Math.min(1, Math.floor(latest * STEPS.length) / STEPS.length);
+    setProgressValue((previous) => previous === stepProgress ? previous : stepProgress);
+  });
 
   const stepCount = STEPS.length;
 
