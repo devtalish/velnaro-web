@@ -24,7 +24,7 @@ environment variables at all.
    This repository is public, so the migration deliberately does **not** ship with
    hardcoded credentials. Use your own email and a long password.
 
- 4. Turn off public signup: Authentication → Providers → Email → disable
+4. Turn off public signup: Authentication → Providers → Email → disable
    **Enable sign-ups**.
 5. Project Settings → **API** → copy the **Project URL** and the **anon** key.
 
