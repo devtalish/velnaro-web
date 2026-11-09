@@ -83,7 +83,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">No Tracking</h2>
         <p className="mb-4">
-          VELNARO does not use its own cross-site tracking or behavioural advertising. Third-party project previews, if opened, are outside VELNARO's cookie controls.
+          VELNARO does not use its own cross-site tracking or behavioural advertising. Third-party project previews, if opened, are outside VELNARO&apos;s cookie controls.
         </p>
 
         <p className="mt-8 text-sm text-muted">
