@@ -128,7 +128,9 @@ export const metadata: Metadata = {
 
 export default function AIAutomation() {
   return (
-    <section id="ai-automation" className="c-space section-spacing relative overflow-visible">
+    <>
+      <Navbar />
+      <section id="ai-automation" className="c-space section-spacing relative overflow-visible">
       <Link
         href="/"
         className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
@@ -242,6 +244,8 @@ export default function AIAutomation() {
         secondaryCtaText=""
         secondaryCtaHref=""
       />
-    </section>
+      </section>
+      <Footer />
+    </>
   );
 }
