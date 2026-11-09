@@ -103,7 +103,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     await client.send({
         from: `VELNARO <${user}>`,
       to: recipient,
-      replyTo: `${submission.name} <${submission.email}>`,
+      replyTo: `${submission.name.replace(/[\\r\\n\\u0000-\\u001f\\u007f]/g, " ").trim()} <${submission.email}>`,
       subject: buildAlertSubject(submission),
       content: buildAlertText(submission),
       html: buildAlertHtml(submission, env("ADMIN_INBOX_URL")),
