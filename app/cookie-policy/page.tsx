@@ -57,12 +57,12 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies We Use</h2>
         <p className="mb-4">
-          Our website does not use tracking cookies, analytics cookies, marketing cookies, or any other form of tracking technology. We do not deploy Google Analytics, Plausible, Facebook pixels, or any other third-party tracking scripts. All pages load without setting any cookies on visitor browsers beyond those strictly necessary for basic website functionality.
+          We do not currently deploy analytics cookies, marketing cookies, advertising pixels, or cross-site behavioural tracking. The public marketing pages do not require an account or tracking cookie.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Essential Cookies</h2>
         <p className="mb-4">
-          The only cookies our website may set are essential, first-party session cookies that are required for the Website to function properly. These cookies are temporary and are deleted when you close your browser. They do not collect or store any personal information. Essential cookies may include:
+          When an administrator signs in to the private admin area, Supabase Auth may set first-party authentication cookies to maintain and refresh that session. These cookies are essential to admin security and may persist until they expire or are cleared; they are not necessarily deleted when the browser closes. They are not used for advertising or cross-site tracking.
         </p>
         <ul className="list-disc pl-5 mb-4">
           <li className="mb-2">Session identifiers to maintain user state during a single browsing session</li>
@@ -71,7 +71,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Third-Party Cookies</h2>
         <p className="mb-4">
-          We do not allow third-party entities to set cookies on the Website through our pages. However, some embedded content (such as YouTube videos or social media widgets, if ever embedded) may set their own cookies. We have not currently embedded any third-party content that sets cookies.
+          The website may display live previews of third-party project websites in embedded frames. Those external sites may apply their own cookies or tracking technologies when their preview is loaded; their practices are governed by their own policies.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Browser Controls</h2>
@@ -84,7 +84,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">No Tracking</h2>
         <p className="mb-4">
-          We do not track your browsing activity across third-party websites, nor do we build profiles of your behavior for marketing or advertising purposes. Our Website is privacy-by-design and does not engage in any online behavioral advertising.
+          VELNARO does not use its own cross-site tracking or behavioural advertising. Third-party project previews, if opened, are outside VELNARO's cookie controls.
         </p>
 
         <p className="mt-8 text-sm text-muted">
