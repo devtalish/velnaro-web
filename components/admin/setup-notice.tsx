@@ -12,7 +12,7 @@ export const SetupNotice: FC<SetupNoticeProps> = ({ variant = "no-project" }) =>
       <>
         <p className="text-muted">The Supabase project is connected, but it has no <code className="text-graphite">admin_users</code> table, so there is no way to say who is allowed in here.</p>
         <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
-          <li>Run <code className="text-graphite">supabase/migrations/0001_init.sql</code> and then <code className="text-graphite">0002_restrict_public_submission_columns.sql</code> in the SQL editor.</li>
+          <li>Run <code className="text-graphite">supabase/migrations/0001_init.sql</code> and then <code className="text-graphite">0002_restrict_public_submission_columns.sql and 0003_secure_contact_intake_and_delivery_status.sql</code> in the SQL editor.</li>
           <li>Create your admin account in the SQL editor with <code className="text-graphite">select public.create_admin_user('you@your.email', 'a-long-unique-password');</code></li>
         </ol>
       </>
@@ -21,8 +21,8 @@ export const SetupNotice: FC<SetupNoticeProps> = ({ variant = "no-project" }) =>
         <p className="text-muted">The contact form and this inbox need a Supabase project. The rest of the site runs fine without one.</p>
         <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
           <li>Create a project at <a href="https://supabase.com/dashboard" target="_blank" rel="noreferrer noopener" className="text-deep-teal hover:underline">supabase.com</a>.</li>
-          <li>Run both SQL migrations in <code className="text-graphite">supabase/migrations/</code> in numerical order.</li>
-          <li>Set <code className="text-graphite">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="text-graphite">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, then redeploy.</li>
+          <li>Run all SQL migrations in <code className="text-graphite">supabase/migrations/</code> in numerical order.</li>
+          <li>Set <code className="text-graphite">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="text-graphite">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> and the server-only <code className="text-graphite">SUPABASE_SERVICE_ROLE_KEY</code>, then redeploy.</li>
         </ol>
       </>
     )}
