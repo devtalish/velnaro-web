@@ -45,11 +45,11 @@ supabase functions deploy notify-contact
 supabase secrets set \
   SMTP_HOST=smtp.example.com \
   SMTP_PORT=465 \
-  SMTP_USER=you@example.com \
+  SMTP_USER=hello@velnaro.agency \
   SMTP_PASS='app-password-not-your-account-password' \
-  CONTACT_RECIPIENT_EMAIL=you@example.com \
-  OWNER_NAME="Your Name" \
-  SITE_URL=https://yoursite.com \
+  CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
+  OWNER_NAME="VELNARO" \
+  SITE_URL=https://velnaro.agency \
   NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
 ```
 
@@ -97,7 +97,7 @@ then set `NEXT_PUBLIC_SITE_URL` to it and redeploy. That one variable drives
 `metadataBase`, the canonical URL, `robots.txt`, `sitemap.xml` and every Open
 Graph image URL. There is nothing else to update.
 
-Afterwards, submit `https://yourdomain.com/sitemap.xml` in
+Afterwards, submit `https://velnaro.agency/sitemap.xml` in
 [Google Search Console](https://search.google.com/search-console) and check the
 structured data with the
 [Rich Results Test](https://search.google.com/test/rich-results).
@@ -128,7 +128,8 @@ transport to worry about either.
 - [ ] Custom SMTP configured under Authentication → SMTP Settings
 - [ ] `/admin` redirects to `/admin/login` when signed out
 - [ ] A test submission appears in `/admin`, emails you, **and** acknowledges the sender
-- [ ] `NEXT_PUBLIC_SITE_URL` set to the live domain
+- [ ] `velnaro.agency` DNS resolves and `hello@velnaro.agency` receives mail
+- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://velnaro.agency`
 - [ ] `/sitemap.xml` and `/robots.txt` both resolve and show that domain
 - [ ] `public/og.jpg` replaced with your own 1200×630 preview
 - [ ] `npm run build` passes

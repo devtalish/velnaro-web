@@ -23,8 +23,12 @@ export const VelnaroWordmark: FC<{ className?: string }> = ({ className }) => (
 );
 
 export const VelnaroLogoWithWordmark: FC<{ className?: string; logoSize?: number }> = ({ className, logoSize = 32 }) => (
-  <div className={`flex items-center gap-2 ${className}`}>
-    <VelnaroLogo className={`h-[${logoSize}px] w-[${logoSize}px] flex-shrink-0`} aria-label="VELNARO logo" />
+  <div className={`flex items-center gap-2 ${className ?? ""}`}>
+    <VelnaroLogo
+      className="flex-shrink-0"
+      style={{ width: logoSize, height: logoSize }}
+      aria-label="VELNARO logo"
+    />
     <VelnaroWordmark className="text-sm md:text-base" />
   </div>
 );

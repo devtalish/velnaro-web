@@ -10,6 +10,7 @@ export interface Project {
   id: number;
   title: string;
   category: string;
+  section: "selected-work" | "interactive-demo";
   description: string;
   subDescription: string[];
   href: string;
@@ -43,7 +44,7 @@ export interface Service {
   id: number;
   title: string;
   description: string;
-  icon: string;
+  href: string;
   bullets: string[];
 }
 

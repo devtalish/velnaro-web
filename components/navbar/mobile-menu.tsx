@@ -20,17 +20,33 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => (
         animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.3 }}
-        className="block overflow-hidden border-t border-white/10 bg-primary/90 text-center backdrop-blur-xl sm:hidden"
+        className="block overflow-hidden border-t border-slate/10 bg-ivory/95 text-center backdrop-blur-xl sm:hidden"
       >
         <nav className="py-5">
           <ul className="nav-ul">
             {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.href}
-                {...item}
-                active={active === item.href}
-                onClick={onClose}
-              />
+              <li key={item.href} className="flex flex-col items-center gap-3">
+                <NavLink
+                  href={item.href}
+                  label={item.label}
+                  active={active === item.href}
+                  onClick={onClose}
+                />
+                {"dropdown" in item && (
+                  <ul className="flex flex-col items-center gap-2">
+                    {item.dropdown.map((subItem) => (
+                      <li key={subItem.link}>
+                        <NavLink
+                          href={subItem.link}
+                          label={subItem.label}
+                          active={active === subItem.link}
+                          onClick={onClose}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
             ))}
           </ul>
           <div className="mt-4 px-6">

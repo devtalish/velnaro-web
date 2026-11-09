@@ -82,7 +82,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       },
     });
 
-    const ownerName = env("OWNER_NAME") ?? "the team";
+    const ownerName = env("OWNER_NAME") ?? "VELNARO";
     const siteUrl = env("SITE_URL");
 
     let replyFailed: string | null = null;
@@ -101,7 +101,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     }
 
     await client.send({
-      from: `Portfolio <${user}>`,
+        from: `VELNARO <${user}>`,
       to: recipient,
       replyTo: `${submission.name} <${submission.email}>`,
       subject: buildAlertSubject(submission),

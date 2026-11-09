@@ -1,7 +1,7 @@
 # Contributing
 
-This is a personal portfolio, so the scope is narrower than a typical open
-source project, but issues and PRs are welcome, and forks are the whole point.
+This repository powers the VELNARO website. Keep changes scoped to the site,
+brand system, and infrastructure described in the docs.
 
 ## What's in scope
 
@@ -12,8 +12,8 @@ source project, but issues and PRs are welcome, and forks are the whole point.
 - Browser/device compatibility fixes (particularly Safari and low-end mobile)
 
 **Not in scope:**
-- Changes to the personal content: projects, testimonials, work history, the
-  résumé. That's mine; fork it and replace it with yours.
+- Changes to brand content, service copy, project data, reviews, or legal text
+  without owner approval.
 - Rewrites into another framework or styling system
 - New dependencies that duplicate something already here
 
@@ -22,8 +22,8 @@ Not sure? Open an issue first.
 ## Getting set up
 
 ```bash
-git clone https://github.com/<you>/myportfolio.git
-cd myportfolio
+git clone <repository-url>
+cd velnaro-web
 npm install
 npm run dev
 ```
@@ -74,7 +74,7 @@ devtools throttle on.
 ## Security
 
 Found something exploitable? **Don't open a public issue.** Email
-`hasnainirfandeveloper@gmail.com` directly.
+`hello@velnaro.agency` directly.
 
 Never commit a `.env` or a real credential. `.env*` is gitignored, so keep it that
 way.

@@ -10,16 +10,31 @@ import { MY_PROJECTS } from "@/constants/portfolio-constants";
 import { useHasMounted } from "@/hooks/use-has-mounted";
 import { type Project } from "@/types/portfolio-types";
 
+const getSectionLabel = (projects: Project[]) => {
+  const selectedWork = projects.filter((p) => p.section === "selected-work");
+  const interactiveDemos = projects.filter(
+    (p) => p.section === "interactive-demo"
+  );
+  if (selectedWork.length > 0 && interactiveDemos.length > 0) {
+    return "Selected Work · Interactive Demonstrations";
+  }
+  if (selectedWork.length > 0) {
+    return "Selected Work";
+  }
+  return "Interactive Demonstrations";
+};
+
 export const Projects: FC = () => {
   const isMobile = useMediaQuery({ maxWidth: 1023 });
   const mounted = useHasMounted();
   const [active, setActive] = useState<Project | null>(null);
 
   const pinned = mounted && !isMobile;
+  const sectionLabel = getSectionLabel(MY_PROJECTS);
 
   return (
     <section id="work" className="relative">
-      <ProjectsHeader total={MY_PROJECTS.length} />
+      <ProjectsHeader sectionLabel={sectionLabel} />
 
       {pinned ? (
         <PinnedShowcase onOpen={setActive} />

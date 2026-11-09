@@ -1,7 +1,7 @@
 # Make it your own
 
-Fork this repo and you can have a portfolio under your own name in about an
-hour. Steps 1 to 4 need no component edits at all, because every string on the page comes
+This guide covers the content, assets, palette, and structure of the VELNARO
+site. Steps 1 to 4 need no component edits at all, because every string on the page comes
 out of one typed constants file.
 
 Work top to bottom; each step is independent.
@@ -72,8 +72,8 @@ which lands near 80&nbsp;KB against several megabytes for the live embed.
 Replacing the parallax plates changes the whole mood of the hero. Keep the same
 filenames and you won't have to touch `parallax-background.tsx`.
 
-**Also replace:** `Hasnain.pdf` in the repo root (the résumé the site links to)
-and, if you delete it, the link that points at it.
+**Also review:** brand and project assets in `public/` and confirm usage rights
+before publishing.
 
 ---
 
@@ -84,26 +84,20 @@ palette is an `@theme` block at the top of `app/globals.css`:
 
 ```css
 @theme {
-  --color-primary: #030412;   /* page background */
-  --color-midnight: #06091f;
-  --color-navy: #161a31;
-  --color-indigo: #1f1e39;
-  --color-storm: #282b4b;     /* card borders, dividers */
-  --color-aqua: #33c2cc;      /* accent 1 */
-  --color-mint: #57db96;
-  --color-royal: #5c33cc;     /* accent 2, the brand purple */
-  --color-lavender: #7a57db;
-  --color-fuchsia: #ca2f8c;
-  --color-orange: #cc6033;
-  --color-sand: #d6995c;
-  --color-coral: #ea4884;
+  --color-ivory: #F4F2EC;      /* page background */
+  --color-graphite: #171B1F;   /* primary text */
+  --color-deep-teal: #176B65;  /* primary accent */
+  --color-pale-sage: #D9E7E2;  /* secondary surface */
+  --color-slate: #30373D;      /* borders, dividers */
+  --color-muted: #5D666C;      /* secondary text */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
 }
 ```
 
-Every token becomes a utility: `--color-royal` gives you `bg-royal`,
-`text-royal`, `from-royal/40`. Change a value here and the site follows,
-including project card gradients (`accent`) and the shader globe, which reads
-the same palette.
+Every token becomes a utility: `--color-deep-teal` gives you `bg-deep-teal`,
+`text-deep-teal`, `from-deep-teal/40`. Change a value here and every utility
+that uses it follows.
 
 Two places outside the theme block also hold colour and should match:
 
@@ -116,7 +110,7 @@ Two places outside the theme block also hold colour and should match:
 
 **`constants/seo-constants.ts`** is the single source. Site-wide defaults:
 `SITE_TITLE`, `SITE_DESCRIPTION`, `SITE_TAGLINE`, `SITE_KEYWORDS`, `OG_IMAGE`.
-Per-route copy: `HOME_TITLE` and `HOME_DESCRIPTION` for the portfolio,
+Per-route copy: `HOME_TITLE` and `HOME_DESCRIPTION` for the homepage,
 `ADMIN_TITLE` / `ADMIN_LOGIN_TITLE` and their descriptions for the private
 dashboard. `SITE_SECTIONS` lists the on-page anchors and feeds the JSON-LD.
 
@@ -139,9 +133,9 @@ someone shares your link.
 **`app/icon.tsx` / `app/apple-icon.tsx`:** favicons generated at build time
 from code (no image files). Edit the JSX inside.
 
-**Set `NEXT_PUBLIC_SITE_URL`** to your domain once deployed. That one variable
-drives the canonical URL, the sitemap, robots.txt and every Open Graph image
-URL.
+**Set `NEXT_PUBLIC_SITE_URL`** to `https://velnaro.agency` once DNS is verified.
+That one variable drives the canonical URL, the sitemap, robots.txt and every
+Open Graph image URL.
 
 **Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`** to the token Google Search
 Console gives you and the `google-site-verification` meta tag is rendered on
@@ -216,13 +210,13 @@ your new section without stopping.
 
 ## Before you deploy
 
-- [ ] No "Hasnain" left: `grep -ri "hasnain" app components constants public`
-- [ ] Résumé PDF replaced or removed
+- [ ] No personal-template identity left: `grep -ri "hasnain" app components constants public`
+- [ ] Unused personal assets removed
 - [ ] The 3D model is yours, or you kept its attribution
 - [ ] Project screenshots are yours to publish
-- [ ] `NEXT_PUBLIC_SITE_URL` set to your domain
+- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://velnaro.agency` after DNS verification
 - [ ] `public/og.jpg` replaced with your own preview
 - [ ] `/sitemap.xml` and `/robots.txt` resolve on the live site
 - [ ] Your own Supabase project, with your own admin in `admin_users`
 - [ ] `npm run build` passes
-- [ ] `LICENSE` updated to your name
+- [ ] `LICENSE` and `NOTICE` reviewed for VELNARO ownership

@@ -1,8 +1,17 @@
 export const NAV_ITEMS = [
   { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
+  { 
+    label: "Services", 
+    href: "#services", 
+    dropdown: [
+      { label: "Software Development", link: "/software-development" },
+      { label: "AI Automation", link: "/ai-automation" },
+      { label: "AI Search Visibility", link: "/ai-search-visibility" },
+    ]
+  },
   { label: "Work", href: "#work" },
   { label: "Process", href: "#process" },
+  { label: "About", href: "#founder" },
   { label: "Contact", href: "#contact" },
 ] as const;
 

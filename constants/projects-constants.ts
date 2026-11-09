@@ -5,6 +5,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 1,
     title: "Restaurant",
+    section: "selected-work",
     category: "Restaurant / Web Experience",
     description:
       "A restaurant web experience focused on presenting the venue and its offering through a polished digital presence.",
@@ -27,6 +28,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 2,
     title: "Aether Real Estate",
+    section: "selected-work",
     category: "Real Estate / Web Experience",
     description:
       "A real-estate web experience designed to present property information through a focused, visual interface.",
@@ -49,6 +51,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 3,
     title: "SignaAI",
+    section: "selected-work",
     category: "Gesture Recognition",
     description:
       "A gesture-recognition application exploring interaction through computer vision and hand gestures.",
@@ -71,6 +74,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 4,
     title: "ClinicFlow",
+    section: "selected-work",
     category: "Healthcare Software Concept",
     description:
       "A healthcare-oriented software concept focused on presenting clinical workflows in a structured digital interface.",
@@ -93,6 +97,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 5,
     title: "Atlas Knowledge Hub",
+    section: "interactive-demo",
     category: "AI Knowledge Assistant",
     description:
       "An AI knowledge-hub concept intended to help people work with information through an assistant-style experience.",
@@ -115,6 +120,7 @@ export const MY_PROJECTS: Project[] = [
   {
     id: 6,
     title: "OpsPilot Dashboard",
+    section: "interactive-demo",
     category: "Workflow Dashboard",
     description:
       "A workflow-dashboard concept focused on bringing operational information and tasks into a structured interface.",

@@ -54,7 +54,7 @@ export const buildReplyText = (s: Submission, ownerName: string): string =>
   [
     `Hi ${firstName(s.name)},`,
     "",
-    `Thanks for getting in touch. Your message reached me and I'll reply personally, usually within one business day.`,
+    `Thanks for contacting VELNARO. Your message reached our team and we'll reply within one business day.`,
     "",
     "Here is what you sent, for your records:",
     "",
@@ -72,7 +72,7 @@ export const buildReplyHtml = (
   siteUrl?: string
 ): string =>
   shell(
-    "Your message reached me. I'll reply within one business day.",
+    "Your message reached us. We'll reply within one business day.",
     `
         <tr><td align="center" style="padding:34px 30px 0;">
           <div style="width:46px;height:46px;line-height:46px;border-radius:12px;background:#5c33cc;color:#ffffff;font-size:20px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">${escapeHtml(ownerName.charAt(0).toUpperCase())}</div>
@@ -81,8 +81,8 @@ export const buildReplyHtml = (
 
         <tr><td style="padding:14px 30px 0;">
           <p style="margin:0;color:#9a9db0;font-size:14px;line-height:1.7;text-align:center;font-family:Arial,Helvetica,sans-serif;">
-            Your message came through. I read every one myself and will reply
-            personally, usually within one business day.
+            Your message came through. Our team reads every enquiry and will
+            reply within one business day.
           </p>
         </td></tr>
 
@@ -96,7 +96,7 @@ ${
   siteUrl
     ? `
         <tr><td align="center" style="padding:24px 30px 0;">
-          <a href="${escapeHtml(siteUrl)}" style="display:inline-block;padding:13px 26px;border-radius:999px;background:#5c33cc;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">See my work</a>
+          <a href="${escapeHtml(siteUrl)}" style="display:inline-block;padding:13px 26px;border-radius:999px;background:#5c33cc;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">Explore our work</a>
         </td></tr>`
     : ""
 }
@@ -104,11 +104,11 @@ ${
           <div style="border-top:1px solid #282b4b;padding-top:18px;">
             <p style="margin:0;color:#4a4d63;font-size:11px;line-height:1.6;text-align:center;font-family:Arial,Helvetica,sans-serif;">
               This is an automatic confirmation, no need to reply to it.
-              My personal answer is on its way.
+              A reply from our team is on its way.
             </p>
           </div>
         </td></tr>`,
-    `Sent because you used the contact form on ${ownerName}'s site`
+    `Sent because you used the contact form on ${ownerName}.`
   );
 
 export const buildAlertSubject = (s: Submission): string =>
@@ -116,7 +116,7 @@ export const buildAlertSubject = (s: Submission): string =>
 
 export const buildAlertText = (s: Submission): string =>
   [
-    "New portfolio enquiry",
+    "New project enquiry",
     "",
     `Name:    ${s.name}`,
     `Email:   ${s.email}`,
@@ -157,5 +157,5 @@ export const buildAlertHtml = (s: Submission, adminUrl?: string): string =>
           <a href="mailto:${encodeURIComponent(s.email)}" style="display:inline-block;padding:13px 26px;border-radius:999px;background:#5c33cc;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">Reply to ${escapeHtml(s.name)}</a>
           ${adminUrl ? `<p style="margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;"><a href="${escapeHtml(adminUrl)}" style="color:#8b8fa3;font-size:12px;text-decoration:underline;">Open the inbox</a></p>` : ""}
         </td></tr>`,
-    "Sent by your portfolio contact form · reply goes straight to the sender"
+    "Sent by the VELNARO contact form · reply goes straight to the sender"
   );

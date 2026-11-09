@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useSpring, useTransform, useMotionValue, MotionValue } from "motion/react";
+import { motion, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { TILT_RANGE, TILT_SPRING } from "@/constants/projects-constants";
 
 type Step = {
   number: string;
@@ -17,41 +16,46 @@ type Step = {
 const STEPS: Step[] = [
   {
     number: "01",
-    title: "Discover",
+    title: "DISCOVER",
     shortTitle: "DISCOVER",
-    description: "Understand the problem, people, goals, and constraints before choosing a solution.",
+    description:
+      "Understand the business, objectives, challenges, customers and requirements. Initial discussion to clarify project goals, success criteria, and current systems.",
     accentFrom: "var(--color-deep-teal)",
     accentTo: "var(--color-pale-sage)",
   },
   {
     number: "02",
-    title: "Plan",
-    shortTitle: "PLAN",
-    description: "Define the scope, map the experience, and make thoughtful technical decisions.",
+    title: "DEFINE",
+    shortTitle: "DEFINE",
+    description:
+      "Establish the solution strategy and project scope. Recommended approach, technical architecture, deliverables, timeline and milestones agreed upon before development begins.",
     accentFrom: "var(--color-pale-sage)",
     accentTo: "var(--color-deep-teal)",
   },
   {
     number: "03",
-    title: "Build",
-    shortTitle: "BUILD",
-    description: "Develop in focused stages, prioritizing quality, usability, and maintainable implementation.",
+    title: "DESIGN",
+    shortTitle: "DESIGN",
+    description:
+      "Plan the experience and implementation structure. User journeys, interface or workflow planning, information architecture, system design, and review and approval cycles.",
     accentFrom: "var(--color-deep-teal)",
     accentTo: "var(--color-graphite)",
   },
   {
     number: "04",
-    title: "Validate",
-    shortTitle: "VALIDATE",
-    description: "Test functionality, explore edge cases, and refine the product before delivery.",
-    accentFrom: "var(--color-pale-sage)",
+    title: "BUILD & IMPLEMENT",
+    shortTitle: "BUILD & IMPLEMENT",
+    description:
+      "Develop, integrate, test and refine the solution. Development, integrations, implementation of optimizations, testing, and quality assurance to ensure the solution meets requirements.",
+    accentFrom: "var(--color-deep-teal)",
     accentTo: "var(--color-graphite)",
   },
   {
     number: "05",
-    title: "Deliver",
-    shortTitle: "DELIVER",
-    description: "Prepare the finished work, document what matters, and provide a clear handover.",
+    title: "LAUNCH & IMPROVE",
+    shortTitle: "LAUNCH & IMPROVE",
+    description:
+      "Deploy and support the solution. Final verification, deployment, handover, documentation, and monitoring with ongoing improvements where agreed.",
     accentFrom: "var(--color-graphite)",
     accentTo: "var(--color-deep-teal)",
   },
@@ -79,8 +83,6 @@ const AirplaneIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-const BADGE = "rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[10px] uppercase tracking-[0.3em] backdrop-blur-md";
-
 const ProcessCard = ({
   step,
   index,
@@ -94,34 +96,6 @@ const ProcessCard = ({
   isCompleted: boolean;
   reducedMotion: boolean;
 }) => {
-  const pointerX = useMotionValue(0.5);
-  const pointerY = useMotionValue(0.5);
-  const rotateX = useSpring(
-    useTransform(pointerY, [0, 1], TILT_RANGE.x),
-    TILT_SPRING
-  );
-  const rotateY = useSpring(
-    useTransform(pointerX, [0, 1], TILT_RANGE.y),
-    TILT_SPRING
-  );
-
-  const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    pointerX.set((event.clientX - bounds.left) / bounds.width);
-    pointerY.set((event.clientY - bounds.top) / bounds.height);
-  };
-
-  const handleLeave = () => {
-    pointerX.set(0.5);
-    pointerY.set(0.5);
-  };
-
-  const textColor = isActive || isCompleted
-    ? "var(--color-graphite)"
-    : "var(--color-muted)";
-
-  const accentGradient = `linear-gradient(135deg, ${step.accentFrom}, ${step.accentTo})`;
-
   const entranceStyle = reducedMotion
     ? {}
     : {
@@ -134,48 +108,40 @@ const ProcessCard = ({
   return (
     <motion.div {...entranceStyle} className="relative">
       <div style={{ perspective: "1400px" }} className="relative">
-        <motion.div
-          onMouseMove={handleMove}
-          onMouseLeave={handleLeave}
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 overflow-hidden"
+        <div
+          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 duration-200"
         >
-          <div className="absolute inset-0" style={{ background: accentGradient, opacity: 0.4 }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/10 via-pale-sage/30 to-deep-teal/10" />
 
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_45%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.35),transparent_45%)]" />
 
-          <div
-            style={{ transform: "translateZ(70px)" }}
-            className="pointer-events-none absolute left-5 right-5 top-5 flex items-center justify-between"
-          >
-            <span className={`${BADGE} inline-flex items-center gap-2 border-slate/30 bg-white/80 text-graphite`}>
-              {step.shortTitle}
-            </span>
-          </div>
+          <div className="relative z-10 p-6 md:p-8 flex flex-col h-full">
+            <div className="mt-5 flex-1 flex flex-col min-h-0">
+              <h3
+                className="text-lg md:text-xl font-bold leading-tight transition-colors duration-300"
+                style={{ color: isActive || isCompleted ? "var(--color-graphite)" : "var(--color-muted)" }}
+              >
+                {step.title}
+              </h3>
 
-          <div className="relative z-10 p-6 md:p-8" style={{ transform: "translateZ(50px)" }}>
-            <div className="flex flex-col h-full">
-              <div className="mt-5 flex-1 flex flex-col min-h-0">
-                <h3 className="text-lg md:text-xl font-bold leading-tight transition-colors duration-300" style={{ color: textColor }}>
-                  {step.title}
-                </h3>
+              <p
+                className="mt-3 text-muted leading-relaxed text-base md:text-lg flex-1 min-h-0 transition-colors duration-300"
+                style={{ color: isActive ? "var(--color-slate)" : "var(--color-muted)" }}
+              >
+                {step.description}
+              </p>
 
-                <p className="mt-3 text-muted leading-relaxed text-base md:text-lg flex-1 min-h-0 transition-colors duration-300" style={{ color: isActive ? "var(--color-slate)" : "var(--color-muted)" }}>
-                  {step.description}
-                </p>
-
-                <div className="mt-5 pt-4 border-t border-slate/10 flex items-center justify-end flex-wrap gap-2">
-                  <span className="text-sm text-muted font-mono text-slate/50 flex-shrink-0">
-                    Step {step.number} of 5
-                  </span>
-                </div>
+              <div className="mt-5 pt-4 border-t border-slate/10 flex items-center justify-end flex-wrap gap-2">
+                <span className="text-sm text-muted font-mono text-slate/50 flex-shrink-0">
+                  Step {step.number} of 5
+                </span>
               </div>
             </div>
           </div>
 
           <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-slate/20" />
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );

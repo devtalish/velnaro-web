@@ -3,6 +3,7 @@ export interface NavLinkProps {
   label: string;
   active: boolean;
   onClick?: () => void;
+  dropdown?: readonly { label: string; link: string }[];
 }
 
 export interface HireMeButtonProps {

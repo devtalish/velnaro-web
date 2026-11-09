@@ -239,7 +239,7 @@ would make PostgREST refuse the whole statement.
 
 ## Auth
 
-Two questions, kept apart, because conflating them is how a portfolio leaks its
+Two questions, kept apart, because conflating them is how a site leaks its
 visitors' contact details:
 
 | Question | Answered by |

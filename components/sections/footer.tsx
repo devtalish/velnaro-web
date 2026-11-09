@@ -139,9 +139,9 @@ export const Footer: FC = () => {
         className="mt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
       >
         <div>
-          <VelnaroLogoWithWordmark logoSize={6} className="text-graphite" />
+          <VelnaroLogoWithWordmark logoSize={24} className="text-graphite" />
           <p className="mt-3 text-sm text-muted max-w-sm">
-            VELNARO builds software and technology solutions shaped around real problems.
+            VELNARO builds software, AI automation, and AI search visibility around real business problems.
           </p>
           <p className="mt-3 text-sm text-muted">
             Reach out at{" "}
@@ -161,12 +161,14 @@ export const Footer: FC = () => {
             <a href="#work" className="hover:text-graphite transition-colors">Work</a>
             <a href="#process" className="hover:text-graphite transition-colors">Process</a>
             <a href="#contact" className="hover:text-graphite transition-colors">Contact</a>
+            <a href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</a>
+            <a href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</a>
+            <a href="/disclaimer" className="hover:text-graphite transition-colors">Disclaimer</a>
           </nav>
           <div className="flex gap-3 text-sm text-muted">
-            <span>
-              Â© {new Date().getFullYear()} VELNARO
-            </span>
-            <span>Â·</span>
+            <span>© {new Date().getFullYear()} VELNARO</span>
+            <span>·</span>
             <span>All rights reserved.</span>
           </div>
         </div>

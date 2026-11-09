@@ -1,7 +1,7 @@
 import { CONTACT_EMAIL } from "./social-constants";
 
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://velnaro.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://velnaro.agency"
 ).replace(/\/$/, "");
 
 export const absoluteUrl = (path: string) =>
@@ -9,16 +9,16 @@ export const absoluteUrl = (path: string) =>
 
 export const SITE_NAME = "VELNARO";
 
-export const SITE_TITLE = "VELNARO — Software Development & Technology Solutions";
+export const SITE_TITLE = "VELNARO — Software, AI Automation & AI Search Visibility";
 
 export const SITE_DESCRIPTION =
-  "VELNARO designs and develops custom software, web applications, AI-enabled products, and workflow automation shaped around real problems.";
+  "VELNARO is a digital agency building custom software, AI automation systems, and AI search visibility programs that help businesses grow.";
 
 export const SITE_TAGLINE =
-  "Software and technology solutions built with purpose.";
+  "Software, AI automation, and AI search visibility built with purpose.";
 
 export const OG_IMAGE = "/og.jpg";
-export const OG_IMAGE_ALT = "VELNARO — Software Development & Technology Solutions";
+export const OG_IMAGE_ALT = "VELNARO — Software, AI Automation & AI Search Visibility";
 export const OG_LOCALE = "en_US";
 
 export const OG_IMAGES = [
@@ -36,20 +36,24 @@ export const GOOGLE_SITE_VERIFICATION =
 export const SITE_KEYWORDS = [
   "VELNARO",
   "Software Development",
-  "Technology Solutions",
+  "Digital Solutions",
+  "AI Automation",
+  "Business Systems",
+  "AI Search Visibility",
+  "Answer Engine Optimization",
+  "Generative Engine Optimization",
+  "AEO",
+  "GEO",
   "Custom Software",
   "Web Applications",
-  "AI-Enabled Applications",
   "Workflow Automation",
-  "Software Architecture",
-  "System Integrations",
   "Digital Products",
 ];
 
-export const HOME_TITLE = "VELNARO — Software Development & Technology Solutions";
+export const HOME_TITLE = "VELNARO — Software, AI Automation & AI Search Visibility";
 
 export const HOME_DESCRIPTION =
-  "VELNARO designs and develops custom software, web applications, AI-enabled products, and workflow automation shaped around real problems.";
+  "VELNARO is a digital agency building custom software, AI automation systems, and AI search visibility programs that help businesses grow.";
 
 export const ADMIN_TITLE = "Contact submissions";
 
@@ -65,12 +69,12 @@ export const SITE_SECTIONS = [
   {
     name: "Home",
     hash: "#home",
-    description: "VELNARO — Software Development & Technology Solutions.",
+    description: "VELNARO — Software, AI automation, and AI search visibility.",
   },
   {
     name: "Services",
     hash: "#services",
-    description: "Custom software, AI-enabled applications, workflow automation, and software architecture.",
+    description: "Software development, AI automation, and AI search visibility programs.",
   },
   {
     name: "Work",

@@ -23,6 +23,6 @@ export const BUDGET_OPTIONS = [
 export const ALERT_DURATION = 5000;
 
 export const CONTACT_SUCCESS_MESSAGE =
-  "Message sent. I'll reply within 24 hours.";
+  "Message sent. We'll reply within one business day.";
 export const CONTACT_ERROR_MESSAGE =
   "Something went wrong, please try again.";

@@ -2,7 +2,7 @@
 
 import { useRef, type FC } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
+import { VelnaroLogo } from "@/components/ui/velnaro-logo";
 import {
   SERVICE_ACCENTS,
   STACK_OFFSET_REM,
@@ -66,7 +66,7 @@ export const ServiceCard: FC<ServiceCardProps> = ({
             </div>
 
             <div className="mt-8">
-              <ServiceCta />
+              <ServiceCta href={service.href} ariaLabel={`Explore ${service.title}`} />
             </div>
           </div>
 
@@ -76,13 +76,8 @@ export const ServiceCard: FC<ServiceCardProps> = ({
                 {padIndex(index + 1)}
               </span>
               <div className="absolute right-0 top-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate/20 bg-white/80 backdrop-blur-md md:h-20 md:w-20">
-                <Image
-                  src={service.icon}
-                  alt=""
-                  width={32}
-                  height={32}
-                  loading="lazy"
-                  decoding="async"
+                <VelnaroLogo
+                  aria-hidden
                   className="h-8 w-8 opacity-90 md:h-9 md:w-9"
                 />
               </div>

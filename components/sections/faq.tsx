@@ -9,7 +9,7 @@ const FAQ_ITEMS_LEFT = [
   {
     question: "What can VELNARO help build?",
     answer:
-      "VELNARO focuses on custom software and web applications, AI-enabled applications, workflow automation, and software architecture and integrations. The right scope depends on the problem and requirements.",
+      "VELNARO works across three divisions: software development and digital solutions, AI automation and business systems, and AI search visibility (AEO & GEO). The right scope depends on the problem and requirements.",
   },
   {
     question: "How does a project begin?",

@@ -13,7 +13,7 @@ NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 ```
 
-Both are optional. With neither set, the portfolio runs normally and `/admin`
+Both are optional. With neither set, the site runs normally and `/admin`
 shows a short setup panel instead of failing.
 
 ---
@@ -129,11 +129,11 @@ supabase functions deploy notify-contact
 supabase secrets set \
   SMTP_HOST=smtp.example.com \
   SMTP_PORT=465 \
-  SMTP_USER=you@example.com \
+  SMTP_USER=hello@velnaro.agency \
   SMTP_PASS='app-password-not-your-account-password' \
-  CONTACT_RECIPIENT_EMAIL=you@example.com \
-  OWNER_NAME="Your Name" \
-  SITE_URL=https://yoursite.com \
+  CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
+  OWNER_NAME="VELNARO" \
+  SITE_URL=https://velnaro.agency \
   NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
 ```
 
@@ -170,7 +170,7 @@ The acknowledgement is sent first, and its failure is caught separately. A typo
 in the visitor's address must not stop the lead reaching you.
 
 Set `OWNER_NAME` and `SITE_URL` alongside the SMTP secrets so the
-acknowledgement signs off with your name and can link back to your work.
+acknowledgement signs off with the agency name and links back to the site.
 
 ### Auth emails
 
@@ -215,7 +215,16 @@ itself. The second moved to `ADMIN_EMAIL` / `ADMIN_PASSWORD` in the environment,
 with a hand-rolled HMAC session cookie and an in-memory login throttle.
 
 Both worked. Supabase Auth brings password hashing, refresh-token rotation,
-shared rate limiting and password reset that a portfolio has no business
+shared rate limiting and password reset that this site has no business
 implementing itself, and it removed four secrets (`ADMIN_EMAIL`,
 `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`) plus the
 four SMTP variables from the deployment.
+
+
+
+
+
+
+
+
+opencode -s ses_e49a3befdffela4QCTT8IPcYCU
