@@ -33,7 +33,7 @@ export default function OpenGraphImage() {
             display: "flex",
           }}
         />
-        <div style={{ display: "flex", alignItems: "center", gap: 18, zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <div
             style={{
               width: 66,
@@ -57,7 +57,7 @@ export default function OpenGraphImage() {
           <div style={{ color: "#176B65", fontSize: 18, fontWeight: 700, letterSpacing: 5 }}>
             SOFTWARE · AI AUTOMATION · AI SEARCH VISIBILITY
           </div>
-          <div style={{ fontSize: 68, lineHeight: 1.08, fontWeight: 800, letterSpacing: -2 }}>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 68, lineHeight: 1.08, fontWeight: 800, letterSpacing: -2 }}>
             Build with purpose.
             <br />
             Engineer for what&apos;s next.
@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
             Digital products and intelligent systems built around real business problems.
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ fontSize: 17, color: "#5D666C", letterSpacing: 2 }}>VELNARO.AGENCY</div>
           <div style={{ width: 150, height: 4, borderRadius: 2, background: "#176B65", display: "flex" }} />
         </div>
