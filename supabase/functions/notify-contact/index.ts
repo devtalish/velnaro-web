@@ -177,7 +177,7 @@ async function persistResult(
 }
 
 async function finishNotification(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<any, "public", "public", any, any>,
   id: string,
   completed: boolean,
 ): Promise<void> {
