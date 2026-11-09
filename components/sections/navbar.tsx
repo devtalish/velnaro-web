@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FC, useEffect } from "react";
+import { useState, type FC, useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { HireMeButton } from "@/components/navbar/hire-me-button";
@@ -16,12 +16,16 @@ export const Navbar: FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const scrolled = useScrolled(NAV_SCROLLED_AT);
   const active = useActiveSection();
+  const servicesLinkRef = useRef<HTMLAnchorElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsDropdownOpen(false);
+      if (event.key === "Escape" && isDropdownOpen) {
+        setIsDropdownOpen(false);
+        servicesLinkRef.current?.focus();
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -53,6 +57,7 @@ export const Navbar: FC = () => {
                   }}
                 >
                   <NavLink
+                    ref={item.label === "Services" ? servicesLinkRef : undefined}
                     href={isHomePage ? item.href : `/${item.href}`}
                     label={item.label}
                     active={isHomePage && active === item.href}
