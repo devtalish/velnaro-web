@@ -14,8 +14,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 ```
 
-Both are optional. With neither set, the site runs normally and `/admin`
-shows a short setup panel instead of failing.
+The public browser values may be omitted for a frontend-only preview. The contact
+form requires all three values; without them it returns a clear unavailable
+response and does not accept submissions.
 
 ---
 
@@ -72,18 +73,14 @@ It creates:
 
 The migration file does **not** create an admin for you — hardcoding credentials
 in a SQL file that lives in a public repository would be a security hole.
-Create the account yourself, after running the file, in the SQL editor:
+Create the account through Supabase Dashboard → Authentication → Users → Add user. Then grant access in the SQL editor:
 
 ```sql
-select public.create_admin_user('your@email.com', 'a-long-unique-password');
+select public.grant_admin('your@email.com');
 ```
 
-Use your own email and a long password. This repository is public, so there are
-no known credentials anyone could use. `create_admin_user` writes to
-`auth.users` and `auth.identities` directly, which
-is a shortcut worth knowing about, because those tables belong to Supabase's auth
-service and their shape can change between releases. The Dashboard route is the
-more durable one for accounts you add later.
+Use your own email and a strong unique password. Creating users through the
+Dashboard avoids coupling setup to Supabase's internal Auth table schema.
 
 ### 3. Connect the app
 
@@ -95,8 +92,10 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...\nSUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
 ```
 
-The anon key is **not** a secret. It identifies the project; RLS decides what it
-can reach. Shipping it to browsers is the intended design.
+The anon key is **not** a secret. The service-role key is highly privileged and
+must remain server-only: never add a `NEXT_PUBLIC_` prefix or commit its value.
+RLS restricts browser reads/deletes; public contact inserts are denied at the
+table-grant level and the server API performs validation and rate limiting.
 
 ### 4. Turn off public signup
 
@@ -167,8 +166,9 @@ the only email templates in this project:
 | **The visitor** | A short acknowledgement: their message arrived, you read them yourself, expect a reply within a business day. Includes a copy of what they wrote. |
 | **You** | The lead (name, email, budget, message, timestamp) with `Reply-To` set to the visitor, so replying answers them. |
 
-The acknowledgement is sent first, and its failure is caught separately. A typo
-in the visitor's address must not stop the lead reaching you.
+The acknowledgement and owner notification are attempted independently. The
+admin inbox displays their outcomes separately so an acknowledgement failure
+does not hide a successful lead notification.
 
 Set `OWNER_NAME` and `SITE_URL` alongside the SMTP secrets so the
 acknowledgement signs off with the agency name and links back to the site.
@@ -204,7 +204,7 @@ reasons this moved to Supabase Auth.)
 
 **A lead never emailed.** Check `/admin` first. The row is written by the app and
 the email is sent by the Edge Function afterwards, so an enquiry present in the
-list with a "owner notification or visitor acknowledgement failed" warning is an SMTP problem,
+list with an owner notification or visitor acknowledgement warning is an SMTP problem,
 not a form problem. `supabase functions logs notify-contact` has the detail.
 
 ---
