@@ -72,7 +72,7 @@ export default function PrivacyPolicy(): React.ReactElement {
           Our contact form API also collects the following technical data on each submission:
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">IP address, obtained from the hosting platform's client-IP header or a trusted reverse-proxy header</li>
+          <li className="mb-2">IP address, obtained from the hosting platform&apos;s client-IP header or a trusted reverse-proxy header</li>
           <li className="mb-2">User agent string</li>
           <li className="mb-2">Timestamp of submission</li>
           <li className="mb-2">Form source identifier</li>
