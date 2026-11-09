@@ -48,7 +48,7 @@ const detailRow = (label: string, value: string): string => `
   </tr>`;
 
 const safeHeader = (value: string): string =>
-  value.replace(/[\\r\\n\\u0000-\\u001f\\u007f]/g, " ").trim().slice(0, 120);
+  value.replace(/\r/g, " ").replace(/\n/g, " ").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 120);
 
 export const buildReplySubject = (ownerName: string): string =>
   `Thanks for reaching out to ${safeHeader(ownerName)}`;
