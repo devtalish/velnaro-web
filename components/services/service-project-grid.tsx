@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 type ServiceProject = {
@@ -22,11 +23,13 @@ const ServiceProjectCard: FC<{ project: ServiceProject }> = ({ project }) => {
   const content = (
     <>
       <div className="relative aspect-[16/10] overflow-hidden">
-        <img
+                <Image
           src={project.image || "/placeholder-project.svg"}
           alt={project.title}
-          className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          unoptimized
+          className="object-cover transition-transform group-hover:scale-105"
         />
       </div>
       <div className="space-y-3 p-5">
