@@ -2,6 +2,7 @@
 
 import { useRef, type FC } from "react";
 import { motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import Link from "next/link";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { VelnaroLogoWithWordmark } from "@/components/ui/velnaro-logo";
 
@@ -102,15 +103,15 @@ export const Footer: FC = () => {
 
         <div className="flex flex-col md:items-end gap-4">
           <nav className="flex flex-wrap justify-end gap-6 text-sm text-muted">
-            <a href="/#home" className="hover:text-graphite transition-colors">Home</a>
-            <a href="/#services" className="hover:text-graphite transition-colors">Services</a>
-            <a href="/#work" className="hover:text-graphite transition-colors">Work</a>
-            <a href="/#process" className="hover:text-graphite transition-colors">Process</a>
-            <a href="/#contact" className="hover:text-graphite transition-colors">Contact</a>
-            <a href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</a>
-            <a href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</a>
-            <a href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</a>
-            <a href="/disclaimer" className="hover:text-graphite transition-colors">Disclaimer</a>
+            <Link href="/#home" className="hover:text-graphite transition-colors">Home</Link>
+            <Link href="/#services" className="hover:text-graphite transition-colors">Services</Link>
+            <Link href="/#work" className="hover:text-graphite transition-colors">Work</Link>
+            <Link href="/#process" className="hover:text-graphite transition-colors">Process</Link>
+            <Link href="/#contact" className="hover:text-graphite transition-colors">Contact</Link>
+            <Link href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</Link>
+            <Link href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</Link>
+            <Link href="/disclaimer" className="hover:text-graphite transition-colors">Disclaimer</Link>
           </nav>
           <div className="flex gap-3 text-sm text-muted">
             <span>© {new Date().getFullYear()} VELNARO</span>
