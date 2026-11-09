@@ -66,7 +66,7 @@ export const Navbar: FC = () => {
                     >
                       <ul className="flex flex-col gap-1">
                         {item.dropdown?.map((subItem) => (
-                          <li key={subItem.link} role="none">
+                          <li key={subItem.link}>
                             <NavLink
                               href={subItem.link}
                               label={subItem.label}
