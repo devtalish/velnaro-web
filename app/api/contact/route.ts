@@ -12,6 +12,11 @@ const errorResponse = (error: string, status: number) =>
   NextResponse.json({ error }, { status });
 
 export async function POST(req: Request) {
+  const contentType = req.headers.get("content-type")?.split(";")[0].trim().toLowerCase();
+  if (contentType !== "application/json") {
+    return errorResponse("Content-Type must be application/json.", 415);
+  }
+
   const declaredLength = Number(req.headers.get("content-length") ?? 0);
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
     return errorResponse("Request body is too large.", 413);
@@ -19,11 +24,27 @@ export async function POST(req: Request) {
 
   let raw: unknown;
   try {
-    const bodyText = await req.text();
-    if (new TextEncoder().encode(bodyText).byteLength > MAX_BODY_BYTES) {
-      return errorResponse("Request body is too large.", 413);
+    const reader = req.body?.getReader();
+    if (!reader) return errorResponse("Request body is required.", 400);
+    const chunks: Uint8Array[] = [];
+    let totalBytes = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_BODY_BYTES) {
+        await reader.cancel();
+        return errorResponse("Request body is too large.", 413);
+      }
+      chunks.push(value);
     }
-    raw = JSON.parse(bodyText);
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    raw = JSON.parse(new TextDecoder().decode(bytes));
   } catch {
     return errorResponse("Invalid JSON.", 400);
   }
