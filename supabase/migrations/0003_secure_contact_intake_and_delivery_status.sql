@@ -1,6 +1,7 @@
 -- Server-only contact intake and atomic abuse throttling.
 -- The public anon key must never be able to create rows or alter internal
 -- delivery metadata directly. All inserts go through the validated API route.
+revoke insert (name, email, budget, message, source, user_agent, ip_address) on table public.contact_submissions from anon, authenticated;
 revoke insert on table public.contact_submissions from anon, authenticated;
 revoke all on table public.contact_submissions from anon, authenticated;
 grant select, delete on table public.contact_submissions to authenticated;
