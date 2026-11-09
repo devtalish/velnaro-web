@@ -20,7 +20,7 @@ export const DiscoveryComparison: FC<DiscoveryComparisonProps> = ({
   <section className="mb-20">
     <div className="grid lg:grid-cols-2 gap-16 items-center">
       <div>
-        <p className="text-eyebrow uppercase tracking-wider mb-3">AI SEARCH VISIBILITY</p>
+        <p className="text-eyebrow uppercase tracking-wider mb-3">{traditionalTitle.toUpperCase()}</p>
         <h2 className="text-heading mb-5">{title}</h2>
         <div className="space-y-4 text-sm text-muted">
           {traditionalItems.map((item, i) => (
