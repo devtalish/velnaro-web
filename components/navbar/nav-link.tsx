@@ -13,6 +13,7 @@ export interface NavLinkExtendedProps extends NavLinkProps {
   ariaExpanded?: boolean;
   ariaHaspopup?: boolean;
   ariaControls?: string;
+  innerRef?: Ref<HTMLAnchorElement>;
 }
 
 export const NavLink = forwardRef<HTMLAnchorElement, NavLinkExtendedProps>(
@@ -28,6 +29,7 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkExtendedProps>(
       ariaExpanded,
       ariaHaspopup,
       ariaControls,
+      innerRef,
     },
     ref
   ) => {
