@@ -65,8 +65,7 @@ export default function CookiePolicy(): React.ReactElement {
           When an administrator signs in to the private admin area, Supabase Auth may set first-party authentication cookies to maintain and refresh that session. These cookies are essential to admin security and may persist until they expire or are cleared; they are not necessarily deleted when the browser closes. They are not used for advertising or cross-site tracking.
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">Session identifiers to maintain user state during a single browsing session</li>
-          <li className="mb-2">Security tokens to prevent cross-site request forgery</li>
+          <li className="mb-2">Supabase Auth session and refresh-token cookies used only for administrator sign-in</li>
         </ul>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Third-Party Cookies</h2>
