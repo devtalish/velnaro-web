@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createServiceClient, isServiceSupabaseConfigured } from "@/lib/supabase/admin";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
@@ -86,7 +87,10 @@ export async function POST(req: Request) {
     || "unknown";
   const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 500) || null;
 
-  const { data: allowed, error: rateError } = await supabase.rpc("consume_contact_rate_limit", { p_ip: ip });
+  const rateLimitSecret = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!rateLimitSecret) return errorResponse("The contact form is temporarily unavailable.", 503);
+  const ipHash = createHmac("sha256", rateLimitSecret).update(ip).digest("hex");
+  const { data: allowed, error: rateError } = await supabase.rpc("consume_contact_rate_limit", { p_ip_hash: ipHash });
   if (rateError) {
     console.error("Contact rate-limit check failed:", rateError.message);
     return errorResponse("The contact form is temporarily unavailable. Please try again shortly.", 503);
@@ -101,7 +105,8 @@ export async function POST(req: Request) {
   const { error: insertError } = await supabase.from("contact_submissions").insert({
     name, email, budget: budget || null, message,
     source: "website-contact-form", user_agent: userAgent,
-    ip_address: ip === "unknown" ? null : ip,
+    // Raw IPs are not retained; the keyed fingerprint is stored in the rate-limit table.
+    ip_address: null,
   });
 
   if (insertError) {
