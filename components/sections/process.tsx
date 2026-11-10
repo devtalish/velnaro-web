@@ -310,10 +310,10 @@ export const Process = () => {
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const markerTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
-  const [progressValue, setProgressValue] = useState(0);
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
   useMotionValueEvent(smoothProgress, "change", (latest) => {
-    const stepProgress = Math.min(1, Math.floor(latest * STEPS.length) / STEPS.length);
-    setProgressValue((previous) => previous === stepProgress ? previous : stepProgress);
+    const nextIndex = Math.min(STEPS.length - 1, Math.max(0, Math.round(latest * (STEPS.length - 1))));
+    setActiveStepIndex((previous) => previous === nextIndex ? previous : nextIndex);
   });
 
   const stepCount = STEPS.length;
@@ -354,10 +354,8 @@ export const Process = () => {
               {/* Step nodes */}
               <div className="absolute left-0 top-0 -translate-x-1/2 h-full pointer-events-none">
                 {STEPS.map((step, index) => {
-                  const cardProgressStart = index / (stepCount - 1);
-                  const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
-                  const isCompleted = progressValue >= cardProgressEnd;
+                  const isActive = index === activeStepIndex;
+                  const isCompleted = index < activeStepIndex;
                   
                   return (
                     <StepNode
