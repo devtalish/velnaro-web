@@ -207,7 +207,7 @@ const JourneyMarker = ({
 
   return (
     <motion.div
-      className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
+      className="absolute left-0 top-0 -translate-y-1/2 pointer-events-none z-20"
       style={{
         transformOrigin: "center center",
         top: markerTop,
