@@ -26,7 +26,7 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => {
         id="mobile-navigation"
         className="block overflow-hidden border-t border-slate/10 bg-ivory/95 text-center backdrop-blur-xl sm:hidden"
       >
-        <nav className="py-5">
+        <nav className="py-5" aria-label="Mobile navigation">
           <ul className="nav-ul">
             {NAV_ITEMS.map((item) => (
               <li key={item.href} className="flex flex-col items-center gap-3">
