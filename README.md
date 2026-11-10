@@ -31,7 +31,8 @@ Copy `.env.example` to `.env`. The frontend can run without configuration, but t
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console verification token. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public by design; RLS enforces browser access). |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key required by the contact API. Never prefix with `NEXT_PUBLIC_` or commit it. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key required by the contact API and admin inbox operations. Never prefix with `NEXT_PUBLIC_` or commit it. |
+| `NOTIFY_WEBHOOK_SECRET` | Server-only copy of the Edge Function webhook secret, used by admins to retry failed email notifications. Never expose it to the browser. |
 
 The contact API uses the service-role key only in a `server-only` module to validate, rate-limit and insert submissions. Admin access uses Supabase Auth plus the `admin_users` allowlist. Notification email is sent by a Supabase Edge Function using SMTP secrets stored in Supabase.
 
