@@ -147,7 +147,7 @@ supabase secrets set \
   NOTIFY_WEBHOOK_SECRET="PASTE_THE_GENERATED_VALUE_HERE"
 ```
 
-Use the exact same generated value in the `x-webhook-secret` HTTP header when configuring the database webhook. Do not generate a second value for the header.
+Use the exact same generated value in three places: the Supabase Edge Function secret, the database webhook's `x-webhook-secret` header, and Vercel's server-only `NOTIFY_WEBHOOK_SECRET` environment variable. Do not generate a second value for either copy. Redeploy Vercel after adding or changing the environment variable.
 
 ### Wire up the webhook
 
