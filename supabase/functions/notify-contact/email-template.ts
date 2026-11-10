@@ -79,7 +79,7 @@ export const buildReplyHtml = (
     `
         <tr><td align="center" style="padding:34px 30px 0;">
           <div style="width:46px;height:46px;line-height:46px;border-radius:12px;background:#176B65;color:#ffffff;font-size:20px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">${escapeHtml(ownerName.charAt(0).toUpperCase())}</div>
-          <h1 style="margin:20px 0 0;color:#ffffff;font-size:22px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">Got it, ${escapeHtml(firstName(s.name))}</h1>
+          <h1 style="margin:20px 0 0;color:#171B1F;font-size:22px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">Got it, ${escapeHtml(firstName(s.name))}</h1>
         </td></tr>
 
         <tr><td style="padding:14px 30px 0;">
@@ -139,7 +139,7 @@ export const buildAlertHtml = (s: Submission, adminUrl?: string): string =>
     `
         <tr><td style="padding:28px 28px 0;">
           <div style="display:inline-block;padding:5px 12px;border-radius:999px;background:#D9E7E2;color:#176B65;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;">New enquiry</div>
-          <h1 style="margin:16px 0 0;color:#ffffff;font-size:22px;font-family:Arial,Helvetica,sans-serif;font-weight:bold;">${escapeHtml(s.name)} got in touch</h1>
+          <h1 style="margin:16px 0 0;color:#171B1F;font-size:22px;font-family:Arial,Helvetica,sans-serif;font-weight:bold;">${escapeHtml(s.name)} got in touch</h1>
         </td></tr>
 
         <tr><td style="padding:20px 28px 0;">
