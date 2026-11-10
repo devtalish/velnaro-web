@@ -80,11 +80,18 @@ export const retryContactNotificationAction = async (
       }),
     });
 
+    const result = await response.json().catch(() => ({})) as { duplicate?: boolean; skipped?: boolean };
     revalidatePath("/admin");
     if (!response.ok) {
       return {
         ok: false,
         error: "One or more emails could not be delivered. Check the delivery status and SMTP configuration.",
+      };
+    }
+    if (result.duplicate || result.skipped) {
+      return {
+        ok: false,
+        error: "A notification retry is already running or has already completed. Refresh the inbox in a moment.",
       };
     }
     return { ok: true };
