@@ -55,9 +55,14 @@ export async function POST(req: Request) {
   }
 
   const input = raw as Record<string, unknown>;
-  const keys = ["name", "email", "budget", "message"] as const;
+  const keys = ["name", "email", "budget", "message", "website"] as const;
   if (keys.some((key) => input[key] !== undefined && typeof input[key] !== "string")) {
     return errorResponse("All contact fields must be text.", 400);
+  }
+
+  // Quietly accept honeypot submissions without storing or notifying anyone.
+  if (typeof input.website === "string" && input.website.trim()) {
+    return NextResponse.json({ ok: true }, { status: 200 });
   }
 
   const name = (input.name as string | undefined)?.trim() ?? "";
