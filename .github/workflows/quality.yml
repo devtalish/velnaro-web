@@ -45,5 +45,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - name: Test notification email templates
+        run: deno test --frozen supabase/functions/notify-contact/email-template_test.ts
       - name: Type-check notification function
         run: deno check --frozen supabase/functions/notify-contact/index.ts
