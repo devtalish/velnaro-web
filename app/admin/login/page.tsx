@@ -38,7 +38,7 @@ const AdminLoginPage: FC = async () => {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-deep-teal to-slate text-lg font-black text-white">
-            {HERO_NAME}
+            VN
           </span>
           <h1 className="mt-4 text-2xl font-bold tracking-tight text-graphite">
             Admin sign in
