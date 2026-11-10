@@ -96,7 +96,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Service Providers</h2>
         <p className="mb-4">
-          We use Vercel to host the website and Supabase to store contact submissions and manage admin authentication. A configured SMTP/email delivery provider processes the messages needed to send the visitor acknowledgement and notify VELNARO. These providers may process information on infrastructure outside your country of residence; their locations and terms depend on the accounts configured by VELNARO.
+          We use Vercel to host the website and Supabase to store contact submissions and manage admin authentication. A configured SMTP/email delivery provider processes the messages needed to send the visitor acknowledgement and notify VELNARO. These providers may process information on infrastructure outside your country of residence; their locations and terms depend on the accounts configured by VELNARO. When a live project preview is embedded, your browser loads that third-party website directly. Its provider may receive connection and browser information, set its own cookies, and process data under its own privacy policy.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Sharing</h2>
