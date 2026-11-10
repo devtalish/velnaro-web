@@ -17,19 +17,24 @@ export const Navbar: FC = () => {
   const scrolled = useScrolled(NAV_SCROLLED_AT);
   const active = useActiveSection();
   const servicesLinkRef = useRef<HTMLAnchorElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isDropdownOpen) {
+      if (event.key !== "Escape") return;
+      if (isOpen) {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      } else if (isDropdownOpen) {
         setIsDropdownOpen(false);
         servicesLinkRef.current?.focus();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, isOpen]);
 
   return (
     <header
@@ -49,7 +54,11 @@ export const Navbar: FC = () => {
                   key={item.label}
                   className="relative"
                   onMouseEnter={() => item.label === "Services" && setIsDropdownOpen(true)}
-                  onMouseLeave={() => item.label === "Services" && setIsDropdownOpen(false)}
+                  onMouseLeave={(event) => {
+                    if (item.label === "Services" && !event.currentTarget.contains(document.activeElement)) {
+                      setIsDropdownOpen(false);
+                    }
+                  }}
                   onBlur={(event) => {
                     if (item.label === "Services" && !event.currentTarget.contains(event.relatedTarget as Node | null)) {
                       setIsDropdownOpen(false);
@@ -91,6 +100,7 @@ export const Navbar: FC = () => {
           </nav>
           <div className="hidden items-center sm:flex"><HireMeButton /></div>
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((open) => !open)}
             className="flex cursor-pointer text-graphite hover:text-deep-teal sm:hidden"
