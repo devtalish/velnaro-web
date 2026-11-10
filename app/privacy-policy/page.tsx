@@ -69,11 +69,11 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h3 className="text-xl font-medium text-graphite mb-4">Automatically Collected Data</h3>
         <p className="mb-4">
-          Our contact form API also collects the following technical data on each submission:
+          The contact form processes limited technical information to protect the form and keep an accurate submission record:
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">IP address, obtained from the hosting platform&apos;s client-IP header or a trusted reverse-proxy header</li>
-          <li className="mb-2">User agent string</li>
+          <li className="mb-2">A keyed, one-way connection fingerprint derived from the client IP and used only for rate limiting; the raw IP address is not stored in contact records</li>
+          <li className="mb-2">User agent string, truncated to 500 characters</li>
           <li className="mb-2">Timestamp of submission</li>
           <li className="mb-2">Form source identifier</li>
         </ul>
@@ -91,7 +91,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies and Tracking</h2>
         <p className="mb-4">
-          We do not currently deploy analytics scripts, advertising pixels, or cross-site behavioural tracking. Contact-form submissions include technical metadata described above. The private admin area uses essential Supabase authentication cookies for sign-in and session maintenance.
+          We do not currently deploy analytics scripts, advertising pixels, or cross-site behavioural tracking. The rate-limit fingerprint is held separately from contact records and inactive fingerprints are eligible for automatic cleanup after one day. Contact records include the user agent, submission timestamp and form source. The private admin area uses essential Supabase authentication cookies for sign-in and session maintenance.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Service Providers</h2>
