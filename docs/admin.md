@@ -92,6 +92,7 @@ Project Settings → API. Copy the **Project URL** and the **anon** key into
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
+NOTIFY_WEBHOOK_SECRET=the-same-secret-configured-in-supabase
 ```
 
 The anon key is **not** a secret. The service-role key is highly privileged and
