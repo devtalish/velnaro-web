@@ -61,11 +61,6 @@ const STEPS: Step[] = [
   },
 ];
 
-const getInitialReducedMotion = () => {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-};
-
 const AirplaneIcon = ({ className = "" }: { className?: string }) => (
   <svg
     className={className}
@@ -109,7 +104,7 @@ const ProcessCard = ({
     <motion.div {...entranceStyle} className="relative">
       <div style={{ perspective: "1400px" }} className="relative">
         <div
-          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 duration-200"
+          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/10 via-pale-sage/30 to-deep-teal/10" />
 
@@ -218,7 +213,7 @@ const JourneyMarker = ({
           }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
-        <div className="relative flex flex-col items-center filter drop-shadow-[0_4_12px_rgba(23,107,101,0.4)]">
+        <div className="relative flex flex-col items-center filter drop-shadow-[0_4px_12px_rgba(23,107,101,0.4)]">
           <AirplaneIcon className="w-8 h-8 text-deep-teal" />
         </div>
       </div>
@@ -245,7 +240,7 @@ const StepNode = ({
     ? "var(--color-deep-teal)"
     : isCompleted
     ? "var(--color-deep-teal)"
-    : "var(--color-slate)/30";
+    : "color-mix(in srgb, var(--color-slate) 30%, transparent)";
     
   const fillColor = isCompleted
     ? "var(--color-deep-teal)"
@@ -287,10 +282,11 @@ const StepNode = ({
 export const Process = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(getInitialReducedMotion);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
