@@ -379,10 +379,8 @@ export const Process = () => {
               {/* Cards stack vertically */}
               <div className="relative z-10 space-y-8 lg:space-y-10 pl-4">
                 {STEPS.map((step, index) => {
-                  const cardProgressStart = index / (stepCount - 1);
-                  const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
-                  const isCompleted = progressValue >= cardProgressEnd;
+                  const isActive = index === activeStepIndex;
+                  const isCompleted = index < activeStepIndex;
 
                   return (
                     <div key={step.number}>
