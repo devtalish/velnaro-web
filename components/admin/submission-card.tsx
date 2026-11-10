@@ -29,7 +29,7 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => (
     <details className="mt-4">
       <summary className="cursor-pointer list-none text-xs uppercase tracking-[0.2em] text-muted hover:text-graphite">Metadata</summary>
       <dl className="mt-3 grid gap-2 text-xs text-slate sm:grid-cols-[7rem_1fr]">
-        <dt className="text-muted">IP address</dt><dd className="break-all">{row.ip_address ?? "N/A"}</dd>
+        <dt className="text-muted">Network address</dt><dd>Not retained; a keyed fingerprint is used for rate limiting.</dd>
         <dt className="text-muted">User agent</dt><dd className="break-all">{row.user_agent ?? "N/A"}</dd>
         <dt className="text-muted">Submission ID</dt><dd className="break-all font-mono">{row.id}</dd>
       </dl>
