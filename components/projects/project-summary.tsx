@@ -46,16 +46,18 @@ export const ProjectSummary: FC<ProjectSummaryProps> = ({
         {project.description}
       </motion.p>
 
-      <motion.div {...reveal(0.2)} className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag.id}
-            className="rounded-full border border-slate/20 bg-white px-3 py-1 text-xs text-muted"
-          >
-            {tag.name}
-          </span>
-        ))}
-      </motion.div>
+      {project.tags.length > 0 && (
+        <motion.div {...reveal(0.2)} className="mt-6 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span
+              key={tag.id}
+              className="rounded-full border border-slate/20 bg-white px-3 py-1 text-xs text-muted"
+            >
+              {tag.name}
+            </span>
+          ))}
+        </motion.div>
+      )}
 
       <motion.div {...reveal(0.3)} className="mt-7 flex flex-wrap gap-3">
         {!comingSoon && project.href && (
