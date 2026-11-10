@@ -32,7 +32,7 @@ Two questions, kept deliberately separate:
 Conflating them is the mistake this design exists to avoid. If "signed in"
 implied "admin", then anyone who ever obtained an account on the project (a
 signup you left open, an invite meant for something else, an OAuth provider you
-enable next year) could read every visitor's name, email address and IP.
+enable next year) could read every visitor's name and email address.
 
 `admin_users` has no insert, update or delete policy. **Nothing the application
 can be tricked into doing will add an admin.** Promotion happens in the SQL
@@ -125,7 +125,10 @@ INSERT on contact_submissions
 
 ### Deploy it
 
+Link the Supabase CLI to the correct project first. The project reference is the subdomain in your Supabase project URL:
+
 ```bash
+supabase link --project-ref YOUR_SUPABASE_PROJECT_REF
 supabase functions deploy notify-contact
 
 # Generate a secret and copy the printed value into your password manager.
