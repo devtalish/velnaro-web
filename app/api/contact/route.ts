@@ -56,6 +56,9 @@ export async function POST(req: Request) {
 
   const input = raw as Record<string, unknown>;
   const keys = ["name", "email", "budget", "message", "website"] as const;
+  if (Object.keys(input).some((key) => !keys.includes(key as (typeof keys)[number]))) {
+    return errorResponse("Unexpected contact form field.", 400);
+  }
   if (keys.some((key) => input[key] !== undefined && typeof input[key] !== "string")) {
     return errorResponse("All contact fields must be text.", 400);
   }
