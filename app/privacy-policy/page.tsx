@@ -91,7 +91,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies and Tracking</h2>
         <p className="mb-4">
-          We do not currently deploy analytics scripts, advertising pixels, or cross-site behavioural tracking. The rate-limit fingerprint is held separately from contact records and inactive fingerprints are eligible for automatic cleanup after one day. Contact records include the user agent, submission timestamp and form source. The private admin area uses essential Supabase authentication cookies for sign-in and session maintenance.
+          We do not currently deploy analytics scripts, advertising pixels, or cross-site behavioural tracking. The rate-limit fingerprint is held separately from contact records. On a later contact-form request, the rate limiter removes fingerprints that have been inactive for more than one day. Contact records include the user agent, submission timestamp and form source. The private admin area uses essential Supabase authentication cookies for sign-in and session maintenance.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Service Providers</h2>
