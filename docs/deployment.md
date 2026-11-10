@@ -30,7 +30,7 @@ environment variables at all.
 
 > Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the
 > server-only `SUPABASE_SERVICE_ROLE_KEY` and `NOTIFY_WEBHOOK_SECRET` to Vercel. Never prefix the service-role
-> key with `NEXT_PUBLIC_` or commit its value. The contact route requires the service-role key. The admin email-retry control also requires the matching webhook secret.
+ > Neither secret may use a `NEXT_PUBLIC_` prefix or be committed. The contact route requires the service-role key; the admin email-retry control also requires the matching webhook secret.
 
 ## 2. The lead notification email
 
@@ -128,7 +128,7 @@ transport to worry about either.
 - [ ] All SQL migrations (0001, 0002, 0003) run in order
 - [ ] `select email from public.admin_users;` returns **your** address (no hardcoded defaults)
 - [ ] Public signup disabled in Authentication → Providers → Email
-- [ ] Both `NEXT_PUBLIC_` values and server-only `SUPABASE_SERVICE_ROLE_KEY` set in Vercel
+- [ ] Supabase URL, anon key, server-only service-role key and matching server-only `NOTIFY_WEBHOOK_SECRET` set in Vercel
 - [ ] Edge Function deployed and its secrets set
 - [ ] Webhook created, with the `x-webhook-secret` header
 - [ ] Custom SMTP configured under Authentication → SMTP Settings
