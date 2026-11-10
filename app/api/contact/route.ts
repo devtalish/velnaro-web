@@ -83,8 +83,8 @@ export async function POST(req: Request) {
   // Prefer the platform-provided client IP. The app is intended for Vercel;
   // x-forwarded-for is a fallback for deployments behind a trusted proxy.
   const ip = req.headers.get("x-real-ip")?.trim()
-    || req.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim()
-    || "unknown";
+    || req.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim();
+  if (!ip) return errorResponse("We could not verify this connection. Please try again.", 503);
   const userAgent = (req.headers.get("user-agent") ?? "").slice(0, 500) || null;
 
   const rateLimitSecret = process.env.SUPABASE_SERVICE_ROLE_KEY;
