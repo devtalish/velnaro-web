@@ -12,7 +12,7 @@ export const SetupNotice: FC<SetupNoticeProps> = ({ variant = "no-project" }) =>
       <>
         <p className="text-muted">The Supabase project is connected, but it has no <code className="text-graphite">admin_users</code> table, so there is no way to say who is allowed in here.</p>
         <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
-          <li>Run <code className="text-graphite">supabase/migrations/0001_init.sql</code> and then <code className="text-graphite">0002_restrict_public_submission_columns.sql and 0003_secure_contact_intake_and_delivery_status.sql</code> in the SQL editor.</li>
+          <li>Run <code className="text-graphite">supabase/migrations/0001_init.sql</code> and then <code className="text-graphite">0002_restrict_public_submission_columns.sql, 0003_secure_contact_intake_and_delivery_status.sql and 0004_keyed_contact_rate_limit_fingerprint.sql</code> in the SQL editor.</li>
           <li>Create the user in Supabase Authentication → Users, then grant access with <code className="text-graphite">select public.grant_admin(&apos;you@your.email&apos;);</code>.</li>
         </ol>
       </>
