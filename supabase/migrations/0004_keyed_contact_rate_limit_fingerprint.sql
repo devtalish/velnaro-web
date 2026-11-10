@@ -6,6 +6,9 @@ truncate table public.contact_rate_limits;
 
 drop function if exists public.consume_contact_rate_limit(text);
 
+create index if not exists contact_rate_limits_window_started_at_idx
+  on public.contact_rate_limits (window_started_at);
+
 create function public.consume_contact_rate_limit(p_ip_hash text)
 returns boolean
 language plpgsql
@@ -34,10 +37,8 @@ begin
         end
   returning request_count into v_count;
 
-  if random() < 0.01 then
-    delete from public.contact_rate_limits
-    where window_started_at < now() - interval '1 day';
-  end if;
+  delete from public.contact_rate_limits
+  where window_started_at < now() - interval '1 day';
 
   return v_count <= 5;
 end;
