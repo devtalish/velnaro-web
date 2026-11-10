@@ -13,7 +13,7 @@ environment variables at all.
 ## 1. Supabase
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. Run all SQL migrations in `supabase/migrations/` in numerical order.
+2. Run migrations `0001` through `0004` in numerical order. Migration `0004` switches to a keyed rate-limit fingerprint and clears legacy raw IP values.
 3. Create your admin in Supabase Dashboard → Authentication → Users → Add user,
    then grant admin access in the SQL editor:
 
@@ -40,6 +40,10 @@ SMTP credential appears in your host's environment.
 ```bash
 supabase functions deploy notify-contact
 
+# Generate a secret and copy the printed value into your password manager.
+openssl rand -hex 32
+
+# Paste that exact generated value below, and into the webhook header.
 supabase secrets set \
   SMTP_HOST=smtp.example.com \
   SMTP_PORT=465 \
@@ -48,7 +52,7 @@ supabase secrets set \
   CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
   OWNER_NAME="VELNARO" \
   SITE_URL=https://velnaro.agency \
-  NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
+  NOTIFY_WEBHOOK_SECRET="PASTE_THE_GENERATED_VALUE_HERE"
 ```
 
 Then Dashboard → **Database → Webhooks → Create a new hook**:
@@ -59,7 +63,7 @@ Then Dashboard → **Database → Webhooks → Create a new hook**:
 | Events | `Insert` only |
 | Type | Supabase Edge Functions |
 | Edge Function | `notify-contact` |
-| HTTP Headers | `x-webhook-secret: <the value you generated>` |
+| HTTP Headers | `x-webhook-secret: <paste the exact generated value>` |
 
 That header is the only thing standing between the function and anyone who
 learns its URL. The function refuses to run at all if the secret is missing —
@@ -80,9 +84,7 @@ this project ships no templates for them.
 1. Push the repo to GitHub.
 2. [vercel.com/new](https://vercel.com/new) → import the repo. The Next.js
    preset is detected; nothing to change.
-3. **Settings → Environment Variables** → add the three values from
-   [`.env.example`](../.env.example), for **Production**, **Preview** and
-   **Development**.
+3. **Settings → Environment Variables** → add the applicable values from [`.env.example`](../.env.example), including the three Supabase variables and `NEXT_PUBLIC_SITE_URL`, for the environments you intend to deploy.
 4. Deploy.
 
 Both are optional: the site deploys and runs without them. You just get the
