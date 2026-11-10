@@ -6,7 +6,7 @@ import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 const MAX_BODY_BYTES = 16_000;
 
 const errorResponse = (error: string, status: number) =>
