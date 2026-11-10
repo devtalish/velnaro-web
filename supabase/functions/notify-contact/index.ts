@@ -26,19 +26,57 @@ Deno.serve(async (req: Request): Promise<Response> => {
   if (!expectedSecret) return json({ error: "Webhook secret not configured" }, 503);
   if (req.headers.get("x-webhook-secret") !== expectedSecret) return json({ error: "Unauthorized" }, 401);
 
-  const raw = await req.text();
-  if (new TextEncoder().encode(raw).byteLength > 64_000) return json({ error: "Payload too large" }, 413);
+  const contentType = req.headers.get("content-type")?.split(";")[0].trim().toLowerCase();
+  if (contentType !== "application/json") return json({ error: "Expected application/json" }, 415);
+
+  let raw = "";
+  try {
+    const reader = req.body?.getReader();
+    if (!reader) return json({ error: "Request body is required" }, 400);
+    const decoder = new TextDecoder();
+    let totalBytes = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > 64_000) {
+        await reader.cancel();
+        return json({ error: "Payload too large" }, 413);
+      }
+      raw += decoder.decode(value, { stream: true });
+    }
+    raw += decoder.decode();
+  } catch {
+    return json({ error: "Could not read request body" }, 400);
+  }
 
   let payload: WebhookPayload;
-  try { payload = JSON.parse(raw) as WebhookPayload; }
-  catch { return json({ error: "Invalid JSON" }, 400); }
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return json({ error: "Invalid webhook payload" }, 400);
+    }
+    payload = parsed as WebhookPayload;
+  } catch {
+    return json({ error: "Invalid JSON" }, 400);
+  }
 
   if (payload?.type !== "INSERT" || payload?.table !== "contact_submissions" || payload?.schema !== "public" || !payload.record) {
     return json({ skipped: true });
   }
 
   const submission = payload.record;
-  if (!submission.id || !submission.email || !submission.name || !submission.message) {
+  const validEmail = typeof submission.email === "string"
+    && submission.email.length <= 200
+    && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(submission.email);
+  if (
+    typeof submission.id !== "string" || !/^[0-9a-f-]{36}$/i.test(submission.id)
+    || typeof submission.name !== "string" || !submission.name.trim() || submission.name.length > 120
+    || !validEmail
+    || typeof submission.message !== "string" || !submission.message.trim() || submission.message.length > 5000
+    || (submission.budget !== null && typeof submission.budget !== "string")
+    || (typeof submission.budget === "string" && submission.budget.length > 100)
+  ) {
     return json({ error: "Invalid submission record" }, 400);
   }
 
