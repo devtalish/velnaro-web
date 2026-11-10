@@ -86,7 +86,9 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({
               showPreview && (
                 <iframe
                   src={project.href}
-                  title={project.title}
+                  title={`${project.title} visual preview`}
+                  aria-hidden="true"
+                  tabIndex={-1}
                   loading="lazy"
                   sandbox="allow-scripts allow-same-origin"
                   referrerPolicy="no-referrer"
