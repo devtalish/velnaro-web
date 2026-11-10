@@ -1,9 +1,13 @@
 import { type FC } from "react";
 import { DeleteButton } from "@/app/admin/delete-button";
+import { RetryNotificationButton } from "@/components/admin/retry-notification-button";
 import { formatDateTime } from "@/helpers/format-helpers";
 import { type SubmissionCardProps } from "@/types/admin-types";
 
-export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => (
+export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => {
+  const canRetryEmail = row.owner_email_sent === false || row.acknowledgement_email_sent === false || (row.owner_email_sent == null && row.email_sent === false);
+
+  return (
   <article className="glass gradient-border p-5 text-graphite">
     <header className="flex flex-wrap items-start justify-between gap-3">
       <div className="min-w-0">
@@ -34,6 +38,10 @@ export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => (
         <dt className="text-muted">Submission ID</dt><dd className="break-all font-mono">{row.id}</dd>
       </dl>
     </details>
-    <footer className="mt-4 flex justify-end border-t border-slate/10 pt-3"><DeleteButton id={row.id} name={row.name} /></footer>
+    <footer className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate/10 pt-3">
+      {canRetryEmail && <RetryNotificationButton id={row.id} />}
+      <DeleteButton id={row.id} name={row.name} />
+    </footer>
   </article>
-);
+  );
+};
