@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies from committed lockfile
         run: npm ci --no-audit --no-fund
       - name: Dependency security audit
-        run: npm audit --audit-level=high
+        run: npm audit
       - name: Lint
         run: npm run lint
       - name: TypeScript
