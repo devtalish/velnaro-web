@@ -29,8 +29,8 @@ environment variables at all.
 5. Project Settings → **API** → copy the **Project URL** and the **anon** key.
 
 > Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the
-> server-only `SUPABASE_SERVICE_ROLE_KEY` to Vercel. Never prefix the service-role
-> key with `NEXT_PUBLIC_` or commit its value. The contact route requires it.
+> server-only `SUPABASE_SERVICE_ROLE_KEY` and `NOTIFY_WEBHOOK_SECRET` to Vercel. Never prefix the service-role
+> key with `NEXT_PUBLIC_` or commit its value. The contact route requires the service-role key. The admin email-retry control also requires the matching webhook secret.
 
 ## 2. The lead notification email
 
