@@ -83,9 +83,7 @@ const AirplaneIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-    <path d="M3.29 7.34 12 12l8.71-4.66" />
-    <path d="M12 22V12" />
+    <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8l-8.2-1.8a1 1 0 0 0-.9 1.7l6.2 3.7-3.6 3.6-2.4-.6a1 1 0 0 0-1.1 1.6l2.7 2.7a1 1 0 0 0 1.6-1.1l-.6-2.4 3.6-3.6 3.7 6.2a1 1 0 0 0 1.7-.9z" />
   </svg>
 );
 
@@ -166,7 +164,7 @@ const JourneyTrack = ({
     return (
       <div
         ref={trackRef}
-        className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-1 bg-gradient-to-b from-deep-teal/30 via-pale-sage/40 to-deep-teal/30"
+        className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-deep-teal/30 via-pale-sage/40 to-deep-teal/30"
         style={{ opacity: 0.4 }}
       />
     );
@@ -175,7 +173,7 @@ const JourneyTrack = ({
   return (
     <div
       ref={trackRef}
-      className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-1 pointer-events-none"
+      className="absolute left-0 top-0 h-full w-1 pointer-events-none"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-deep-teal/20 via-pale-sage/30 to-deep-teal/20" />
       
