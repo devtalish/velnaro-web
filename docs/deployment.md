@@ -34,6 +34,12 @@ environment variables at all.
 
 ## 2. The lead notification email
 
+Link the Supabase CLI to your actual project first. The project reference is the subdomain in your Supabase project URL:
+
+```bash
+supabase link --project-ref YOUR_SUPABASE_PROJECT_REF
+```
+
 The web app cannot send email. A Supabase Edge Function does, which is why no
 SMTP credential appears in your host's environment.
 
