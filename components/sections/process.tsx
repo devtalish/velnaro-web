@@ -1,8 +1,19 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { motion, useMotionValueEvent, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
+
+const subscribeToReducedMotion = (onStoreChange: () => void) => {
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mediaQuery.addEventListener("change", onStoreChange);
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+};
+
+const getReducedMotionSnapshot = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const getReducedMotionServerSnapshot = () => false;
 
 type Step = {
   number: string;
@@ -282,15 +293,11 @@ const StepNode = ({
 export const Process = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+  const reducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
