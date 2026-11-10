@@ -5,10 +5,10 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, audit-fixes-2026-11]
+    branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
@@ -16,31 +16,17 @@ concurrency:
 
 jobs:
   web:
-    needs: edge-function
     name: Install, audit, lint, typecheck and build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - name: Install dependencies from committed lockfile
-        run: npm install --no-audit --no-fund
-      - name: Apply non-breaking dependency security updates
-        run: npm audit fix || npm audit --audit-level=high
-      - name: Commit refreshed lockfile to this PR branch
-        run: |
-          if ! git diff --quiet -- package-lock.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore: refresh package lockfile"
-            git push origin HEAD:${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}
-          fi
+        run: npm ci --no-audit --no-fund
       - name: Dependency security audit
         run: npm audit --audit-level=high
       - name: Lint
@@ -56,21 +42,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
       - name: Type-check notification function
-        run: deno check supabase/functions/notify-contact/index.ts
-      - name: Commit Deno lockfile to this PR branch
-        run: |
-          if [ -f deno.lock ]; then
-            git add deno.lock
-            if ! git diff --cached --quiet -- deno.lock; then
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git commit -m "chore: lock Supabase Edge Function dependencies"
-              git push origin HEAD:${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}
-            fi
-          fi
+        run: deno check --frozen supabase/functions/notify-contact/index.ts
