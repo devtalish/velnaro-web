@@ -68,7 +68,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const submission = payload.record;
   const validEmail = typeof submission.email === "string"
     && submission.email.length <= 200
-    && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(submission.email);
+    && /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i.test(submission.email);
   if (
     typeof submission.id !== "string" || !/^[0-9a-f-]{36}$/i.test(submission.id)
     || typeof submission.name !== "string" || !submission.name.trim() || submission.name.length > 120
