@@ -30,7 +30,7 @@ environment variables at all.
 
 > Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the
 > server-only `SUPABASE_SERVICE_ROLE_KEY` and `NOTIFY_WEBHOOK_SECRET` to Vercel. Never prefix the service-role
- > Neither secret may use a `NEXT_PUBLIC_` prefix or be committed. The contact route requires the service-role key; the admin email-retry control also requires the matching webhook secret.
+> Neither secret may use a `NEXT_PUBLIC_` prefix or be committed. The contact route requires the service-role key; the admin email-retry control also requires the matching webhook secret.
 
 ## 2. The lead notification email
 
