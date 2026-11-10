@@ -55,8 +55,10 @@ editor, on purpose.
 ### 1. Run the SQL
 
 Supabase Dashboard → **SQL Editor**. Run every SQL migration in `supabase/migrations/` in numerical order. This
-creates the schema, restricts public table access, and adds the atomic contact
-rate limiter and separate email delivery fields.
+creates the schema, restricts public table access, adds the atomic contact
+rate limiter and separate email delivery fields, then replaces the temporary
+IP hash with a keyed fingerprint in migration `0004`. Raw IP values are cleared
+from existing contact records by that migration.
 
 It creates:
 
@@ -126,6 +128,10 @@ INSERT on contact_submissions
 ```bash
 supabase functions deploy notify-contact
 
+# Generate a secret and copy the printed value into your password manager.
+openssl rand -hex 32
+
+# Paste that exact generated value below, and into the webhook header.
 supabase secrets set \
   SMTP_HOST=smtp.example.com \
   SMTP_PORT=465 \
@@ -134,10 +140,10 @@ supabase secrets set \
   CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
   OWNER_NAME="VELNARO" \
   SITE_URL=https://velnaro.agency \
-  NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
+  NOTIFY_WEBHOOK_SECRET="PASTE_THE_GENERATED_VALUE_HERE"
 ```
 
-Keep that last value, because the webhook has to send it back.
+Use the exact same generated value in the `x-webhook-secret` HTTP header when configuring the database webhook. Do not generate a second value for the header.
 
 ### Wire up the webhook
 
