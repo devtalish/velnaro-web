@@ -32,7 +32,7 @@ const requireClient = async (): Promise<SupabaseClient> => {
 };
 
 const sanitiseSearch = (raw: string): string =>
-  raw.replace(/[^a-zA-Z0-9@._\- ]/g, "").trim().slice(0, 80);
+  raw.replace(/[^\p{L}\p{N}@._+'\- ]/gu, "").trim().slice(0, 80);
 
 export interface SubmissionPage {
   rows: ContactSubmission[];
