@@ -79,7 +79,7 @@ Then Dashboard → **Database → Webhooks → Create a new hook**:
 
 Use the same generated secret in all three places: the Edge Function secret, the database webhook header and Vercel's `NOTIFY_WEBHOOK_SECRET`. Do not generate separate values. Redeploy Vercel after changing its environment variables.
 
-The function refuses to process requests if the secret is missing or invalid. Any SMTP provider may work if it supports the configured transport. Port 465 is implicit TLS; port 587 normally negotiates STARTTLS. Verify the provider's actual host, port and authentication requirements.
+The function refuses to process requests if the secret is missing or invalid. Supabase Edge Functions block outbound connections to ports 25 and 587, so this function accepts port 465 (implicit TLS) or 2525 (STARTTLS, if your provider supports it). Do not configure port 587 for this function. Verify the provider's actual host, port and authentication requirements. Supabase Auth SMTP is a separate service and may use its provider's documented port.
 
 ## 3. Supabase Auth email delivery
 
