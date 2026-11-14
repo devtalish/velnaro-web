@@ -36,22 +36,22 @@ const AUTOMATION_USE_CASES: UseCase[] = [
     id: 1,
     title: "Lead Capture and Follow-up",
     manualProblem:
-      "Teams manually collect form submissions and spend hours on follow-up emails, often missing leads.",
+      "Teams may collect enquiries manually and coordinate follow-up across separate tools, creating extra handoffs.",
     automatedWorkflow:
-      "Form submission triggers automated capture, AI-powered lead scoring, and assignment to the right sales representative with immediate follow-up email.",
+      "A form submission can trigger structured capture, optional qualification rules or AI-assisted scoring, assignment to the appropriate team member, and a follow-up step.",
     improvement:
-      "Leads are captured and assigned 24/7 without manual data entry, reducing response time from hours to minutes.",
+      "This can help enquiries get captured and routed consistently, with follow-up initiated according to agreed business rules.",
     visualAlt: "Lead capture workflow",
   },
   {
     id: 2,
     title: "Data Processing and Administration",
     manualProblem:
-      "Staff spend days each month entering data into spreadsheets and multiple systems, prone to errors and inconsistencies.",
+      "Teams may need to re-enter information across documents, spreadsheets and business systems, creating avoidable repetition.",
     automatedWorkflow:
-      "Documents are automatically parsed, data is extracted and synchronized across CRM, ERP, and accounting systems without manual entry.",
+      "Documents can be parsed, key information validated, and approved data passed to connected CRM, ERP or accounting systems.",
     improvement:
-      "Data processing completes in hours instead of days, with significantly reduced error rates and no duplicate entries.",
+      "This can reduce repetitive entry and improve consistency, while keeping exception handling and human review where needed.",
     visualAlt: "Data processing workflow",
   },
 ];
@@ -171,7 +171,7 @@ export default function AIAutomation() {
       <WorkflowCanvas
         title="Where automation helps"
         description="
-          Practical business scenarios where automation creates measurable operational improvement.
+          Practical business scenarios where connected workflows can reduce repetitive handoffs and improve process consistency.
         "
         nodes={[
           { id: "1", title: "Lead Capture", description: "Form submissions captured automatically" },
