@@ -147,7 +147,7 @@ export default function AIAutomation() {
           VELNARO helps businesses automate repetitive workflows, connect systems and use AI where it creates practical value. We focus on solutions that are reliable, maintainable and deliver real operational improvement.
         "
         primaryCtaText="Explore Automation Opportunities"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="View Related Work"
         secondaryCtaHref="/#work"
       />
@@ -242,7 +242,7 @@ export default function AIAutomation() {
           Tell us about the processes that consume your team's time. We'll help you scope an automation solution that delivers real operational improvement.
         "
         primaryCtaText="Discuss an Automation Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText=""
         secondaryCtaHref=""
       />
