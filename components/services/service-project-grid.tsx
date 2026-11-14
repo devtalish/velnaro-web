@@ -39,7 +39,7 @@ const ServiceProjectCard: FC<{ project: ServiceProject; index: number }> = ({ pr
             <div className="relative flex h-full flex-col justify-between">
               <div className="flex items-center justify-between gap-3">
                 <span className="rounded-full border border-slate/15 bg-white/75 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-muted">Selected work</span>
-                <span className="font-mono text-xs text-deep-teal/65">{String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</span>
+                <span className="font-mono text-xs text-deep-teal/65">{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div>
                 <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-deep-teal">{project.category}</p>
