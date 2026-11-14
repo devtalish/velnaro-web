@@ -2,12 +2,14 @@ import { createHmac } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createServiceClient, isServiceSupabaseConfigured } from "@/lib/supabase/admin";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
+import { BUDGET_OPTIONS } from "@/constants/contact-constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const EMAIL_REGEX = /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 const MAX_BODY_BYTES = 16_000;
+const ALLOWED_BUDGETS = new Set<string>(BUDGET_OPTIONS.map((option) => option.value));
 
 const errorResponse = (error: string, status: number) =>
   NextResponse.json({ error }, { status });
