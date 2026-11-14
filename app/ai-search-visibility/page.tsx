@@ -67,7 +67,7 @@ const IMPROVEMENT_STAGES = [
     description:
       "Comprehensive review of technical foundations, content structure and entity clarity.",
     cta: "Request a Visibility Assessment",
-    ctaHref: "#contact",
+    ctaHref: "/#contact",
   },
   {
     number: "02",
