@@ -181,7 +181,7 @@ The two emails are attempted independently. The admin inbox shows separate
 owner-notification and visitor-acknowledgement outcomes.
 
 Configure a real SMTP provider and verify its host, port, username and app
-password. Port 465 uses implicit TLS; port 587 normally negotiates STARTTLS.
+password. For the Supabase Edge Function, use port 465 (implicit TLS) or 2525 (STARTTLS if supported). Supabase Edge Functions block outbound connections to ports 25 and 587. Supabase Auth SMTP is configured separately and follows its provider's documented port settings.
 
 ### Admin retry
 
