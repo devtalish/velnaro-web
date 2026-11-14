@@ -119,14 +119,16 @@ export default function SoftwareDevelopment() {
       <Navbar />
       <section
       id="software-development"
-      className="c-space section-spacing relative overflow-visible"
+      className="relative overflow-visible"
     >
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+      <div className="mx-auto max-w-7xl px-6 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <ServiceHero
         eyebrow="SOFTWARE DEVELOPMENT"
