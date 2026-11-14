@@ -80,6 +80,9 @@ export async function POST(req: Request) {
   if (name.length > 120 || email.length > 200 || budget.length > 100 || message.length > 5000) {
     return errorResponse("One or more fields exceed the allowed length.", 413);
   }
+  if (budget && !ALLOWED_BUDGETS.has(budget)) {
+    return errorResponse("Please select a valid project budget option.", 400);
+  }
   if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(name + email + budget + message)) {
     return errorResponse("Fields contain unsupported control characters.", 400);
   }
