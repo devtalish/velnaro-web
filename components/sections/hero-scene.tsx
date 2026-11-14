@@ -30,7 +30,7 @@ export const HeroScene: FC = () => {
     <figure
       ref={frame}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+      className="absolute inset-0 z-[1] overflow-hidden"
     >
       <Canvas
         camera={{ position: [0, 1, 4] }}
