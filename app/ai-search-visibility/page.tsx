@@ -151,13 +151,15 @@ export default function AISearchVisibility() {
   return (
     <>
       <Navbar />
-      <section id="ai-search-visibility" className="c-space section-spacing relative overflow-visible">
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+      <section id="ai-search-visibility" className="relative overflow-visible">
+      <div className="mx-auto max-w-7xl px-6 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <SearchVisibilityHero
         eyebrow="AI SEARCH VISIBILITY / GEO / AEO"
