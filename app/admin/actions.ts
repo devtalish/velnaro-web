@@ -39,7 +39,7 @@ export const retryContactNotificationAction = async (
   const admin = await getAdminUser();
   if (!admin) return { ok: false, error: "Not signed in as an admin." };
 
-  if (typeof id !== "string" || !/^[0-9a-f-]{36}$/i.test(id)) {
+  if (typeof id !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) {
     return { ok: false, error: "Invalid submission id." };
   }
 
