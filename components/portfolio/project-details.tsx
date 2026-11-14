@@ -90,16 +90,31 @@ export const ProjectDetails: FC<ProjectDetailsProps> = ({
           </svg>
         </button>
 
-        <div className="relative h-64 md:h-96 bg-gradient-to-br from-pale-sage to-ivory overflow-hidden">
-          <Image
-            src="/placeholder-project-main.svg"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 960px"
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-graphite/35 to-transparent" />
+        <div className={`relative flex h-56 items-end overflow-hidden bg-gradient-to-br ${accent} p-6 md:h-80 md:p-10`}>
+          {image ? (
+            <Image
+              src={image}
+              alt={`${title} project preview`}
+              fill
+              sizes="(max-width: 768px) 100vw, 960px"
+              className="object-cover"
+              priority
+            />
+          ) : (
+            <>
+              <div className="pointer-events-none absolute -right-16 -top-24 h-96 w-96 rounded-full border border-white/25" />
+              <div className="pointer-events-none absolute -right-2 -top-14 h-72 w-72 rounded-full border border-white/20" />
+              <div className="pointer-events-none absolute right-24 top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+              <div className="relative z-10 max-w-3xl">
+                <span className="inline-flex rounded-full border border-white/30 bg-white/15 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md">
+                  {section === "selected-work" ? "Selected work" : "Interactive demonstration"}
+                </span>
+                <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/70">{category}</p>
+                <p className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-6xl">{title}</p>
+              </div>
+            </>
+          )}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-graphite/35 via-transparent to-transparent" />
         </div>
 
         <div className="p-6 md:p-8">
