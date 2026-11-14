@@ -66,7 +66,7 @@ export const ServiceCta: FC<ServiceCtaProps> = ({
           <p className="text-base text-muted leading-relaxed mb-8">
             {subtitle}
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-3">
             {primaryCtaHref && (
               <Link
                 href={primaryCtaHref}
