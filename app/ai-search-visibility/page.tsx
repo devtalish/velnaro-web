@@ -186,7 +186,7 @@ export default function AISearchVisibility() {
         aiItems={[
           "User asks a conversational question",
           "AI generates a response",
-          "Supporting sources and citations are provided",
+          "Supporting sources or citations may be provided",
           "User refines or follows up on the answer",
         ]}
       />
