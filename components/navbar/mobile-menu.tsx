@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { NAV_ITEMS } from "@/constants/navigation-constants";
 import { HireMeButton } from "./hire-me-button";
@@ -12,7 +13,9 @@ interface MobileMenuProps {
   onClose: () => void;
 }
 
-export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => (
+export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => {
+  const isHomePage = usePathname() === "/";
+  return (
   <AnimatePresence>
     {open && (
       <motion.div
@@ -20,14 +23,15 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => (
         animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.3 }}
+        id="mobile-navigation"
         className="block overflow-hidden border-t border-slate/10 bg-ivory/95 text-center backdrop-blur-xl sm:hidden"
       >
-        <nav className="py-5">
+        <nav className="py-5" aria-label="Mobile navigation">
           <ul className="nav-ul">
             {NAV_ITEMS.map((item) => (
               <li key={item.href} className="flex flex-col items-center gap-3">
                 <NavLink
-                  href={item.href}
+                  href={isHomePage ? item.href : `/${item.href}`}
                   label={item.label}
                   active={active === item.href}
                   onClick={onClose}
@@ -56,4 +60,5 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => (
       </motion.div>
     )}
   </AnimatePresence>
-);
+  );
+};

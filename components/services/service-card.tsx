@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type FC } from "react";
+import { useRef, type FC, type CSSProperties } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
 import {
@@ -34,20 +34,20 @@ export const ServiceCard: FC<ServiceCardProps> = ({
   return (
     <div
       ref={ref}
-      className="sticky"
-      style={{ top: `calc(8rem + ${index * STACK_OFFSET_REM}rem)` }}
+      className="relative md:sticky md:top-[var(--service-card-top)]"
+      style={{ "--service-card-top": `calc(8rem + ${index * STACK_OFFSET_REM}rem)` } as CSSProperties}
     >
       <motion.article
         style={{ scale, opacity }}
-        className="relative h-[80vh] overflow-hidden rounded-3xl border border-slate/20 bg-white md:h-[78vh]"
+        className="relative h-auto min-h-[42rem] overflow-hidden rounded-3xl border border-slate/20 bg-white md:h-[78vh] md:min-h-[36rem]"
       >
         <div
           className={`absolute inset-0 bg-gradient-to-br opacity-30 ${SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]}`}
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(23,107,101,0.10),transparent_45%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(23,27,31,0.3),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(23,107,101,0.07),transparent_48%)]" />
 
-        <div className="relative grid h-full grid-cols-1 gap-8 p-8 md:p-12 lg:grid-cols-12 lg:p-16">
+        <div className="relative grid min-h-[42rem] grid-cols-1 gap-8 p-6 sm:p-8 md:h-full md:min-h-0 md:p-12 lg:grid-cols-12 lg:p-16">
           <div className="flex flex-col justify-between lg:col-span-7">
             <div>
               <div className="flex items-center gap-4">

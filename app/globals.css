@@ -13,6 +13,13 @@
   --color-white: #FFFFFF;
   --color-black: #000000;
 
+  /* Compatibility aliases using the established VELNARO palette. */
+  --color-primary: #171B1F;
+  --color-royal: #176B65;
+  --color-coral: #176B65;
+  --color-lavender: #D9E7E2;
+  --color-sand: #D9E7E2;
+
   --animate-orbit: orbit 50s linear infinite;
   @keyframes orbit {
     0% {
@@ -147,7 +154,7 @@ body {
 }
 
 .section-spacing {
-  @apply min-h-screen mt-20 md:mt-30;
+  @apply mt-20 md:mt-28;
 }
 
 .text-heading {

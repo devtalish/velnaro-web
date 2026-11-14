@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { Navbar } from "@/components/sections/navbar";
+import { Footer } from "@/components/sections/footer";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -32,7 +34,7 @@ const SOFTWARE_PROJECTS: ServiceProject[] = [
     description:
       "A restaurant web experience focused on presenting the venue and its offering through a polished digital presence.",
     href: "https://restaurant-d-g.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Motion"],
+    technologies: [],
   },
   {
     title: "Aether Estates",
@@ -48,7 +50,7 @@ const SOFTWARE_PROJECTS: ServiceProject[] = [
     description:
       "A healthcare-oriented software concept focused on presenting clinical workflows in a structured digital interface.",
     href: "https://cliniflow-eta.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "React"],
+    technologies: [],
   },
 ];
 
@@ -113,16 +115,20 @@ export const metadata: Metadata = {
 
 export default function SoftwareDevelopment() {
   return (
-    <section
+    <>
+      <Navbar />
+      <section
       id="software-development"
-      className="c-space section-spacing relative overflow-visible"
+      className="c-space relative overflow-visible"
     >
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+      <div className="mx-auto max-w-7xl px-0 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <ServiceHero
         eyebrow="SOFTWARE DEVELOPMENT"
@@ -131,7 +137,7 @@ export default function SoftwareDevelopment() {
           We design and develop websites, web applications, internal platforms and custom digital products that align with your business processes and grow with your organization.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
         capabilityLine="Digital products · Web applications · Business platforms"
@@ -237,10 +243,12 @@ export default function SoftwareDevelopment() {
           Tell us about your idea, requirements, and constraints. We'll help you scope a solution that fits your business and gets results.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
       />
-    </section>
+      </section>
+      <Footer />
+    </>
   );
 }

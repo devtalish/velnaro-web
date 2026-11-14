@@ -11,8 +11,26 @@ export interface LoginState {
 
 const INVALID = "Invalid email or password.";
 
-const safeRedirect = (next: string | null): string =>
-  next && next.startsWith("/") && !next.startsWith("//") ? next : "/admin";
+const safeRedirect = (next: string | null): string => {
+  if (
+    !next ||
+    !next.startsWith("/") ||
+    next.startsWith("//") ||
+    next.includes("\\") ||
+    /[\u0000-\u001f\u007f]/.test(next)
+  ) {
+    return "/admin";
+  }
+
+  try {
+    const target = new URL(next, "https://velnaro.invalid");
+    const isAdminPath = target.pathname === "/admin" || target.pathname.startsWith("/admin/");
+    if (target.origin !== "https://velnaro.invalid" || !isAdminPath) return "/admin";
+    return target.pathname + target.search + target.hash;
+  } catch {
+    return "/admin";
+  }
+};
 
 export const signIn = async (
   _prev: LoginState,

@@ -1,143 +1,159 @@
 # The admin inbox
 
-A private page at `/admin` listing everything sent through the contact form.
-Sign-in is Supabase Auth; who counts as an admin is a row in a table you control
-from the SQL editor.
+A private page at `/admin` listing enquiries sent through the contact form.
+Sign-in is Supabase Auth; admin authorization is a separate allowlist in
+`public.admin_users`.
 
-**There are no secrets in this application.** No admin password, no session
-signing key, no service-role key, no SMTP credentials. The whole deployment is
-two public values:
+The app uses two public Supabase browser values and two server-only secrets.
+SMTP credentials remain in Supabase Edge Function secrets:
 
-```
+```env
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+NOTIFY_WEBHOOK_SECRET
 ```
 
-Both are optional. With neither set, the site runs normally and `/admin`
-shows a short setup panel instead of failing.
+The public browser values may be omitted for a frontend-only preview. The
+contact form and admin inbox require the Supabase URL, anon key and service-role
+key. Admin email retry additionally requires `NOTIFY_WEBHOOK_SECRET`, which
+must exactly match the Edge Function secret. Never expose either server-only
+secret with a `NEXT_PUBLIC_` prefix or commit it.
 
 ---
 
 ## How access works
 
-Two questions, kept deliberately separate:
-
 | Question | Answered by |
 | --- | --- |
-| Are you a real user on this project? | Supabase Auth |
-| Are you allowed to read the enquiries? | A row in `public.admin_users` |
+| Is the visitor a real user on this project? | Supabase Auth |
+| May that user read and delete enquiries? | A row in `public.admin_users` |
 
-Conflating them is the mistake this design exists to avoid. If "signed in"
-implied "admin", then anyone who ever obtained an account on the project (a
-signup you left open, an invite meant for something else, an OAuth provider you
-enable next year) could read every visitor's name, email address and IP.
-
-`admin_users` has no insert, update or delete policy. **Nothing the application
-can be tricked into doing will add an admin.** Promotion happens in the SQL
-editor, on purpose.
+A signed-in user is not automatically an admin. `admin_users` has no
+application insert, update or delete policy. Promotion and removal happen in
+the Supabase SQL editor.
 
 ### Enforced in three places
 
-1. **`proxy.ts`:** bounces requests with no session before a page renders, and
-   refreshes the Supabase token on the way through.
-2. **The page and every Server Action:** `getAdminState()` re-checks, because
-   Server Actions are reachable by direct POST regardless of what the proxy did.
-3. **Row-level security:** the `admins can select / delete` policies. Since
-   nothing here uses a service-role key, this is not a second opinion on top of
-   a privileged client; it is the actual enforcement. A bypassed UI check
-   returns zero rows.
+1. **`proxy.ts`:** redirects requests with no session before a private page
+   renders and refreshes the Supabase token.
+2. **The page and every Server Action:** `getAdminState()` re-checks admin
+   authorization because Server Actions can be called directly.
+3. **Row-level security:** admin select/delete policies protect the browser
+   client. Contact inserts use the server-only service-role client after
+   request validation and database-backed rate limiting.
 
 ---
 
 ## Setup
 
-### 1. Run the SQL
+### 1. Run the SQL migrations
 
-Supabase Dashboard → **SQL Editor**. Paste
-`supabase/migrations/0001_init.sql` and run it. That is the whole schema: one
-file, idempotent, safe to re-run.
+Supabase Dashboard → **SQL Editor**. Run every migration in
+`supabase/migrations/` in numerical order: `0001` through `0004`.
 
-It creates:
+The migrations create the schema, restrict public table access, add the atomic
+contact rate limiter and separate email delivery fields, then replace the
+temporary IP hash with a keyed fingerprint in migration `0004`. That final
+migration also clears historical raw IP values.
 
-| | |
+The schema includes:
+
+| Object | Purpose |
 | --- | --- |
-| `contact_submissions` | The table every enquiry lands in, with its index and length limits |
-| `admin_users` | The allowlist of people who may read it |
-| `is_admin()` | The check every policy calls |
-| The policies | Anonymous insert; admin select and delete; no update for anyone |
-| `grant_admin()` and friends | How you add and remove admins |
+| `contact_submissions` | Contact enquiries and delivery status |
+| `admin_users` | Allowlist of people who may read/delete enquiries |
+| `is_admin()` | Authorization check used by RLS policies |
+| RLS policies | Admin select/delete; no public direct contact inserts |
+| `grant_admin()` / `revoke_admin()` | SQL-editor admin management |
+| `consume_contact_rate_limit()` | Atomic database-backed rate limiting |
+| Notification claim functions | Prevent concurrent duplicate email delivery |
 
 ### 2. Create your admin account
 
-The migration file does **not** create an admin for you — hardcoding credentials
-in a SQL file that lives in a public repository would be a security hole.
-Create the account yourself, after running the file, in the SQL editor:
+Create the account through Supabase Dashboard → Authentication → Users → Add
+user. Then grant access in the SQL editor:
 
 ```sql
-select public.create_admin_user('your@email.com', 'a-long-unique-password');
+select public.grant_admin('your@email.com');
 ```
 
-Use your own email and a long password. This repository is public, so there are
-no known credentials anyone could use. `create_admin_user` writes to
-`auth.users` and `auth.identities` directly, which
-is a shortcut worth knowing about, because those tables belong to Supabase's auth
-service and their shape can change between releases. The Dashboard route is the
-more durable one for accounts you add later.
+Use your own email and a strong unique password. The public repository does not
+contain default credentials. Confirm the user is verified and appears in
+`public.admin_users`.
 
-### 3. Connect the app
+### 3. Turn off public signup and configure URLs
 
-Project Settings → API. Copy the **Project URL** and the **anon** key into
-`.env`, and into your host's environment variables:
+Dashboard → Authentication → Providers → Email → disable **Enable sign-ups**.
 
-```bash
+Under Authentication → URL Configuration:
+
+- Set the Site URL to the canonical deployed origin.
+- Add only the required admin and development redirect URLs.
+- Remove obsolete or untrusted redirect origins.
+
+### 4. Connect the app
+
+Project Settings → API. Copy the Project URL and anon key into your host's
+environment variables. Configure:
+
+```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-public-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
+NOTIFY_WEBHOOK_SECRET=the-same-secret-configured-in-supabase
+NEXT_PUBLIC_SITE_URL=https://velnaro.agency
 ```
 
-The anon key is **not** a secret. It identifies the project; RLS decides what it
-can reach. Shipping it to browsers is the intended design.
-
-### 4. Turn off public signup
-
-Dashboard → Authentication → Providers → Email → **disable "Enable sign-ups"**.
-An account with no `admin_users` row already sees nothing, but there is no
-reason to let strangers create one.
-
-Then sign in at `/admin/login`.
+The anon key is public. The service-role key is highly privileged and must
+remain server-only. Public contact inserts are denied at the table-grant level;
+the server API validates and rate-limits before inserting.
 
 ---
 
 ## Lead notification emails
 
-The app does not send email. A Supabase Edge Function does, so the SMTP
-credentials live in Supabase and never touch this repository or your web host.
+The app does not send email. A Supabase Edge Function does, so SMTP credentials
+live in Supabase and never touch the repository or Vercel:
 
 ```
 INSERT on contact_submissions
   → Database Webhook
     → notify-contact Edge Function
-      → acknowledgement to the visitor
-      → the lead to you (Reply-To: the visitor)
-      → writes email_sent / email_error back to the row
+      → visitor acknowledgement
+      → owner lead notification
+      → separate delivery statuses saved to the row
 ```
 
-### Deploy it
+### Deploy the function
+
+Link the Supabase CLI to the correct project, then deploy:
 
 ```bash
+supabase link --project-ref YOUR_SUPABASE_PROJECT_REF
 supabase functions deploy notify-contact
+openssl rand -hex 32
+```
 
+Store the generated secret securely. Set SMTP values and the generated secret
+in Supabase:
+
+```bash
 supabase secrets set \
   SMTP_HOST=smtp.example.com \
   SMTP_PORT=465 \
   SMTP_USER=hello@velnaro.agency \
-  SMTP_PASS='app-password-not-your-account-password' \
+  SMTP_PASS='your-smtp-app-password' \
   CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
   OWNER_NAME="VELNARO" \
   SITE_URL=https://velnaro.agency \
-  NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
+  NOTIFY_WEBHOOK_SECRET="PASTE_THE_GENERATED_VALUE_HERE"
 ```
 
-Keep that last value, because the webhook has to send it back.
+Use the exact same secret in three places: the Supabase Edge Function secret,
+the database webhook's `x-webhook-secret` header and Vercel's server-only
+`NOTIFY_WEBHOOK_SECRET` environment variable. Never generate separate values.
+Redeploy Vercel after changing its environment variable.
 
 ### Wire up the webhook
 
@@ -149,82 +165,58 @@ Dashboard → **Database → Webhooks → Create a new hook**:
 | Events | `Insert` only |
 | Type | Supabase Edge Functions |
 | Edge Function | `notify-contact` |
-| HTTP Headers | `x-webhook-secret: <the value you generated>` |
+| HTTP Headers | `x-webhook-secret: <the generated value>` |
 
-**That header is what protects the function.** Without it, anyone who discovers
-the URL can post a payload and make your SMTP account send mail from your
-domain. The function refuses to process requests if the secret is unset — it
-returns `503` and logs the error, rather than silently running unprotected.
+The Edge Function rejects requests without the matching secret. Keep the secret
+private; anyone who obtains it could attempt to trigger mail delivery.
 
 ### What gets sent
 
-Two emails per enquiry, both from `supabase/functions/notify-contact/email-template.ts`,
-the only email templates in this project:
-
-| To | What it says |
+| Recipient | Contents |
 | --- | --- |
-| **The visitor** | A short acknowledgement: their message arrived, you read them yourself, expect a reply within a business day. Includes a copy of what they wrote. |
-| **You** | The lead (name, email, budget, message, timestamp) with `Reply-To` set to the visitor, so replying answers them. |
+| Visitor | Acknowledgement that the message arrived, with a copy of their inquiry |
+| VELNARO | Lead details with Reply-To set to the visitor |
 
-The acknowledgement is sent first, and its failure is caught separately. A typo
-in the visitor's address must not stop the lead reaching you.
+The two emails are attempted independently. The admin inbox shows separate
+owner-notification and visitor-acknowledgement outcomes.
 
-Set `OWNER_NAME` and `SITE_URL` alongside the SMTP secrets so the
-acknowledgement signs off with the agency name and links back to the site.
+Configure a real SMTP provider and verify its host, port, username and app
+password. For the Supabase Edge Function, use port 465 (implicit TLS) or 2525 (STARTTLS if supported). Supabase Edge Functions block outbound connections to ports 25 and 587. Supabase Auth SMTP is configured separately and follows its provider's documented port settings.
 
-### Auth emails
+### Admin retry
 
-Password resets and invites are sent by Supabase itself, using whatever SMTP you
-configure under Authentication → **SMTP Settings**. The built-in sender is
-rate-limited and not meant for production, so add your own there too.
+When a notification is marked failed, an authorized admin can retry it from
+the inbox. This action calls the protected Edge Function from the server. It
+requires Vercel's `NOTIFY_WEBHOOK_SECRET` to match the Supabase secret. It
+does not expose the secret to the browser.
 
-Those emails use Supabase's default styling. This project ships no templates for
-them. With one admin who rarely resets a password, custom branding on a
-password-reset email is not worth the five files it costs. Restyle them in the
-Dashboard if you ever want to.
+### Supabase Auth emails
+
+Password resets and invitations are sent by Supabase Auth using the SMTP
+configured under Authentication → **SMTP Settings**. The Edge Function SMTP
+settings do not automatically configure Supabase Auth email delivery.
 
 ---
 
 ## Living with it
 
-**Forgot the password.** `/admin/login` → Supabase sends a reset through the
-template above. There is no password in any config file to look up any more.
+**Forgot the password.** This version does not include a self-service password-reset screen. Use Supabase Dashboard → Authentication → Users to send a recovery email or reset the account, and make sure custom Auth SMTP is configured.
 
-**A second admin.** Invite them (Authentication → Users → Invite), then
-`select public.grant_admin('them@example.com');`.
+**A second admin.** Invite them in Authentication → Users → Invite, then run:
 
-**Signed in but told "Not an admin".** The account is real; it has no
-`admin_users` row. The page shows the exact SQL to fix it.
+```sql
+select public.grant_admin('them@example.com');
+```
 
-**Locked out by rate limiting.** Supabase enforces sign-in limits at the auth
-server. Wait a few minutes. (The previous version counted failures in memory,
-which on serverless meant every instance counted separately, one of several
-reasons this moved to Supabase Auth.)
+**Signed in but told "Not an admin".** The account has no `admin_users` row.
+Run the grant statement above using the exact account email.
 
-**A lead never emailed.** Check `/admin` first. The row is written by the app and
-the email is sent by the Edge Function afterwards, so an enquiry present in the
-list with a "notification email was not delivered" warning is an SMTP problem,
-not a form problem. `supabase functions logs notify-contact` has the detail.
+**A lead never emailed.** Check the owner and acknowledgement delivery statuses
+in `/admin`. Inspect `supabase functions logs notify-contact`, SMTP settings
+and the database webhook configuration.
 
----
+**Admin retry is unavailable.** Check the Vercel `NOTIFY_WEBHOOK_SECRET` value
+matches the Supabase Edge Function secret exactly, then redeploy Vercel.
 
-## What this replaced
-
-The first version kept an `admin_users` table with bcrypt hashes it managed
-itself. The second moved to `ADMIN_EMAIL` / `ADMIN_PASSWORD` in the environment,
-with a hand-rolled HMAC session cookie and an in-memory login throttle.
-
-Both worked. Supabase Auth brings password hashing, refresh-token rotation,
-shared rate limiting and password reset that this site has no business
-implementing itself, and it removed four secrets (`ADMIN_EMAIL`,
-`ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`) plus the
-four SMTP variables from the deployment.
-
-
-
-
-
-
-
-
-opencode -s ses_e49a3befdffela4QCTT8IPcYCU
+**A submission is missing.** Check the contact API logs, migrations
+`0001`–`0004`, service-role configuration and rate-limit RPC availability.

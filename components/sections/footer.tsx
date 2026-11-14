@@ -1,7 +1,8 @@
 ﻿"use client";
 
-import { useRef, useEffect, type FC } from "react";
-import { motion, useInView, useMotionValue, useReducedMotion } from "motion/react";
+import { useRef, type FC } from "react";
+import { motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import Link from "next/link";
 import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { VelnaroLogoWithWordmark } from "@/components/ui/velnaro-logo";
 
@@ -9,104 +10,50 @@ const WaterWordmark: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const hoverProgress = useMotionValue(0);
-  const rippleX = useMotionValue(0);
-  const rippleY = useMotionValue(0);
-
+  const rippleX = useMotionValue(0.5);
+  const displacementScale = useTransform(hoverProgress, [0, 1], [0, 18]);
+  const noiseFrequency = useTransform(rippleX, [0, 1], [0.012, 0.04]);
   const filterId = "waterRipple";
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || prefersReducedMotion) return;
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (prefersReducedMotion) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    rippleX.set(Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width)));
+    hoverProgress.set(1);
+  };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      rippleX.set((e.clientX - rect.left) / rect.width);
-      rippleY.set((e.clientY - rect.top) / rect.height);
-      hoverProgress.set(1);
-    };
-
-    const handleMouseEnter = () => {
-      hoverProgress.set(1);
-    };
-
-    const handleMouseLeave = () => {
-      hoverProgress.set(0);
-      rippleX.set(0.5);
-      rippleY.set(0.5);
-    };
-
-    el.addEventListener("mousemove", handleMouseMove);
-    el.addEventListener("mouseenter", handleMouseEnter);
-    el.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      el.removeEventListener("mousemove", handleMouseMove);
-      el.removeEventListener("mouseenter", handleMouseEnter);
-      el.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [hoverProgress, rippleX, rippleY, prefersReducedMotion]);
+  const handlePointerLeave = () => {
+    hoverProgress.set(0);
+    rippleX.set(0.5);
+  };
 
   return (
-    <div ref={ref} className="relative">
-      <svg className="absolute inset-0 -z-10 w-full h-full" style={{ pointerEvents: "none" }}>
+    <div ref={ref} className="relative" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+      <svg className="absolute inset-0 -z-10 h-full w-full" aria-hidden="true">
         <defs>
           <filter id={filterId} x="-50%" y="-50%" width="200%" height="200%">
-            <feTurbulence
+            <motion.feTurbulence
               type="fractalNoise"
-              baseFrequency="0.02"
+              baseFrequency={prefersReducedMotion ? 0.02 : noiseFrequency}
               numOctaves={3}
               result="noise"
-            >
-              <animate
-                attributeName="baseFrequency"
-                values="0.02;0.05;0.02"
-                dur="3s"
-                repeatCount="indefinite"
-              />
-            </feTurbulence>
-            <feDisplacementMap
+            />
+            <motion.feDisplacementMap
               in="SourceGraphic"
               in2="noise"
-              scale="0"
+              scale={prefersReducedMotion ? 0 : displacementScale}
               xChannelSelector="R"
               yChannelSelector="G"
-            >
-              <animate
-                attributeName="scale"
-                values="0;15;0"
-                dur="3s"
-                repeatCount="indefinite"
-              />
-            </feDisplacementMap>
+            />
           </filter>
         </defs>
       </svg>
-
       <motion.p
-        initial={{ opacity: 0 }}
+        initial={prefersReducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="text-center text-[20vw] md:text-[14rem] font-black leading-none text-slate/10 select-none"
-        style={{
-          filter: `url(#${filterId})`,
-          transformOrigin: "center center",
-        }}
-        onMouseMove={(e) => {
-          if (prefersReducedMotion) return;
-          const rect = e.currentTarget.getBoundingClientRect();
-          rippleX.set((e.clientX - rect.left) / rect.width);
-          rippleY.set((e.clientY - rect.top) / rect.height);
-        }}
-        onMouseEnter={() => {
-          if (!prefersReducedMotion) hoverProgress.set(1);
-        }}
-        onMouseLeave={() => {
-          if (!prefersReducedMotion) {
-            hoverProgress.set(0);
-            rippleX.set(0.5);
-            rippleY.set(0.5);
-          }
-        }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 0.5 }}
+        className="select-none text-center text-[20vw] font-black leading-none text-slate/10 md:text-[14rem]"
+        style={{ filter: prefersReducedMotion ? "none" : `url(#${filterId})` }}
       >
         VELNARO
       </motion.p>
@@ -156,15 +103,15 @@ export const Footer: FC = () => {
 
         <div className="flex flex-col md:items-end gap-4">
           <nav className="flex flex-wrap justify-end gap-6 text-sm text-muted">
-            <a href="#home" className="hover:text-graphite transition-colors">Home</a>
-            <a href="#services" className="hover:text-graphite transition-colors">Services</a>
-            <a href="#work" className="hover:text-graphite transition-colors">Work</a>
-            <a href="#process" className="hover:text-graphite transition-colors">Process</a>
-            <a href="#contact" className="hover:text-graphite transition-colors">Contact</a>
-            <a href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</a>
-            <a href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</a>
-            <a href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</a>
-            <a href="/disclaimer" className="hover:text-graphite transition-colors">Disclaimer</a>
+            <Link href="/#home" className="hover:text-graphite transition-colors">Home</Link>
+            <Link href="/#services" className="hover:text-graphite transition-colors">Services</Link>
+            <Link href="/#work" className="hover:text-graphite transition-colors">Work</Link>
+            <Link href="/#process" className="hover:text-graphite transition-colors">Process</Link>
+            <Link href="/#contact" className="hover:text-graphite transition-colors">Contact</Link>
+            <Link href="/privacy-policy" className="hover:text-graphite transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-graphite transition-colors">Terms of Service</Link>
+            <Link href="/cookie-policy" className="hover:text-graphite transition-colors">Cookie Policy</Link>
+            <Link href="/disclaimer" className="hover:text-graphite transition-colors">Disclaimer</Link>
           </nav>
           <div className="flex gap-3 text-sm text-muted">
             <span>© {new Date().getFullYear()} VELNARO</span>

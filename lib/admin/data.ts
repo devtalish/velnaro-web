@@ -12,6 +12,10 @@ export interface ContactSubmission {
   created_at: string;
   email_sent?: boolean | null;
   email_error?: string | null;
+  owner_email_sent?: boolean | null;
+  owner_email_error?: string | null;
+  acknowledgement_email_sent?: boolean | null;
+  acknowledgement_email_error?: string | null;
 }
 
 export const PAGE_SIZE = 25;
@@ -28,7 +32,7 @@ const requireClient = async (): Promise<SupabaseClient> => {
 };
 
 const sanitiseSearch = (raw: string): string =>
-  raw.replace(/[^a-zA-Z0-9@._\- ]/g, "").trim().slice(0, 80);
+  raw.replace(/[^\p{L}\p{N}@._+'\- ]/gu, "").trim().slice(0, 80);
 
 export interface SubmissionPage {
   rows: ContactSubmission[];
@@ -117,6 +121,15 @@ export const getSubmissionStats = async (): Promise<{
       .limit(1)
       .maybeSingle(),
   ]);
+
+  if (totalResult.error || weekResult.error || latestResult.error) {
+    console.error("Failed to load submission stats:", {
+      total: totalResult.error?.message,
+      last7Days: weekResult.error?.message,
+      latest: latestResult.error?.message,
+    });
+    throw new Error("Could not load submission statistics.");
+  }
 
   return {
     total: totalResult.count ?? 0,

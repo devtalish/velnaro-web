@@ -1,38 +1,29 @@
 import { type FC } from "react";
 import {
-  CONTACT_POINT_EMAIL,
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_SECTIONS,
-  SITE_URL,
-  SOCIAL_PROFILES,
+  CONTACT_POINT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_SECTIONS, SITE_URL, SOCIAL_PROFILES,
 } from "@/constants/seo-constants";
-import {
-  HERO_LOCATION,
-  HERO_NAME,
-  HERO_ROLE,
-} from "@/constants/hero-constants";
+import { HERO_LOCATION } from "@/constants/hero-constants";
 import { SERVICES } from "@/constants/services-constants";
-import { SKILL_CHIPS } from "@/constants/skills-constants";
 
-const [city, country] = HERO_LOCATION.split(",").map((part) => part.trim());
+const locationParts = HERO_LOCATION.split(",").map((part) => part.trim()).filter(Boolean);
+const address = locationParts.length
+  ? {
+      "@type": "PostalAddress",
+      ...(locationParts[0] ? { addressLocality: locationParts[0] } : {}),
+      ...(locationParts[1] ? { addressCountry: locationParts[1] } : {}),
+    }
+  : undefined;
 
-const person = {
-  "@type": "Person",
-  "@id": `${SITE_URL}/#person`,
-  name: HERO_NAME,
-  jobTitle: HERO_ROLE,
-  description: SITE_DESCRIPTION,
+const organization = {
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: SITE_NAME,
   url: SITE_URL,
-  email: `mailto:${CONTACT_POINT_EMAIL}`,
-  image: `${SITE_URL}/og.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: city,
-    addressCountry: country,
-  },
-  knowsAbout: SKILL_CHIPS,
+  description: SITE_DESCRIPTION,
+  email: CONTACT_POINT_EMAIL,
+  logo: `${SITE_URL}/opengraph-image`,
   sameAs: SOCIAL_PROFILES,
+  ...(address ? { address } : {}),
 };
 
 const website = {
@@ -42,11 +33,10 @@ const website = {
   name: SITE_NAME,
   description: SITE_DESCRIPTION,
   inLanguage: "en",
-  publisher: { "@id": `${SITE_URL}/#person` },
+  publisher: { "@id": `${SITE_URL}/#organization` },
 };
 
 const sectionId = (hash: string) => `${SITE_URL}/${hash}`;
-
 const sections = SITE_SECTIONS.map((section) => ({
   "@type": "WebPageElement",
   "@id": sectionId(section.hash),
@@ -63,24 +53,21 @@ const navigation = {
   itemListOrder: "https://schema.org/ItemListOrderAscending",
   numberOfItems: SITE_SECTIONS.length,
   itemListElement: SITE_SECTIONS.map((section, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: section.name,
-    url: sectionId(section.hash),
+    "@type": "ListItem", position: index + 1, name: section.name, url: sectionId(section.hash),
   })),
 };
 
-const profilePage = {
-  "@type": "ProfilePage",
+const webpage = {
+  "@type": "WebPage",
   "@id": `${SITE_URL}/#webpage`,
   url: SITE_URL,
   name: SITE_NAME,
   description: SITE_DESCRIPTION,
   isPartOf: { "@id": `${SITE_URL}/#website` },
-  about: { "@id": `${SITE_URL}/#person` },
-  mainEntity: { "@id": `${SITE_URL}/#person` },
+  about: { "@id": `${SITE_URL}/#organization` },
+  mainEntity: { "@id": `${SITE_URL}/#organization` },
   inLanguage: "en",
-  primaryImageOfPage: `${SITE_URL}/og.jpg`,
+  primaryImageOfPage: `${SITE_URL}/opengraph-image`,
   hasPart: sections.map((section) => ({ "@id": section["@id"] })),
   significantLink: SITE_SECTIONS.map((section) => sectionId(section.hash)),
 };
@@ -88,39 +75,25 @@ const profilePage = {
 const professionalService = {
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#service`,
-  name: `${HERO_NAME} Web & Mobile Development`,
+  name: SITE_NAME,
   url: SITE_URL,
-  provider: { "@id": `${SITE_URL}/#person` },
+  provider: { "@id": `${SITE_URL}/#organization` },
   areaServed: "Worldwide",
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Services",
     itemListElement: SERVICES.map((service) => ({
       "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: service.title,
-        description: service.description,
-      },
+      itemOffered: { "@type": "Service", name: service.title, description: service.description },
     })),
   },
 };
 
 const graph = {
   "@context": "https://schema.org",
-  "@graph": [
-    person,
-    website,
-    profilePage,
-    navigation,
-    ...sections,
-    professionalService,
-  ],
+  "@graph": [organization, website, webpage, navigation, ...sections, professionalService],
 };
 
 export const JsonLd: FC = () => (
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
-  />
+  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }} />
 );

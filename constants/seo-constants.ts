@@ -17,7 +17,7 @@ export const SITE_DESCRIPTION =
 export const SITE_TAGLINE =
   "Software, AI automation, and AI search visibility built with purpose.";
 
-export const OG_IMAGE = "/og.jpg";
+export const OG_IMAGE = "/opengraph-image";
 export const OG_IMAGE_ALT = "VELNARO — Software, AI Automation & AI Search Visibility";
 export const OG_LOCALE = "en_US";
 

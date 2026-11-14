@@ -19,20 +19,22 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. The site runs without environment variables.
+Open <http://localhost:3000>. The visual site can run without environment variables; the contact form and admin inbox require Supabase configuration.
 
 ## Environment variables
 
-Copy `.env.example` to `.env`. All four variables are optional locally:
+Copy `.env.example` to `.env`. The frontend can run without configuration, but the contact form requires the Supabase values below:
 
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Live domain, no trailing slash. Drives `metadataBase`, canonical URLs, `sitemap.xml`, `robots.txt`, and Open Graph URLs. Target: `https://velnaro.agency`. |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Google Search Console verification token. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public by design; RLS enforces access). |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (public by design; RLS enforces browser access). |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key required by the contact API and admin inbox operations. Never prefix with `NEXT_PUBLIC_` or commit it. |
+| `NOTIFY_WEBHOOK_SECRET` | Server-only copy of the Edge Function webhook secret, used by admins to retry failed email notifications. Never expose it to the browser. |
 
-There are no server-only secrets in the Next.js app. Admin access uses Supabase Auth plus the `admin_users` allowlist. Contact notification email is sent by a Supabase Edge Function using secrets stored in Supabase.
+The contact API uses the service-role key only in a `server-only` module to validate, rate-limit and insert submissions. Admin access uses Supabase Auth plus the `admin_users` allowlist. Notification email is sent by a Supabase Edge Function using SMTP secrets stored in Supabase.
 
 ## Scripts
 
@@ -41,6 +43,7 @@ npm run dev     # local development
 npm run build   # production build
 npm run start   # serve the production build
 npm run lint    # ESLint
+npm run typecheck # TypeScript
 ```
 
 ## Project structure
