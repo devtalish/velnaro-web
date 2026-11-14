@@ -16,8 +16,7 @@ export const ServicesCtaCard: FC<{ href?: string }> = ({ href = "#contact" }) =>
         Let&apos;s scope it together.
       </h3>
       <p className="mt-2 max-w-xl text-muted">
-        Send us a brief and we&apos;ll reply within one business day with a realistic plan,
-        timeline, and next steps.
+        Share a little context about the challenge. We&apos;ll review the requirements and discuss a practical way forward.
       </p>
     </div>
     <Link href={href} className="btn-primary">
