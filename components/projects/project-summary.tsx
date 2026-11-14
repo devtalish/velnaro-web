@@ -10,7 +10,7 @@ const isComingSoon = (href: string) => !href || href.trim() === "";
 const reveal = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: false, amount: 0.4 },
+  viewport: { once: true, amount: 0.4 },
   transition: { duration: 0.6, delay },
 });
 
