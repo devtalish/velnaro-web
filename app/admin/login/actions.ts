@@ -26,7 +26,7 @@ const safeRedirect = (next: string | null): string => {
     const target = new URL(next, "https://velnaro.invalid");
     const isAdminPath = target.pathname === "/admin" || target.pathname.startsWith("/admin/");
     return target.origin === "https://velnaro.invalid" && isAdminPath
-      ? \`\${target.pathname}\${target.search}\${target.hash}\`
+      ? target.pathname + target.search + target.hash
       : "/admin";
   } catch {
     return "/admin";
