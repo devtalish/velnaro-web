@@ -168,7 +168,7 @@ export default function AISearchVisibility() {
           VELNARO works on the technical, content and structural foundations that help search engines and AI-assisted discovery systems understand a business. We focus on improving eligibility, clarity and discoverability rather than guaranteeing particular results.
         "
         primaryCtaText="Request a Visibility Assessment"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Approach"
         secondaryCtaHref="/#work"
       />
@@ -293,7 +293,7 @@ export default function AISearchVisibility() {
           Tell us about your search visibility goals. We'll help you assess your current presence and develop a plan to improve your eligibility and discoverability across traditional and AI-powered search experiences.
         "
         primaryCtaText="Request a Visibility Assessment"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText=""
         secondaryCtaHref=""
       />
