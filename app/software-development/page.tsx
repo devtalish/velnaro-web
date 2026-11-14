@@ -119,7 +119,7 @@ export default function SoftwareDevelopment() {
       <Navbar />
       <section
       id="software-development"
-      className="relative overflow-visible"
+      className="c-space relative overflow-visible"
     >
       <div className="mx-auto max-w-7xl px-6 pt-28">
         <Link
