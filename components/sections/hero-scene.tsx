@@ -29,22 +29,19 @@ export const HeroScene: FC = () => {
   return (
     <figure
       ref={frame}
-      className="absolute inset-0"
-      style={{ width: "100vw", height: "100vh" }}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
     >
       <Canvas
         camera={{ position: [0, 1, 4] }}
+        dpr={[1, 1.5]}
         frameloop={active ? "always" : "never"}
       >
         <Suspense fallback={<Loader />}>
-          <Float
-            rotationIntensity={0.3}
-            floatIntensity={0.5}
-            speed={0.5}
-          >
+          <Float rotationIntensity={0.3} floatIntensity={0.5} speed={0.5}>
             <Astronaut
-              scale={isMobile ? 0.17 : 0.27}
-              position={isMobile ? [1.9, -0.8, 0] : [3.2, -0.5, 0]}
+              scale={isMobile ? 0.2 : 0.29}
+              position={isMobile ? [1.85, -0.78, 0] : [3.15, -0.48, 0]}
               rotation={[-Math.PI / 2, -0.2, 2.2]}
             />
           </Float>
