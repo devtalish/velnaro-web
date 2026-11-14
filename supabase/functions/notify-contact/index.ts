@@ -122,8 +122,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const port = Number(env("SMTP_PORT") ?? "465");
   const recipient = env("CONTACT_RECIPIENT_EMAIL") ?? user;
 
-  if (!host || !user || !pass || !recipient || !Number.isInteger(port) || port < 1 || port > 65535) {
-    ownerError = ownerSent ? ownerError : "SMTP is not configured";
+  if (!host || !user || !pass || !recipient || !Number.isInteger(port) || ![465, 2525].includes(port)) {
+    ownerError = ownerSent ? ownerError : "SMTP is not configured or uses a port blocked by Supabase Edge Functions (use 465 or 2525)";
     acknowledgementError = acknowledgementSent ? acknowledgementError : "SMTP is not configured";
     await persistResult(supabase, submission.id, ownerSent, ownerError, acknowledgementSent, acknowledgementError);
     return json({ ok: false, reason: "smtp-not-configured" }, 503);
