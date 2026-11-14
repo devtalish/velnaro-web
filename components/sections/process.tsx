@@ -333,7 +333,7 @@ export const Process = () => {
       <div className="relative max-w-[1400px] mx-auto">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left side - Heading */}
-          <div className="lg:col-span-5 lg:col-start-1 self-start sticky top-24">
+          <div className="lg:col-span-5 lg:col-start-1 self-start lg:sticky lg:top-24">
             <SectionHeader
               className="mb-0"
               eyebrow="OUR PROCESS"
