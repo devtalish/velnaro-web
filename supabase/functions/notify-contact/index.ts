@@ -129,7 +129,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json({ ok: false, reason: "smtp-not-configured" }, 503);
   }
 
-  const ownerName = safeHeader(env("OWNER_NAME") ?? "VELNARO") || "VELNARO";
+  const ownerName = safeMailboxName(env("OWNER_NAME") ?? "VELNARO") || "VELNARO";
   const siteUrl = env("SITE_URL");
   let client: SMTPClient | undefined;
 
