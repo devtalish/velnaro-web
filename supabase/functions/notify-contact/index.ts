@@ -17,8 +17,9 @@ const env = (key: string): string | undefined => Deno.env.get(key);
 const json = (body: unknown, status = 200): Response =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const safeHeader = (value: string) =>
-  value.replace(/\r/g, " ").replace(/\n/g, " ").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim().slice(0, 120);
-const safeMailboxName = (value: string) => safeHeader(value).replace(/[<>"]/g, "").slice(0, 80);
+  value.replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim().slice(0, 120);
+const safeMailboxName = (value: string) =>
+  safeHeader(value).replace(/[<>()\[\]{};,:\\"]/g, " ").replace(/\s+/g, " ").trim().slice(0, 80);
 
 Deno.serve(async (req: Request): Promise<Response> => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
