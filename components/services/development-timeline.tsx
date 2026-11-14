@@ -33,3 +33,4 @@ export const DevelopmentTimeline: FC<DevelopmentTimelineProps> = ({ steps }) => 
       ))}
     </ol>
   </section>
+);
