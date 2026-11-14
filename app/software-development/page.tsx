@@ -34,7 +34,7 @@ const SOFTWARE_PROJECTS: ServiceProject[] = [
     description:
       "A restaurant web experience focused on presenting the venue and its offering through a polished digital presence.",
     href: "https://restaurant-d-g.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Motion"],
+    technologies: [],
   },
   {
     title: "Aether Estates",
@@ -50,7 +50,7 @@ const SOFTWARE_PROJECTS: ServiceProject[] = [
     description:
       "A healthcare-oriented software concept focused on presenting clinical workflows in a structured digital interface.",
     href: "https://cliniflow-eta.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "React"],
+    technologies: [],
   },
 ];
 
