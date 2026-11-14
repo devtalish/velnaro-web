@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 type ProjectRef = {
@@ -18,7 +19,7 @@ const RelatedWorkCard: FC<{ project: ProjectRef; index: number }> = ({ project, 
     <>
       <div className="relative aspect-[16/10] overflow-hidden border-b border-slate/10 bg-gradient-to-br from-ivory via-white to-pale-sage/55 p-5 sm:p-6">
         {project.image ? (
-          <img src={project.image} alt={`${project.title} preview`} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+          <Image src={project.image} alt={`${project.title} preview`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
           <>
             <div className="absolute -right-10 -top-14 h-48 w-48 rounded-full border border-deep-teal/10" />
