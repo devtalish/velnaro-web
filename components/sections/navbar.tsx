@@ -78,7 +78,7 @@ export const Navbar: FC = () => {
                   {item.label === "Services" && isDropdownOpen && (
                     <div
                       id="services-navigation-menu"
-                      className="absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 rounded-2xl border border-slate/20 bg-white/95 p-4 shadow-xl backdrop-blur-xl"
+                      className="absolute right-0 top-full z-50 mt-3 w-72 max-w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-slate/20 bg-white/95 p-4 shadow-2xl shadow-graphite/10 backdrop-blur-xl"
                     >
                       <ul className="flex flex-col gap-1">
                         {item.dropdown?.map((subItem) => (
