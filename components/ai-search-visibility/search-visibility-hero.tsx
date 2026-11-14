@@ -24,7 +24,7 @@ export const SearchVisibilityHero: FC<SearchVisibilityHeroProps> = ({
   secondaryCtaText,
   secondaryCtaHref,
 }) => (
-  <section className="mx-auto max-w-7xl px-6 pb-16 pt-24 lg:pb-24">
+  <section className="mx-auto max-w-7xl px-6 pb-16 pt-10 lg:pb-24">
     <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
       <div className="relative z-10">
         <p className="text-eyebrow mb-3 uppercase tracking-wider">{eyebrow}</p>
