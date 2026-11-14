@@ -151,7 +151,7 @@ export default function AISearchVisibility() {
   return (
     <>
       <Navbar />
-      <section id="ai-search-visibility" className="relative overflow-visible">
+      <section id="ai-search-visibility" className="c-space relative overflow-visible">
       <div className="mx-auto max-w-7xl px-6 pt-28">
         <Link
           href="/"
