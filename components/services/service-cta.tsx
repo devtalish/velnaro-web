@@ -56,7 +56,7 @@ export const ServiceCta: FC<ServiceCtaProps> = ({
   }
 
   return (
-    <section id="contact" className="max-w-6xl mx-auto px-0 pt-24 pb-16">
+    <section className="max-w-6xl mx-auto px-0 pt-24 pb-16">
       <div className="glass-strong gradient-border rounded-3xl p-8 md:p-10">
         <div>
           <p className="text-eyebrow uppercase tracking-wider mb-4">{eyebrow}</p>
