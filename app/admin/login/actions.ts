@@ -12,14 +12,21 @@ export interface LoginState {
 const INVALID = "Invalid email or password.";
 
 const safeRedirect = (next: string | null): string => {
-  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("\\\\") || /[\\u0000-\\u001f\\u007f]/.test(next)) {
+  if (
+    !next ||
+    !next.startsWith("/") ||
+    next.startsWith("//") ||
+    next.includes("\\") ||
+    /[\u0000-\u001f\u007f]/.test(next)
+  ) {
     return "/admin";
   }
 
   try {
     const target = new URL(next, "https://velnaro.invalid");
-    return target.origin === "https://velnaro.invalid" && target.pathname.startsWith("/admin")
-      ? `${target.pathname}${target.search}${target.hash}`
+    const isAdminPath = target.pathname === "/admin" || target.pathname.startsWith("/admin/");
+    return target.origin === "https://velnaro.invalid" && isAdminPath
+      ? \`\${target.pathname}\${target.search}\${target.hash}\`
       : "/admin";
   } catch {
     return "/admin";
