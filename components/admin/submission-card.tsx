@@ -5,7 +5,7 @@ import { formatDateTime } from "@/helpers/format-helpers";
 import { type SubmissionCardProps } from "@/types/admin-types";
 
 export const SubmissionCard: FC<SubmissionCardProps> = ({ row }) => {
-  const canRetryEmail = row.owner_email_sent === false || row.acknowledgement_email_sent === false || (row.owner_email_sent == null && row.email_sent === false);
+  const canRetryEmail = row.owner_email_sent !== true || row.acknowledgement_email_sent !== true;
 
   return (
   <article className="glass gradient-border p-5 text-graphite">
