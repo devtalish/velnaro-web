@@ -200,8 +200,7 @@ settings do not automatically configure Supabase Auth email delivery.
 
 ## Living with it
 
-**Forgot the password.** Use the password-reset flow at `/admin/login`.
-Supabase sends the reset email through its Auth SMTP configuration.
+**Forgot the password.** This version does not include a self-service password-reset screen. Use Supabase Dashboard → Authentication → Users to send a recovery email or reset the account, and make sure custom Auth SMTP is configured.
 
 **A second admin.** Invite them in Authentication → Users → Invite, then run:
 
