@@ -24,7 +24,7 @@ export const ProductInterfaceShowcase: FC<ProductInterfaceShowcaseProps> = ({
   panel3Title,
   panel3Description,
 }) => (
-  <section className="max-w-7xl mx-auto px-6 pt-24 pb-16">
+  <section className="max-w-7xl mx-auto px-0 pt-24 pb-16">
     <div className="grid lg:grid-cols-2 gap-12 items-center">
       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8 lg:mb-0">
         <div className="absolute inset-0 bg-slate/20"></div>
