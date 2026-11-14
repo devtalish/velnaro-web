@@ -130,7 +130,7 @@ export default function AIAutomation() {
   return (
     <>
       <Navbar />
-      <section id="ai-automation" className="relative overflow-visible">
+      <section id="ai-automation" className="c-space relative overflow-visible">
       <div className="mx-auto max-w-7xl px-6 pt-28">
         <Link
           href="/"
