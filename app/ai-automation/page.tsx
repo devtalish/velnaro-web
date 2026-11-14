@@ -131,7 +131,7 @@ export default function AIAutomation() {
     <>
       <Navbar />
       <section id="ai-automation" className="c-space relative overflow-visible">
-      <div className="mx-auto max-w-7xl px-6 pt-28">
+      <div className="mx-auto max-w-7xl px-0 pt-28">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
