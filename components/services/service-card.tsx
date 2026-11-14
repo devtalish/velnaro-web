@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type FC } from "react";
+import { useRef, type FC, type CSSProperties } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
 import {
@@ -34,8 +34,8 @@ export const ServiceCard: FC<ServiceCardProps> = ({
   return (
     <div
       ref={ref}
-      className="sticky"
-      style={{ top: `calc(8rem + ${index * STACK_OFFSET_REM}rem)` }}
+      className="relative md:sticky md:top-[var(--service-card-top)]"
+      style={{ "--service-card-top": `calc(8rem + ${index * STACK_OFFSET_REM}rem)` } as CSSProperties}
     >
       <motion.article
         style={{ scale, opacity }}
