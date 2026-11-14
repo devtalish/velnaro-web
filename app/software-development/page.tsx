@@ -137,7 +137,7 @@ export default function SoftwareDevelopment() {
           We design and develop websites, web applications, internal platforms and custom digital products that align with your business processes and grow with your organization.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
         capabilityLine="Digital products · Web applications · Business platforms"
@@ -243,7 +243,7 @@ export default function SoftwareDevelopment() {
           Tell us about your idea, requirements, and constraints. We'll help you scope a solution that fits your business and gets results.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
       />
