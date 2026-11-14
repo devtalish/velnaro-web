@@ -7,10 +7,14 @@ import { type ProjectDetailsProps } from "@/types/portfolio-types";
 
 export const ProjectDetails: FC<ProjectDetailsProps> = ({
   title,
+  category,
+  section,
   description,
   subDescription,
   tags,
   href,
+  image,
+  accent,
   closeModal,
 }) => {
   const isComingSoon = !href || href.trim() === "";
