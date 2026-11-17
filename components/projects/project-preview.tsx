@@ -2,13 +2,13 @@
 
 import { type FC, type MouseEvent } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import { TILT_RANGE, TILT_SPRING } from "@/constants/projects-constants";
 import { formatCounter, padIndex } from "@/helpers/format-helpers";
 import { type ProjectPreviewProps } from "@/types/project-types";
 
 const BADGE =
-  "rounded-full border border-slate/20 bg-white/85 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-graphite backdrop-blur-md";
+  "rounded-full border border-slate/15 bg-white/90 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-graphite backdrop-blur-md";
 
 const isComingSoon = (href: string) => !href || href.trim() === "";
 
@@ -16,14 +16,15 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({
   project,
   index,
   total,
-  showPreview,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const pointerX = useMotionValue(0.5);
   const pointerY = useMotionValue(0.5);
   const rotateX = useSpring(useTransform(pointerY, [0, 1], TILT_RANGE.x), TILT_SPRING);
   const rotateY = useSpring(useTransform(pointerX, [0, 1], TILT_RANGE.y), TILT_SPRING);
 
   const handleMove = (event: MouseEvent<HTMLDivElement>) => {
+    if (prefersReducedMotion) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - bounds.left) / bounds.width);
     pointerY.set((event.clientY - bounds.top) / bounds.height);
@@ -42,75 +43,80 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({
         <motion.div
           onMouseMove={handleMove}
           onMouseLeave={handleLeave}
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-slate/20 bg-white shadow-xl shadow-graphite/[0.08] md:aspect-[16/10]"
+          style={{
+            rotateX: prefersReducedMotion ? 0 : rotateX,
+            rotateY: prefersReducedMotion ? 0 : rotateY,
+            transformStyle: "preserve-3d",
+          }}
+          className="group relative aspect-[4/3] overflow-hidden rounded-[28px] border border-slate/15 bg-[#e9eeeb] shadow-[0_28px_80px_-38px_rgba(23,27,31,0.28)] md:aspect-[16/10]"
         >
-          <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-30`} />
-
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span className="text-[10rem] font-black leading-none tracking-tighter text-slate/10 md:text-[14rem]">
-              {padIndex(index + 1)}
-            </span>
-          </div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-35`} />
+          <div className="pointer-events-none absolute -right-20 -top-24 h-80 w-80 rounded-full border border-white/50" />
+          <div className="pointer-events-none absolute -right-8 -top-12 h-56 w-56 rounded-full border border-white/40" />
+          <div className="pointer-events-none absolute -bottom-36 -left-24 h-96 w-96 rounded-full bg-white/35 blur-3xl" />
 
           {project.image ? (
             <Image
               src={project.image}
-              alt={`${project.title} homepage`}
+              alt={`${project.title} project preview`}
               fill
               sizes="(min-width: 1024px) 58vw, 100vw"
               className="pointer-events-none select-none object-cover object-top"
             />
           ) : comingSoon ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-slate/5">
-              <div className="p-8 text-center">
-                <span className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-deep-teal/10 text-deep-teal">
-                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <div className="absolute inset-0 flex items-center justify-center bg-graphite/[0.025]">
+              <div className="max-w-sm p-8 text-center">
+                <span className="mx-auto mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-deep-teal/15 bg-white/75 text-deep-teal shadow-sm">
+                  <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </span>
-                <p className="text-lg font-medium text-graphite">Coming Soon</p>
-                <p className="mt-1 text-sm text-muted">This project is not yet publicly deployed</p>
+                <p className="text-xl font-semibold tracking-tight text-graphite">In development</p>
+                <p className="mt-2 text-sm leading-6 text-muted">This concept is being prepared for a future interactive demonstration.</p>
               </div>
             </div>
           ) : (
-            showPreview && (
-              <iframe
-                src={project.href}
-                title={`${project.title} visual preview`}
-                aria-hidden="true"
-                tabIndex={-1}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin"
-                referrerPolicy="no-referrer"
-                className="pointer-events-none absolute inset-0 select-none bg-transparent"
-                style={{
-                  width: "180%",
-                  height: "180%",
-                  transform: "scale(0.555)",
-                  transformOrigin: "top left",
-                  border: 0,
-                  colorScheme: "normal",
-                }}
-              />
-            )
+            <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-10">
+              <div className="relative w-full max-w-[620px] overflow-hidden rounded-2xl border border-white/80 bg-[#fbfcfa]/90 shadow-[0_24px_70px_-28px_rgba(23,27,31,0.28)] backdrop-blur-sm">
+                <div className="flex h-10 items-center gap-2 border-b border-slate/10 px-4">
+                  <span className="h-2 w-2 rounded-full bg-[#d5a49b]" />
+                  <span className="h-2 w-2 rounded-full bg-[#dfc68f]" />
+                  <span className="h-2 w-2 rounded-full bg-[#9db9a9]" />
+                  <span className="ml-3 h-1.5 w-1/3 rounded-full bg-slate/10" />
+                  <span className="ml-auto text-[9px] font-medium uppercase tracking-[0.2em] text-muted/70">Project overview</span>
+                </div>
+                <div className="grid min-h-[230px] grid-cols-[1fr_0.72fr] gap-4 p-5 sm:min-h-[285px] sm:gap-6 sm:p-8">
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <span className="inline-flex rounded-full border border-deep-teal/15 bg-deep-teal/[0.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-deep-teal">{project.category}</span>
+                      <h3 className="mt-4 max-w-sm text-2xl font-semibold leading-tight tracking-tight text-graphite sm:text-4xl">{project.title}</h3>
+                      <p className="mt-3 max-w-xs text-xs leading-5 text-muted sm:text-sm sm:leading-6">{project.description}</p>
+                    </div>
+                    <div className="mt-6 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-deep-teal" />
+                      <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted">Velnaro selected work</span>
+                    </div>
+                  </div>
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute inset-2 rounded-[28px] bg-gradient-to-br from-deep-teal/15 via-pale-sage/50 to-white" />
+                    <div className="relative flex aspect-square w-full max-w-[190px] items-center justify-center rounded-[26px] border border-white/80 bg-white/55 shadow-inner">
+                      <span className="text-7xl font-black tracking-[-0.09em] text-deep-teal/80 sm:text-8xl">{project.title.slice(0, 1)}</span>
+                      <span className="absolute bottom-4 right-4 h-8 w-8 rounded-full border border-deep-teal/20 bg-white/80" />
+                      <span className="absolute left-4 top-4 h-3 w-3 rounded-full bg-pale-sage" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
 
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(255,255,255,0.22),transparent_42%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),transparent_45%,rgba(23,27,31,0.04))]" />
 
           <div
             style={{ transform: "translateZ(70px)" }}
-            className="pointer-events-none absolute left-5 right-5 top-5 flex items-center justify-between"
+            className="pointer-events-none absolute left-4 right-4 top-4 flex items-center justify-between sm:left-5 sm:right-5 sm:top-5"
           >
-            <span className={`${BADGE} inline-flex items-center gap-2`}>
-              {!project.image && !comingSoon && (
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-deep-teal opacity-75" />
-                  <span className="relative h-1.5 w-1.5 rounded-full bg-deep-teal" />
-                </span>
-              )}
-              {project.image ? "Preview" : comingSoon ? "Coming Soon" : "Live Preview"}
-            </span>
+            <span className={BADGE}>{project.image ? "Project image" : comingSoon ? "Coming soon" : "Project overview"}</span>
             <span className={BADGE}>{formatCounter(index, total)}</span>
           </div>
 
@@ -120,21 +126,21 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               style={{ transform: "translateZ(80px)" }}
-              className="absolute bottom-5 right-5 inline-flex items-center gap-2 rounded-full border border-slate/25 bg-white/90 px-4 py-2 text-xs font-medium text-graphite backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-deep-teal/50 hover:text-deep-teal"
+              className="absolute bottom-4 right-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-white/80 bg-graphite px-4 py-2 text-xs font-medium text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-deep-teal sm:bottom-5 sm:right-5"
             >
-              <span>Open Live Website</span>
+              <span>Open live website</span>
               <span aria-hidden>↗</span>
             </a>
           )}
 
           <div
             style={{ transform: "translateZ(50px)" }}
-            className={`${BADGE} pointer-events-none absolute bottom-5 left-5`}
+            className={`${BADGE} pointer-events-none absolute bottom-4 left-4 sm:bottom-5 sm:left-5`}
           >
             {project.title}
           </div>
 
-          <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-slate/20" />
+          <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/50" />
         </motion.div>
       </div>
     </div>
