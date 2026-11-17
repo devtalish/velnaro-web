@@ -20,6 +20,9 @@ export const Navbar: FC = () => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const isServicePage = pathname.startsWith("/software-development") ||
+    pathname.startsWith("/ai-automation") ||
+    pathname.startsWith("/ai-search-visibility");
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,18 +39,23 @@ export const Navbar: FC = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isDropdownOpen, isOpen]);
 
+  useEffect(() => {
+    setIsOpen(false);
+    setIsDropdownOpen(false);
+  }, [pathname]);
+
   return (
     <header
-      className={`reveal-down fixed inset-x-0 top-0 z-30 w-full transition-all duration-500 ${
+      className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-primary/70 backdrop-blur-xl"
+          ? "border-b border-slate/10 bg-ivory/95 shadow-sm shadow-graphite/[0.04] backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
       <div className="c-space">
-        <div className="flex items-center justify-between py-2">
+        <div className="flex min-h-[72px] items-center justify-between gap-5 py-2">
           <NavBrand />
-          <nav className="hidden sm:flex" aria-label="Main navigation">
+          <nav className="hidden xl:flex" aria-label="Main navigation">
             <ul className="nav-ul">
               {NAV_ITEMS.map((item) => (
                 <li
@@ -78,7 +86,7 @@ export const Navbar: FC = () => {
                   {item.label === "Services" && isDropdownOpen && (
                     <div
                       id="services-navigation-menu"
-                      className="absolute right-0 top-full z-50 mt-3 w-72 max-w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-slate/20 bg-white/95 p-4 shadow-2xl shadow-graphite/10 backdrop-blur-xl"
+                      className="absolute right-0 top-full z-50 mt-3 w-72 max-w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-slate/15 bg-white p-3 shadow-2xl shadow-graphite/10"
                     >
                       <ul className="flex flex-col gap-1">
                         {item.dropdown?.map((subItem) => (
@@ -86,7 +94,7 @@ export const Navbar: FC = () => {
                             <NavLink
                               href={subItem.link}
                               label={subItem.label}
-                              active={active === subItem.link}
+                              active={pathname === subItem.link}
                               onClick={() => setIsDropdownOpen(false)}
                             />
                           </li>
@@ -98,12 +106,12 @@ export const Navbar: FC = () => {
               ))}
             </ul>
           </nav>
-          <div className="hidden items-center sm:flex"><HireMeButton /></div>
+          <div className="hidden items-center xl:flex"><HireMeButton /></div>
           <button
             ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((open) => !open)}
-            className="flex cursor-pointer text-graphite hover:text-deep-teal sm:hidden"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate/15 bg-white/70 text-graphite transition-colors hover:border-deep-teal/40 hover:text-deep-teal xl:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
@@ -111,9 +119,9 @@ export const Navbar: FC = () => {
             <Image
               src={isOpen ? "/assets/close.svg" : "/assets/menu.svg"}
               alt=""
-              width={24}
-              height={24}
-              className="h-6 w-6"
+              width={22}
+              height={22}
+              className="h-[22px] w-[22px]"
             />
           </button>
         </div>
