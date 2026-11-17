@@ -31,19 +31,8 @@ const WaterWordmark: FC = () => {
       <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
         <defs>
           <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
-            <motion.feTurbulence
-              type="fractalNoise"
-              baseFrequency={prefersReducedMotion ? 0.02 : noiseFrequency}
-              numOctaves={2}
-              result="noise"
-            />
-            <motion.feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale={prefersReducedMotion ? 0 : displacementScale}
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
+            <motion.feTurbulence type="fractalNoise" baseFrequency={prefersReducedMotion ? 0.02 : noiseFrequency} numOctaves={2} result="noise" />
+            <motion.feDisplacementMap in="SourceGraphic" in2="noise" scale={prefersReducedMotion ? 0 : displacementScale} xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </defs>
       </svg>
@@ -64,13 +53,14 @@ const WaterWordmark: FC = () => {
 export const Footer: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <footer ref={ref} className="relative c-space overflow-hidden pb-8 pt-16 md:pt-20">
       <motion.div
-        initial={{ scaleX: 0 }}
+        initial={prefersReducedMotion ? false : { scaleX: 0 }}
         animate={inView ? { scaleX: 1 } : {}}
-        transition={{ duration: 0.9, ease: "easeOut" }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.9, ease: "easeOut" }}
         style={{ originX: 0 }}
         className="h-px w-full bg-gradient-to-r from-transparent via-slate/25 to-transparent"
       />
@@ -80,9 +70,9 @@ export const Footer: FC = () => {
       </div>
 
       <motion.div
-        initial={inView && !false ? { opacity: 0, y: 24 } : false}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.65, ease: "easeOut", delay: 0.08 }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.65, ease: "easeOut", delay: prefersReducedMotion ? 0 : 0.08 }}
         className="mt-9 grid gap-10 border-b border-slate/10 pb-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:items-start md:gap-12"
       >
         <div className="max-w-md">
@@ -92,10 +82,7 @@ export const Footer: FC = () => {
           <p className="mt-4 max-w-sm text-sm leading-7 text-muted">
             Software, AI automation and search visibility, shaped around real business problems.
           </p>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-graphite underline decoration-slate/30 underline-offset-4 transition-colors hover:text-deep-teal hover:decoration-deep-teal"
-          >
+          <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-graphite underline decoration-slate/30 underline-offset-4 transition-colors hover:text-deep-teal hover:decoration-deep-teal">
             {CONTACT_EMAIL}
           </a>
         </div>
