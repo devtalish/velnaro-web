@@ -42,7 +42,8 @@ const AUTOMATION_USE_CASES: UseCase[] = [
       "A form submission can trigger structured capture, optional qualification rules or AI-assisted scoring, assignment to the appropriate team member, and a follow-up step.",
     improvement:
       "This can help enquiries get captured and routed consistently, with follow-up initiated according to agreed business rules.",
-    visualAlt: "Lead capture workflow",
+    visualAlt: "Lead enquiry captured, qualified, assigned in a CRM and followed up automatically",
+    imageSrc: "/automation/lead-capture-follow-up.svg",
   },
   {
     id: 2,
@@ -53,7 +54,8 @@ const AUTOMATION_USE_CASES: UseCase[] = [
       "Documents can be parsed, key information validated, and approved data passed to connected CRM, ERP or accounting systems.",
     improvement:
       "This can reduce repetitive entry and improve consistency, while keeping exception handling and human review where needed.",
-    visualAlt: "Data processing workflow",
+    visualAlt: "Documents extracted and validated before syncing to CRM, ERP and finance systems",
+    imageSrc: "/automation/data-processing-admin.svg",
   },
 ];
 
