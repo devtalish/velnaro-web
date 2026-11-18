@@ -25,7 +25,7 @@ export const Services: FC = () => {
         }
       />
 
-      <div className="relative space-y-6 md:space-y-8">
+      <div className="relative space-y-8 md:space-y-10">
         {SERVICES.map((service, index) => (
           <ServiceCard
             key={service.id}
