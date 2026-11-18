@@ -1,99 +1,104 @@
 import { type FC } from "react";
 import {
-  CONTACT_POINT_EMAIL, SITE_DESCRIPTION, SITE_NAME, SITE_SECTIONS, SITE_URL, SOCIAL_PROFILES,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
 } from "@/constants/seo-constants";
-import { HERO_LOCATION } from "@/constants/hero-constants";
-import { SERVICES } from "@/constants/services-constants";
 
-const locationParts = HERO_LOCATION.split(",").map((part) => part.trim()).filter(Boolean);
-const address = locationParts.length
-  ? {
-      "@type": "PostalAddress",
-      ...(locationParts[0] ? { addressLocality: locationParts[0] } : {}),
-      ...(locationParts[1] ? { addressCountry: locationParts[1] } : {}),
-    }
-  : undefined;
+const organizationId = `${SITE_URL}/#organization`;
+const websiteId = `${SITE_URL}/#website`;
 
-const organization = {
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#organization`,
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: SITE_DESCRIPTION,
-  email: CONTACT_POINT_EMAIL,
-  logo: `${SITE_URL}/opengraph-image`,
-  sameAs: SOCIAL_PROFILES,
-  ...(address ? { address } : {}),
-};
-
-const website = {
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
-  inLanguage: "en",
-  publisher: { "@id": `${SITE_URL}/#organization` },
-};
-
-const sectionId = (hash: string) => `${SITE_URL}/${hash}`;
-const sections = SITE_SECTIONS.map((section) => ({
-  "@type": "WebPageElement",
-  "@id": sectionId(section.hash),
-  name: section.name,
-  description: section.description,
-  url: sectionId(section.hash),
-  isPartOf: { "@id": `${SITE_URL}/#webpage` },
-}));
-
-const navigation = {
-  "@type": "ItemList",
-  "@id": `${SITE_URL}/#sections`,
-  name: `${SITE_NAME} sections`,
-  itemListOrder: "https://schema.org/ItemListOrderAscending",
-  numberOfItems: SITE_SECTIONS.length,
-  itemListElement: SITE_SECTIONS.map((section, index) => ({
-    "@type": "ListItem", position: index + 1, name: section.name, url: sectionId(section.hash),
-  })),
-};
-
-const webpage = {
-  "@type": "WebPage",
-  "@id": `${SITE_URL}/#webpage`,
-  url: SITE_URL,
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
-  isPartOf: { "@id": `${SITE_URL}/#website` },
-  about: { "@id": `${SITE_URL}/#organization` },
-  mainEntity: { "@id": `${SITE_URL}/#organization` },
-  inLanguage: "en",
-  primaryImageOfPage: `${SITE_URL}/opengraph-image`,
-  hasPart: sections.map((section) => ({ "@id": section["@id"] })),
-  significantLink: SITE_SECTIONS.map((section) => sectionId(section.hash)),
-};
-
-const professionalService = {
-  "@type": "ProfessionalService",
-  "@id": `${SITE_URL}/#service`,
-  name: SITE_NAME,
-  url: SITE_URL,
-  provider: { "@id": `${SITE_URL}/#organization` },
-  areaServed: "Worldwide",
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Services",
-    itemListElement: SERVICES.map((service) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: service.title, description: service.description },
-    })),
+const serviceOffers = [
+  {
+    name: "AI Search & GEO Diagnostic Audit",
+    description: "A diagnostic review of technical search foundations, brand/entity clarity, content structure and AI-search discoverability opportunities.",
+    price: "850",
+    url: "/services/geo-aeo-ai-search-visibility",
   },
-};
+  {
+    name: "GEO Strategy & Entity Roadmap",
+    description: "A prioritized strategy and entity roadmap based on the diagnostic findings and agreed business objectives.",
+    price: "1650",
+    url: "/services/geo-aeo-ai-search-visibility",
+  },
+  {
+    name: "Complete GEO/AEO Technical Implementation Sprint",
+    description: "An implementation engagement for agreed technical, structured-data and content improvements.",
+    price: "2800",
+    url: "/services/geo-aeo-ai-search-visibility",
+  },
+  {
+    name: "Monthly GEO/AEO Growth Optimization Retainer",
+    description: "Ongoing optimization and measurement under a defined monthly scope.",
+    price: "2200",
+    url: "/services/geo-aeo-ai-search-visibility",
+    unitText: "month",
+  },
+  {
+    name: "Advanced Ongoing Authority Program",
+    description: "An advanced monthly authority and optimization engagement under a separately agreed scope.",
+    price: "4500",
+    url: "/services/geo-aeo-ai-search-visibility",
+    unitText: "month",
+  },
+];
 
 const graph = {
   "@context": "https://schema.org",
-  "@graph": [organization, website, webpage, navigation, ...sections, professionalService],
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      knowsAbout: [
+        "Generative Engine Optimization",
+        "Answer Engine Optimization",
+        "Technical SEO",
+        "Structured Data",
+        "AI Automation",
+        "Custom Software Development",
+      ],
+      areaServed: [
+        { "@type": "Country", name: "Canada" },
+        { "@type": "Country", name: "Australia" },
+        { "@type": "Country", name: "United Kingdom" },
+        { "@type": "Country", name: "Austria" },
+        { "@type": "Country", name: "United States" },
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "VELNARO Services and GEO/AEO Engagements",
+        itemListElement: serviceOffers.map((offer) => ({
+          "@type": "Offer",
+          name: offer.name,
+          description: offer.description,
+          url: `${SITE_URL}${offer.url}`,
+          priceCurrency: "USD",
+          price: offer.price,
+          ...(offer.unitText
+            ? { priceSpecification: { "@type": "UnitPriceSpecification", price: offer.price, priceCurrency: "USD", unitText: offer.unitText } }
+            : {}),
+          itemOffered: { "@type": "Service", name: offer.name, provider: { "@id": organizationId } },
+        })),
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      publisher: { "@id": organizationId },
+    },
+  ],
 };
 
 export const JsonLd: FC = () => (
-  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }} />
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(graph).replace(/</g, "\\u003c") }}
+  />
 );
