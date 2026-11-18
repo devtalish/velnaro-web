@@ -17,7 +17,7 @@ export const Hero: FC = () => {
   return (
     <section
       id="home"
-      className="relative flex items-start justify-center min-h-screen overflow-visible md:items-start md:justify-start"
+      className="relative flex min-h-screen items-start justify-center overflow-visible md:items-start md:justify-start"
     >
       <HeroText />
       <ParallaxBackground />
