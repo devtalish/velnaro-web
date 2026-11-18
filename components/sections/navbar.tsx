@@ -55,7 +55,7 @@ export const Navbar: FC = () => {
       <div className="c-space">
         <div className="flex min-h-[72px] items-center justify-between gap-5 py-2">
           <NavBrand />
-          <nav className="hidden xl:flex" aria-label="Main navigation">
+          <nav className="hidden lg:flex" aria-label="Main navigation">
             <ul className="nav-ul">
               {NAV_ITEMS.map((item) => (
                 <li
@@ -106,12 +106,12 @@ export const Navbar: FC = () => {
               ))}
             </ul>
           </nav>
-          <div className="hidden items-center xl:flex"><HireMeButton /></div>
+          <div className="hidden items-center lg:flex"><HireMeButton /></div>
           <button
             ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((open) => !open)}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate/15 bg-white/70 text-graphite transition-colors hover:border-deep-teal/40 hover:text-deep-teal xl:hidden"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate/15 bg-white/70 text-graphite transition-colors hover:border-deep-teal/40 hover:text-deep-teal lg:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
