@@ -27,7 +27,7 @@ export const MobileMenu: FC<MobileMenuProps> = ({ open, active, onClose }) => {
           exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.22 }}
           id="mobile-navigation"
-          className="block overflow-hidden border-t border-slate/10 bg-ivory/98 text-left shadow-xl shadow-graphite/[0.06] backdrop-blur-xl xl:hidden"
+          className="block overflow-hidden border-t border-slate/10 bg-ivory/98 text-left shadow-xl shadow-graphite/[0.06] backdrop-blur-xl lg:hidden"
         >
           <nav className="c-space py-5" aria-label="Mobile navigation">
             <ul className="flex flex-col gap-1">
