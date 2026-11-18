@@ -114,11 +114,11 @@ const useStagedFlag = (
 };
 
 /** Load the hero's 3D artwork on capable phones and desktop devices. */
-export const useDeferred3D = (stage = 0): boolean =>
+export const useDeferred3D = (stage = 0, minViewport = MIN_3D_VIEWPORT): boolean =>
   useStagedFlag(
     stage,
-    () => isCapableDevice(MIN_3D_VIEWPORT) && hasHardwareWebGL(),
-    MIN_3D_VIEWPORT
+    () => isCapableDevice(minViewport) && hasHardwareWebGL(),
+    minViewport
   );
 
 /** Keep the heavier full-bleed parallax image layers for larger screens. */
