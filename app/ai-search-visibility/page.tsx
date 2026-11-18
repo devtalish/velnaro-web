@@ -15,17 +15,9 @@ import { SearchFramework } from "@/components/ai-search-visibility/search-framew
 import { VisibilityFramework } from "@/components/ai-search-visibility/visibility-framework";
 import { MeasurementExplainer } from "@/components/ai-search-visibility/measurement-explainer";
 import { ImprovementProcess } from "@/components/ai-search-visibility/improvement-process";
-import { RelatedWorkGrid } from "@/components/ai-search-visibility/related-work-grid";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 import { AutomationFAQ } from "@/components/ai-automation/automation-faq";
 import { ServiceCta } from "@/components/services/service-cta";
-
-type ProjectRef = {
-  title: string;
-  description: string;
-  href?: string;
-  image?: string;
-  capabilities: string[];
-};
 
 const MEASUREMENT_ITEMS = [
   {
@@ -248,7 +240,7 @@ export default function AISearchVisibility() {
 
       <ImprovementProcess stages={IMPROVEMENT_STAGES} />
 
-      <RelatedWorkGrid projects={RELATED_WORK} />
+      <ServiceLivePreviews />
 
       <AutomationFAQ
         eyebrow="AI SEARCH VISIBILITY"
