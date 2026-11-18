@@ -76,7 +76,6 @@ export const Navbar: FC = () => {
                         ref={servicesLinkRef}
                         type="button"
                         onClick={() => setIsDropdownOpen(true)}
-                        onFocus={() => setIsDropdownOpen(true)}
                         aria-haspopup="true"
                         aria-expanded={isDropdownOpen}
                         aria-controls="services-navigation-menu"
