@@ -303,7 +303,7 @@ img, video, canvas, svg {
 [data-intro-played="1"] .page-loader { display: none; }
 
 @media (max-width: 1279px) {
-  .nav-ul { @apply gap-3; }
+  .nav-ul { @apply gap-4; }
 }
 
 @media (prefers-reduced-motion: reduce) {
