@@ -95,7 +95,7 @@ export async function POST(req: Request) {
   // The form must never claim success unless the private database write succeeds.
   if (!isServiceSupabaseConfigured) {
     return errorResponse(
-      "The contact form is not connected yet. Please try again later or contact VELNARO directly.",
+      "The contact form is temporarily unavailable. Please try again later.",
       503
     );
   }
