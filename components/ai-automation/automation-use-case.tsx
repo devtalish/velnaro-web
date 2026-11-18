@@ -10,21 +10,22 @@ type UseCase = {
   automatedWorkflow: string;
   improvement: string;
   visualAlt: string;
+  imageSrc: string;
 };
 
 type AutomationUseCaseProps = { useses: UseCase[] };
 
 const UseCaseCard: FC<{ useCase: UseCase }> = ({ useCase }) => (
-  <article className="group overflow-hidden rounded-2xl border border-slate/20 bg-white/80 p-6 shadow-sm">
-    <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl bg-pale-sage">
-            <Image
-        src="/placeholder-use-case.svg"
+  <article className="group overflow-hidden rounded-2xl border border-slate/20 bg-white/80 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-deep-teal/25 hover:shadow-xl hover:shadow-graphite/[0.06]">
+    <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl bg-graphite">
+      <Image
+        src={useCase.imageSrc}
         alt={useCase.visualAlt}
         fill
         sizes="(max-width: 768px) 100vw, 50vw"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
       />
-      <span className="absolute left-3 top-3 rounded-full bg-graphite/80 px-3 py-1 text-xs font-mono text-white">
+      <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-graphite/80 px-3 py-1 text-xs font-mono text-white">
         {String(useCase.id).padStart(2, "0")}
       </span>
     </div>
