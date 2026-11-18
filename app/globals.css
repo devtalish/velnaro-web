@@ -4,21 +4,21 @@
 @source "../components/**/*.{js,ts,jsx,tsx}";
 
 @theme {
-  --color-ivory: #F4F2EC;
-  --color-graphite: #171B1F;
-  --color-deep-teal: #176B65;
-  --color-pale-sage: #D9E7E2;
-  --color-slate: #30373D;
-  --color-muted: #5D666C;
+  --color-ivory: #F3F1EA;
+  --color-graphite: #0B1220;
+  --color-deep-teal: #2E7775;
+  --color-pale-sage: #E3EBE5;
+  --color-slate: #182230;
+  --color-muted: #58636A;
   --color-white: #FFFFFF;
   --color-black: #000000;
 
   /* Compatibility aliases using the established VELNARO palette. */
-  --color-primary: #171B1F;
-  --color-royal: #176B65;
-  --color-coral: #176B65;
-  --color-lavender: #D9E7E2;
-  --color-sand: #D9E7E2;
+  --color-primary: #0B1220;
+  --color-royal: #2E7775;
+  --color-coral: #B89455;
+  --color-lavender: #E3EBE5;
+  --color-sand: #B89455;
 
   --animate-orbit: orbit 50s linear infinite;
   @keyframes orbit {
