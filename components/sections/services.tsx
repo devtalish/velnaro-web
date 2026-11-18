@@ -16,16 +16,12 @@ export const Services: FC = () => {
       className="c-space section-spacing relative overflow-visible"
     >
       <SectionHeader
-        className="mb-12"
+        className="mb-9 sm:mb-12"
         eyebrow="WHAT WE DO"
-        title={
-          <>
-            Technology built around real needs.
-          </>
-        }
+        title={<>Technology built around real needs.</>}
       />
 
-      <div className="relative space-y-8 md:space-y-10">
+      <div className="relative space-y-6 sm:space-y-8 md:space-y-10">
         {SERVICES.map((service, index) => (
           <ServiceCard
             key={service.id}
