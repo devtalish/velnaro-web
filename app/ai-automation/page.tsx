@@ -30,6 +30,7 @@ type UseCase = {
   automatedWorkflow: string;
   improvement: string;
   visualAlt: string;
+  imageSrc: string;
 };
 
 const AUTOMATION_USE_CASES: UseCase[] = [
