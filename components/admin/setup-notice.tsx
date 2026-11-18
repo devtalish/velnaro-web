@@ -1,14 +1,16 @@
 import { type FC } from "react";
 
-interface SetupNoticeProps { variant?: "no-project" | "no-schema"; }
+interface SetupNoticeProps { variant?: "no-project" | "no-schema" | "unavailable"; }
 
 export const SetupNotice: FC<SetupNoticeProps> = ({ variant = "no-project" }) => (
   <div className="space-y-4 text-sm text-graphite">
     <div className="flex items-center gap-2">
       <span className="inline-block h-2 w-2 rounded-full bg-deep-teal" />
-      <h2 className="font-semibold text-graphite">{variant === "no-schema" ? "Migrations not run yet" : "Database not connected"}</h2>
+      <h2 className="font-semibold text-graphite">{variant === "no-schema" ? "Migrations not run yet" : variant === "unavailable" ? "Could not verify admin access" : "Database not connected"}</h2>
     </div>
-    {variant === "no-schema" ? (
+    {variant === "unavailable" ? (
+      <p className="text-muted">Supabase responded with an error while verifying this session or admin permissions. Refresh the page and check the Supabase project status, database connectivity and API permissions. No admin access is granted while verification is unavailable.</p>
+    ) : variant === "no-schema" ? (
       <>
         <p className="text-muted">The Supabase project is connected, but it has no <code className="text-graphite">admin_users</code> table, so there is no way to say who is allowed in here.</p>
         <ol className="list-decimal space-y-2 pl-5 text-muted marker:text-muted">
