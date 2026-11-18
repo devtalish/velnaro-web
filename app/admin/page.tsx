@@ -47,6 +47,14 @@ const AdminPage = async ({ searchParams }: AdminPageProps) => {
     );
   }
 
+  if (state.status === "unavailable") {
+    return (
+      <AdminPanel>
+        <SetupNotice variant="unavailable" />
+      </AdminPanel>
+    );
+  }
+
   if (state.status === "schema-missing") {
     return (
       <AdminPanel>
