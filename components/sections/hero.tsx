@@ -21,6 +21,16 @@ export const Hero: FC = () => {
     >
       <HeroText />
       <ParallaxBackground />
+      {!showScene && (
+        <div aria-hidden="true" className="pointer-events-none absolute right-[3%] top-[17%] hidden aspect-square w-[42vw] max-w-[39rem] md:block">
+          <div className="absolute inset-[8%] rounded-full border border-deep-teal/15" />
+          <div className="absolute inset-[18%] rounded-full border border-slate/10" />
+          <div className="absolute inset-[25%] rounded-full bg-gradient-to-br from-white/90 via-pale-sage/55 to-deep-teal/10 shadow-[0_35px_100px_-45px_rgba(23,107,101,0.35)]" />
+          <div className="absolute left-[18%] top-[24%] h-3 w-3 rounded-full bg-deep-teal/55 shadow-[0_0_24px_rgba(23,107,101,0.35)]" />
+          <div className="absolute bottom-[18%] right-[22%] h-2 w-2 rounded-full bg-graphite/35" />
+          <div className="absolute right-[9%] top-[36%] h-5 w-5 rounded-full border border-deep-teal/25 bg-white/80" />
+        </div>
+      )}
       {showScene && <HeroScene />}
     </section>
   );
