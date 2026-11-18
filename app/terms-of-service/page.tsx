@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
 import Link from "next/link";
-import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -80,7 +79,7 @@ export default function TermsOfService(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Website Content Accuracy</h2>
         <p className="mb-4">
-          The information on the Website is provided general information only and may not be relied upon. While we strive to provide accurate and up-to-date information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability with respect to the Website or the information, products, services, or related graphics contained on the Website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.
+          The information on the Website is provided for general information only and should not be treated as professional advice. While we strive to provide accurate and up-to-date information, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability with respect to the Website or the information, products, services, or related graphics contained on the Website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Liability and Legal Boundaries</h2>
@@ -95,17 +94,17 @@ export default function TermsOfService(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Disputes</h2>
         <p className="mb-4">
-          Any dispute arising out of or related to these Terms shall be governed by the laws of the jurisdiction where VELNARO operates primarily conducted, without regard to its conflict of law principles. You and VELNARO agree to try to resolve any dispute informally by contacting hello@velnaro.agency. If the dispute is not resolved within 30 days, either party may pursue legal action in the appropriate courts of that jurisdiction.
+          Any governing law, dispute process and venue applicable to a specific client engagement will be stated in the signed Service Agreement. Nothing in these Terms limits rights or remedies that cannot lawfully be excluded under the laws that apply to you. Before public launch, VELNARO must obtain legal review of the governing-law and venue terms for website use.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Contact Information</h2>
         <p className="mb-4">
-          If you have any questions about these Terms, please contact us at:
+          If you have any questions about these Terms, please use the website contact form:
         </p>
         <p className="mb-4">
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-deep-teal hover:text-primary transition-colors underline">
-            hello@velnaro.agency
-          </a>
+          <Link href="/#contact" className="text-deep-teal hover:text-primary transition-colors underline">
+            Contact VELNARO
+          </Link>
         </p>
 
         <p className="mt-8 text-sm text-muted">
