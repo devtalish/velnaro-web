@@ -43,6 +43,11 @@ const serviceOffers: Array<{ name: string; description: string; price: string; u
   },
 ];
 
+const coreServices = [
+  { name: "AI Search Visibility — GEO & AEO", description: "Technical SEO, generative and answer-engine readiness, entity clarity, structured data, answer-led content and measurement.", url: "/ai-search-visibility" },
+  { name: "AI Automation & Business Systems", description: "Workflow automation, CRM and lead-management systems, document processing, AI assistants and application integrations.", url: "/ai-automation" },
+  { name: "Software Development & Digital Solutions", description: "Custom websites, web applications, business dashboards, internal tools and API integrations.", url: "/software-development" },
+];
 const graph = {
   "@context": "https://schema.org",
   "@graph": [
@@ -70,7 +75,13 @@ const graph = {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "VELNARO Services and GEO/AEO Engagements",
-        itemListElement: serviceOffers.map((offer) => ({
+        itemListElement: [
+          ...coreServices.map((service) => ({
+            "@type": "Offer",
+            url: SITE_URL + service.url,
+            itemOffered: { "@type": "Service", name: service.name, description: service.description, provider: { "@id": organizationId } },
+          })),
+          ...serviceOffers.map((offer) => ({
           "@type": "Offer",
           name: offer.name,
           description: offer.description,
@@ -82,6 +93,7 @@ const graph = {
             : {}),
           itemOffered: { "@type": "Service", name: offer.name, provider: { "@id": organizationId } },
         })),
+        ],
       },
     },
     {
