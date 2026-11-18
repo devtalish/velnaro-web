@@ -51,6 +51,8 @@ const AdminLoginPage: FC = async () => {
         <div className="glass gradient-border p-6">
           {state.status === "not-configured" ? (
             <SetupNotice />
+          ) : state.status === "unavailable" ? (
+            <SetupNotice variant="unavailable" />
           ) : state.status === "schema-missing" ? (
             <SetupNotice variant="no-schema" />
           ) : (
