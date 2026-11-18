@@ -60,8 +60,9 @@ export const Navbar: FC = () => {
                   className="relative"
                   onMouseEnter={() => item.label === "Services" && setIsDropdownOpen(true)}
                   onMouseLeave={(event) => {
-                    if (item.label === "Services" && !event.currentTarget.contains(document.activeElement)) {
-                      setIsDropdownOpen(false);
+                    if (item.label === "Services") {
+                      const dropdown = event.currentTarget.querySelector("#services-navigation-menu");
+                      if (!dropdown?.contains(document.activeElement)) setIsDropdownOpen(false);
                     }
                   }}
                   onBlur={(event) => {
