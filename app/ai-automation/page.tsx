@@ -21,6 +21,7 @@ import { AutomationTimeline } from "@/components/ai-automation/automation-timeli
 import { AutomationFAQ } from "@/components/ai-automation/automation-faq";
 import { ResponsibleAutomation } from "@/components/ai-automation/responsible-automation";
 import { ServiceCta } from "@/components/services/service-cta";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 
 type UseCase = {
   id: number;
@@ -151,6 +152,8 @@ export default function AIAutomation() {
         secondaryCtaText="View Related Work"
         secondaryCtaHref="/#work"
       />
+
+      <ServiceLivePreviews />
 
       <ManualVsAutomated
         title="From manual process to connected workflow"
