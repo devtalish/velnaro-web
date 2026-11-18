@@ -1,7 +1,6 @@
 import { createHmac } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createServiceClient, isServiceSupabaseConfigured } from "@/lib/supabase/admin";
-import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { BUDGET_OPTIONS } from "@/constants/contact-constants";
 
 export const runtime = "nodejs";
@@ -10,28 +9,9 @@ export const dynamic = "force-dynamic";
 const EMAIL_REGEX = /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 const MAX_BODY_BYTES = 16_000;
 const ALLOWED_BUDGETS = new Set<string>(BUDGET_OPTIONS.map((option) => option.value));
-const fallbackRateLimits = new Map<string, number[]>();
 
 const errorResponse = (error: string, status: number) =>
   NextResponse.json({ error }, { status });
-
-const escapeHtml = (value: string) =>
-  value.replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[character] ?? character);
-
-function allowFallbackRequest(ip: string): boolean {
-  const now = Date.now();
-  const recent = (fallbackRateLimits.get(ip) ?? []).filter((timestamp) => now - timestamp < 10 * 60 * 1000);
-  if (recent.length >= 5) return false;
-  recent.push(now);
-  fallbackRateLimits.set(ip, recent);
-  return true;
-}
 
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type")?.split(";")[0].trim().toLowerCase();
@@ -50,6 +30,7 @@ export async function POST(req: Request) {
     if (!reader) return errorResponse("Request body is required.", 400);
     const chunks: Uint8Array[] = [];
     let totalBytes = 0;
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -60,6 +41,7 @@ export async function POST(req: Request) {
       }
       chunks.push(value);
     }
+
     const bytes = new Uint8Array(totalBytes);
     let offset = 0;
     for (const chunk of chunks) {
@@ -84,7 +66,7 @@ export async function POST(req: Request) {
     return errorResponse("All contact fields must be text.", 400);
   }
 
-  // Quietly accept honeypot submissions without sending or storing anything.
+  // Quietly accept honeypot submissions without storing them.
   if (typeof input.website === "string" && input.website.trim()) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
@@ -94,8 +76,12 @@ export async function POST(req: Request) {
   const budget = (input.budget as string | undefined)?.trim() ?? "";
   const message = (input.message as string | undefined)?.trim() ?? "";
 
-  if (!name || !email || !message) return errorResponse("Name, email and message are required.", 400);
-  if (!EMAIL_REGEX.test(email)) return errorResponse("Please provide a valid email address.", 400);
+  if (!name || !email || !message) {
+    return errorResponse("Name, email and message are required.", 400);
+  }
+  if (!EMAIL_REGEX.test(email)) {
+    return errorResponse("Please provide a valid email address.", 400);
+  }
   if (name.length > 120 || email.length > 200 || budget.length > 100 || message.length > 5000) {
     return errorResponse("One or more fields exceed the allowed length.", 413);
   }
@@ -106,115 +92,65 @@ export async function POST(req: Request) {
     return errorResponse("Fields contain unsupported control characters.", 400);
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL;
-  if (!resendApiKey || !fromEmail) {
+  // The form must never claim success unless the private database write succeeds.
+  if (!isServiceSupabaseConfigured) {
     return errorResponse(
-      `Email delivery is not configured yet. Please email ${CONTACT_EMAIL} directly.`,
+      "The contact form is not connected yet. Please try again later or contact VELNARO directly.",
       503
     );
   }
 
-  const supabase = isServiceSupabaseConfigured ? createServiceClient() : null;
+  const supabase = createServiceClient();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!supabase || !serviceKey) {
+    return errorResponse("The contact form is temporarily unavailable. Please try again later.", 503);
+  }
+
+  const forwardedFor = req.headers.get("x-forwarded-for");
   const ip = req.headers.get("cf-connecting-ip")?.trim()
     || req.headers.get("x-real-ip")?.trim()
+    || forwardedFor?.split(",").at(-1)?.trim()
     || "unknown";
+  const ipHash = createHmac("sha256", serviceKey).update(ip).digest("hex");
 
-  if (supabase && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    const ipHash = createHmac("sha256", process.env.SUPABASE_SERVICE_ROLE_KEY).update(ip).digest("hex");
-    const { data: allowed, error: rateError } = await supabase.rpc("consume_contact_rate_limit", { p_ip_hash: ipHash });
-    if (rateError) {
-      console.error("Contact rate-limit check failed:", rateError.message);
-      return errorResponse("The contact form is temporarily unavailable. Please try again shortly.", 503);
-    }
-    if (allowed !== true) {
-      return NextResponse.json(
-        { error: "Too many messages were sent from this connection. Please try again in 10 minutes." },
-        { status: 429, headers: { "Retry-After": "600" } }
-      );
-    }
-  } else if (!allowFallbackRequest(ip)) {
+  const { data: allowed, error: rateError } = await supabase.rpc(
+    "consume_contact_rate_limit",
+    { p_ip_hash: ipHash }
+  );
+
+  if (rateError) {
+    console.error("Contact rate-limit check failed:", rateError.message);
+    return errorResponse("The contact form is temporarily unavailable. Please try again shortly.", 503);
+  }
+  if (allowed !== true) {
     return NextResponse.json(
       { error: "Too many messages were sent from this connection. Please try again in 10 minutes." },
       { status: 429, headers: { "Retry-After": "600" } }
     );
   }
 
-  const safeName = name.replace(/[\r\n]+/g, " ").trim();
-  const safeEmail = email.replace(/[\r\n]+/g, "");
-  const safeBudget = budget || "Not specified";
-  const subject = `New VELNARO project enquiry — ${safeName}`;
-  const text = [
-    "A new project enquiry was submitted through velnaro.agency.",
-    "",
-    `Name: ${safeName}`,
-    `Email: ${safeEmail}`,
-    `Project budget: ${safeBudget}`,
-    "",
-    "Project details:",
+  const { error: insertError } = await supabase.from("contact_submissions").insert({
+    name,
+    email,
+    budget: budget || null,
     message,
-  ].join("\n");
-  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#17252b;max-width:640px;margin:auto">
-    <p style="font-size:12px;letter-spacing:2px;color:#2e7775;font-weight:700">VELNARO · NEW PROJECT ENQUIRY</p>
-    <h1 style="font-size:24px">A new website enquiry</h1>
-    <p><strong>Name</strong><br />${escapeHtml(safeName)}</p>
-    <p><strong>Email</strong><br /><a href="mailto:${escapeHtml(safeEmail)}">${escapeHtml(safeEmail)}</a></p>
-    <p><strong>Project budget</strong><br />${escapeHtml(safeBudget)}</p>
-    <p><strong>Project details</strong></p>
-    <div style="white-space:pre-wrap;background:#f3f1ea;padding:18px;border-radius:12px">${escapeHtml(message)}</div>
-  </div>`;
+    source: "website-contact-form",
+    user_agent: (req.headers.get("user-agent") ?? "").slice(0, 500) || null,
+    ip_address: null,
+    email_sent: false,
+    email_error: null,
+    owner_email_sent: false,
+    owner_email_error: null,
+    acknowledgement_email_sent: false,
+    acknowledgement_email_error: null,
+  });
 
-  let emailResponse: Response;
-  try {
-    emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [CONTACT_EMAIL],
-        reply_to: safeEmail,
-        subject,
-        text,
-        html,
-      }),
-      cache: "no-store",
+  if (insertError) {
+    console.error("Contact submission could not be stored:", {
+      code: insertError.code,
+      message: insertError.message,
     });
-  } catch (error) {
-    console.error("Contact email provider request failed:", error);
-    return errorResponse(`We couldn't send your enquiry. Please email ${CONTACT_EMAIL} directly.`, 502);
-  }
-
-  if (!emailResponse.ok) {
-    const providerError = await emailResponse.text().catch(() => "Unknown provider error");
-    console.error("Contact email provider rejected the message:", emailResponse.status, providerError.slice(0, 500));
-    return errorResponse(`We couldn't send your enquiry. Please email ${CONTACT_EMAIL} directly.`, 502);
-  }
-
-  // Keep the private admin inbox in sync when Supabase is configured. Mark the
-  // owner notification as sent so the existing webhook cannot send a duplicate.
-  if (supabase) {
-    const { error: insertError } = await supabase.from("contact_submissions").insert({
-      name,
-      email,
-      budget: budget || null,
-      message,
-      source: "website-contact-form",
-      user_agent: (req.headers.get("user-agent") ?? "").slice(0, 500) || null,
-      ip_address: null,
-      email_sent: true,
-      owner_email_sent: true,
-      owner_email_error: null,
-    });
-
-    if (insertError) {
-      console.error("Email was sent, but contact submission could not be stored:", {
-        code: insertError.code,
-        message: insertError.message,
-      });
-    }
+    return errorResponse("We couldn't save your enquiry. Please try again shortly.", 503);
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });
