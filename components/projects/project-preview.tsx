@@ -1,10 +1,8 @@
 "use client";
 
 import { type FC, type MouseEvent } from "react";
-import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import { TILT_RANGE, TILT_SPRING } from "@/constants/projects-constants";
-import { formatCounter, padIndex } from "@/helpers/format-helpers";
 import { type ProjectPreviewProps } from "@/types/project-types";
 
 const isComingSoon = (href: string) => !href || href.trim() === "";
