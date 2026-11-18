@@ -87,29 +87,6 @@ const IMPROVEMENT_STAGES = [
   },
 ];
 
-const RELATED_WORK: ProjectRef[] = [
-  {
-    title: "Restaurant website",
-    description:
-      "A restaurant web experience focused on presenting the venue and its offering.",
-    href: "https://restaurant-d-g.vercel.app/",
-    capabilities: ["Website structure", "Content presentation", "Digital experience"],
-  },
-  {
-    title: "Aether Estates",
-    description:
-      "A real-estate web experience designed to present property information.",
-    href: "https://aether-estate-2ur6.vercel.app/",
-    capabilities: ["Property presentation", "Visual interface", "Discovery"],
-  },
-  {
-    title: "ClinicFlow",
-    description:
-      "A healthcare software concept focused on presenting clinical workflows.",
-    href: "https://cliniflow-eta.vercel.app/",
-    capabilities: ["Workflow presentation", "Structured interface", "Digital experience"],
-  },
-];
 
 export const metadata: Metadata = {
   title: {
