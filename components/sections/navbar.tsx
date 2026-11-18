@@ -16,7 +16,7 @@ export const Navbar: FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const scrolled = useScrolled(NAV_SCROLLED_AT);
   const active = useActiveSection();
-  const servicesLinkRef = useRef<HTMLAnchorElement>(null);
+  const servicesLinkRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -73,34 +73,46 @@ export const Navbar: FC = () => {
                     }
                   }}
                 >
-                  <NavLink
-                    ref={item.label === "Services" ? servicesLinkRef : undefined}
-                    href={isHomePage ? item.href : `/${item.href}`}
-                    label={item.label}
-                    active={isHomePage && active === item.href}
-                    onFocus={() => item.label === "Services" && setIsDropdownOpen(true)}
-                    ariaHaspopup={item.label === "Services"}
-                    ariaExpanded={item.label === "Services" ? isDropdownOpen : undefined}
-                    ariaControls={item.label === "Services" ? "services-navigation-menu" : undefined}
-                  />
-                  {item.label === "Services" && isDropdownOpen && (
-                    <div
-                      id="services-navigation-menu"
-                      className="absolute right-0 top-full z-50 mt-3 w-72 max-w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-slate/15 bg-white p-3 shadow-2xl shadow-graphite/10"
-                    >
-                      <ul className="flex flex-col gap-1">
-                        {item.dropdown?.map((subItem) => (
-                          <li key={subItem.link}>
-                            <NavLink
-                              href={subItem.link}
-                              label={subItem.label}
-                              active={pathname === subItem.link}
-                              onClick={() => setIsDropdownOpen(false)}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {item.label === "Services" ? (
+                    <>
+                      <button
+                        ref={servicesLinkRef as React.RefObject<HTMLButtonElement>}
+                        type="button"
+                        onClick={() => setIsDropdownOpen((open) => !open)}
+                        onFocus={() => setIsDropdownOpen(true)}
+                        aria-haspopup="true"
+                        aria-expanded={isDropdownOpen}
+                        aria-controls="services-navigation-menu"
+                        className="nav-link relative inline-flex items-center gap-2"
+                      >
+                        Services
+                        <span aria-hidden className={`text-[10px] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}>⌄</span>
+                      </button>
+                      {isDropdownOpen && (
+                        <div className="absolute right-0 top-full z-50 w-80 max-w-[min(20rem,calc(100vw-2rem))] pt-3">
+                          <div id="services-navigation-menu" className="rounded-2xl border border-slate/15 bg-white p-3 shadow-2xl shadow-graphite/10">
+                            <ul className="flex flex-col gap-1">
+                              {item.dropdown?.map((subItem) => (
+                                <li key={subItem.link}>
+                                  <NavLink
+                                    href={subItem.link}
+                                    label={subItem.label}
+                                    active={pathname === subItem.link}
+                                    onClick={() => setIsDropdownOpen(false)}
+                                  />
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <NavLink
+                      href={isHomePage ? item.href : `/${item.href}`}
+                      label={item.label}
+                      active={isHomePage && active === item.href}
+                    />
                   )}
                 </li>
               ))}
