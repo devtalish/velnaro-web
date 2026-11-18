@@ -70,11 +70,16 @@ export const signIn = async (
     return { error: INVALID };
   }
 
-  const { data: adminRow } = await supabase
+  const { data: adminRow, error: adminLookupError } = await supabase
     .from("admin_users")
     .select("user_id")
     .eq("user_id", data.user.id)
     .maybeSingle();
+
+  if (adminLookupError) {
+    await supabase.auth.signOut();
+    return { error: "Could not verify admin permissions. Please try again shortly." };
+  }
 
   if (!adminRow) {
     await supabase.auth.signOut();
