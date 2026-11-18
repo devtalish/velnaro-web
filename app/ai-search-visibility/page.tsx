@@ -267,6 +267,7 @@ export default function AISearchVisibility() {
         secondaryCtaHref=""
       />
       </section>
+      <div className="c-space mx-auto max-w-7xl pb-12 text-center"><Link href="/services/geo-aeo-ai-search-visibility" className="inline-flex items-center gap-2 text-sm font-semibold text-deep-teal underline-offset-4 hover:underline">Explore the dedicated GEO/AEO service page <span aria-hidden="true">→</span></Link></div>
       <Footer />
     </>
   );
