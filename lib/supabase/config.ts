@@ -15,7 +15,12 @@ export const isValidSupabaseUrl = (value: string): boolean => {
   }
 };
 
-export const isSupabaseConfigured: boolean =
+const hasConfiguredProjectUrl =
   isValidSupabaseUrl(SUPABASE_URL) &&
+  !/your-project|your-project-ref/i.test(SUPABASE_URL);
+const hasConfiguredAnonKey =
   Boolean(SUPABASE_ANON_KEY) &&
-  !SUPABASE_ANON_KEY.startsWith("your-");
+  !/^(your-|replace[-_ ]|placeholder)/i.test(SUPABASE_ANON_KEY);
+
+export const isSupabaseConfigured: boolean =
+  hasConfiguredProjectUrl && hasConfiguredAnonKey;
