@@ -52,7 +52,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Operator Identity</h2>
         <p className="mb-4">
-          VELNARO (we, us, our) is a software development and technology solutions company founded by Muhammad Talish. Our principal place of business is operated online and inquiries may be directed at hello@velnaro.agency.
+          VELNARO (we, us, our) is a digital agency brand offering software development, AI automation and AI search visibility services. The legal name and business address of the person or entity responsible for this website must be confirmed and published before the site launches publicly. Until a business mailbox is configured, privacy requests can be submitted through the website contact form.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Information We Collect</h2>
@@ -85,7 +85,7 @@ export default function PrivacyPolicy(): React.ReactElement {
         <ul className="list-disc pl-5 mb-4">
           <li className="mb-2">Respond to inquiries and contact requests</li>
           <li className="mb-2">Maintain records of communications</li>
-          <li className="mb-2">Detecting and limiting spam or abusive contact-form submissions</li>
+          <li className="mb-2">Detect and limit spam or abusive contact-form submissions</li>
           <li className="mb-2">Improve our services</li>
         </ul>
 
@@ -96,7 +96,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Service Providers</h2>
         <p className="mb-4">
-          We use Vercel to host the website and Supabase to store contact submissions and manage admin authentication. A configured SMTP/email delivery provider processes the messages needed to send the visitor acknowledgement and notify VELNARO. These providers may process information on infrastructure outside your country of residence; their locations and terms depend on the accounts configured by VELNARO. When a live project preview is embedded, your browser loads that third-party website directly. Its provider may receive connection and browser information, set its own cookies, and process data under its own privacy policy.
+          Supabase is used to store contact submissions and manage administrator authentication. The production website hosting provider and any future email-delivery provider must be identified in this policy before public launch. The current contact form stores enquiries in Supabase and does not send automatic email notifications. When a live project preview is embedded, your browser loads that third-party website directly. Its provider may receive connection and browser information, set its own cookies, and process data under its own privacy policy.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Sharing</h2>
@@ -104,7 +104,7 @@ export default function PrivacyPolicy(): React.ReactElement {
           We do not sell or rent your personal information to third parties. We may share your data only in the following circumstances:
         </p>
         <ul className="list-disc pl-5 mb-4">
-          <li className="mb-2">With Vercel, Supabase and the configured email delivery provider as necessary to host the site, store enquiries and deliver emails</li>
+          <li className="mb-2">With Supabase to store contact enquiries and manage administrator authentication; the production hosting provider will be identified before launch</li>
           <li className="mb-2">With authorized personnel who need the information to respond to your inquiry</li>
           <li className="mb-2">If required by law or valid government request</li>
         </ul>
@@ -116,7 +116,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Data Retention</h2>
         <p className="mb-4">
-          Contact form submissions are currently retained until an authorized admin deletes them or a verified deletion request is processed. There is no automatic retention/deletion schedule currently implemented. You may request deletion by contacting hello@velnaro.agency; authorized admins can also delete submissions through the admin dashboard.
+          Contact form submissions are currently retained until an authorized admin deletes them or a verified deletion request is processed. There is no automatic retention/deletion schedule currently implemented. You may request access to or deletion of a submission through the website contact form. Authorized administrators can also delete submissions through the private admin dashboard.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Individual Rights</h2>
@@ -134,12 +134,12 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">International Data Transfers</h2>
         <p className="mb-4">
-          Our backend infrastructure is provided by Supabase, a cloud service. Your data may be processed, stored, or transferred on servers located outside your country of residence. By using our contact form, you transfer your data to and accept this international handling.
+          Supabase may process or store information in a region that differs from your country of residence. The project's actual region and any applicable transfer safeguards must be confirmed and documented before the website accepts production enquiries.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Contact and Policy Changes</h2>
         <p className="mb-4">
-          If you have questions about this privacy policy, please contact us at hello@velnaro.agency. We may update this privacy policy from time to time. We will notify of any material changes by posting the new privacy policy on this page and updating the last revised date.
+          If you have questions about this privacy policy or want to exercise a privacy right, use the website contact form. We may update this policy from time to time by posting a revised version on this page and updating the revision date.
         </p>
 
         <p className="mt-8 text-sm text-muted">
