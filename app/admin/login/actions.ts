@@ -82,7 +82,6 @@ export const signIn = async (
       message: adminLookupError.message,
       details: adminLookupError.details,
       hint: adminLookupError.hint,
-      status: adminLookupError.status,
     });
     await supabase.auth.signOut();
     return { error: "Could not verify admin permissions. Please try again shortly." };
