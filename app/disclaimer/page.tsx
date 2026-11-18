@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
 import Link from "next/link";
-import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -63,7 +62,7 @@ export default function Disclaimer(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Scope-Based Service Delivery</h2>
         <p className="mb-4">
-          All VELNARO services are delivered within the scope defined in individual project agreements. VELNARO does not guarantee outcomes, results, or performance beyond the explicitly agreed-upon deliverables in a executed Service Agreement. Past project results do not guarantee future performance. Services are provided on a best-effort basis and VELNARO is not liable for business outcomes, revenue changes, or operational results arising from delivered solutions.
+          All VELNARO services are delivered within the scope defined in individual project agreements. VELNARO does not guarantee outcomes, results, or performance beyond the explicitly agreed-upon deliverables in an executed Service Agreement. Past project results do not guarantee future performance. Services are provided on a best-effort basis and VELNARO is not liable for business outcomes, revenue changes, or operational results arising from delivered solutions.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Third-Party Service Dependencies</h2>
@@ -88,12 +87,12 @@ export default function Disclaimer(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Contact Information</h2>
         <p className="mb-4">
-          If you have questions about this Disclaimer, please contact us at:
+          If you have questions about this Disclaimer, please use the website contact form:
         </p>
         <p className="mb-4">
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-deep-teal hover:text-primary transition-colors underline">
-            hello@velnaro.agency
-          </a>
+          <Link href="/#contact" className="text-deep-teal hover:text-primary transition-colors underline">
+            Contact VELNARO
+          </Link>
         </p>
 
         <p className="mt-8 text-sm text-muted">
