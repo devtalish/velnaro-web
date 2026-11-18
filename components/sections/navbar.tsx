@@ -36,10 +36,6 @@ export const Navbar: FC = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isDropdownOpen, isOpen]);
 
-  useEffect(() => {
-    setIsOpen(false);
-    setIsDropdownOpen(false);
-  }, [pathname]);
 
   return (
     <header
