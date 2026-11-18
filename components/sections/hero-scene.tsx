@@ -30,18 +30,19 @@ export const HeroScene: FC = () => {
     <figure
       ref={frame}
       aria-hidden="true"
-      className="absolute inset-0 z-[1] overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
     >
       <Canvas
         camera={{ position: [0, 1, 4] }}
-        dpr={[1, 1.5]}
+        dpr={isMobile ? [1, 1.15] : [1, 1.5]}
         frameloop={active ? "always" : "never"}
+        gl={{ alpha: true, antialias: !isMobile, powerPreference: "low-power" }}
       >
         <Suspense fallback={<Loader />}>
           <Float rotationIntensity={0.3} floatIntensity={0.5} speed={0.5}>
             <Astronaut
-              scale={isMobile ? 0.2 : 0.29}
-              position={isMobile ? [1.85, -0.78, 0] : [3.15, -0.48, 0]}
+              scale={isMobile ? 0.235 : 0.29}
+              position={isMobile ? [0.9, -1.45, 0] : [3.15, -0.48, 0]}
               rotation={[-Math.PI / 2, -0.2, 2.2]}
             />
           </Float>
