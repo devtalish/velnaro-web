@@ -7,7 +7,7 @@ import { BUDGET_OPTIONS } from "@/constants/contact-constants";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const EMAIL_REGEX = /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
+const EMAIL_REGEX = /^[A-Z0-9.!#$%&'*+/=?^_{}|~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 const MAX_BODY_BYTES = 16_000;
 const ALLOWED_BUDGETS = new Set<string>(BUDGET_OPTIONS.map((option) => option.value));
 const fallbackRateLimits = new Map<string, number[]>();
