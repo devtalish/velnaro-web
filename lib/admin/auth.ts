@@ -29,6 +29,16 @@ export const getAdminState = cache(async (): Promise<AdminState> => {
     error,
   } = await supabase.auth.getUser();
 
+  // A missing session is the expected state for visitors who have not signed in.
+  // Supabase may return AuthSessionMissingError alongside a null user; treat it
+  // as signed-out so the login form is rendered instead of an outage warning.
+  if (!user && (
+    error?.name === "AuthSessionMissingError" ||
+    error?.message === "Auth session missing!"
+  )) {
+    return { status: "signed-out" };
+  }
+
   if (error) {
     console.error("Could not verify Supabase session:", error.message);
     return { status: "unavailable" };
