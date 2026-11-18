@@ -14,45 +14,9 @@ import { ProductInterfaceShowcase } from "@/components/services/product-interfac
 import { CapabilityFeature } from "@/components/services/capability-feature";
 import { ArchitectureDiagram } from "@/components/services/architecture-diagram";
 import { DevelopmentTimeline } from "@/components/services/development-timeline";
-import { ServiceProjectGrid } from "@/components/services/service-project-grid";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 import { FAQAccordion } from "@/components/services/faq-accordion";
 import { ServiceCta } from "@/components/services/service-cta";
-
-type ServiceProject = {
-  title: string;
-  category: string;
-  description: string;
-  href?: string;
-  image?: string;
-  technologies: string[];
-};
-
-const SOFTWARE_PROJECTS: ServiceProject[] = [
-  {
-    title: "Restaurant",
-    category: "Restaurant / Web Experience",
-    description:
-      "A restaurant web experience focused on presenting the venue and its offering through a polished digital presence.",
-    href: "https://restaurant-d-g.vercel.app/",
-    technologies: [],
-  },
-  {
-    title: "Aether Estates",
-    category: "Real Estate / Web Experience",
-    description:
-      "A real-estate web experience designed to present property information through a focused, visual interface.",
-    href: "https://aether-estate-2ur6.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Motion"],
-  },
-  {
-    title: "ClinicFlow",
-    category: "Healthcare Software Concept",
-    description:
-      "A healthcare-oriented software concept focused on presenting clinical workflows in a structured digital interface.",
-    href: "https://cliniflow-eta.vercel.app/",
-    technologies: [],
-  },
-];
 
 const DEVELOPMENT_PROCESS = [
   {
@@ -206,10 +170,7 @@ export default function SoftwareDevelopment() {
 
       <DevelopmentTimeline steps={DEVELOPMENT_PROCESS} />
 
-      <ServiceProjectGrid
-        projects={SOFTWARE_PROJECTS}
-        seeAllHref="/#work"
-      />
+      <ServiceLivePreviews />
 
       <FAQAccordion
         title="FAQ"
