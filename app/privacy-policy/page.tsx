@@ -134,7 +134,7 @@ export default function PrivacyPolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">International Data Transfers</h2>
         <p className="mb-4">
-          Supabase may process or store information in a region that differs from your country of residence. The project's actual region and any applicable transfer safeguards must be confirmed and documented before the website accepts production enquiries.
+          Supabase may process or store information in a region that differs from your country of residence. The project&apos;s actual region and any applicable transfer safeguards must be confirmed and documented before the website accepts production enquiries.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Contact and Policy Changes</h2>
