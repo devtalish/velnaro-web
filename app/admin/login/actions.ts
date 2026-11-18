@@ -77,6 +77,13 @@ export const signIn = async (
     .maybeSingle();
 
   if (adminLookupError) {
+    console.error("Admin permission lookup failed:", {
+      code: adminLookupError.code,
+      message: adminLookupError.message,
+      details: adminLookupError.details,
+      hint: adminLookupError.hint,
+      status: adminLookupError.status,
+    });
     await supabase.auth.signOut();
     return { error: "Could not verify admin permissions. Please try again shortly." };
   }
