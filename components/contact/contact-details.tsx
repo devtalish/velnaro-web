@@ -3,7 +3,6 @@
 import { type FC } from "react";
 import { motion } from "motion/react";
 import { revealProps } from "@/animations/scroll-animations";
-import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { ContactInfoCard } from "./contact-info-card";
 
 export const ContactDetails: FC = () => (
@@ -20,9 +19,8 @@ export const ContactDetails: FC = () => (
     <div className="mt-8 space-y-4">
       <ContactInfoCard
         icon="✉"
-        label="Email"
-        value={CONTACT_EMAIL}
-        href={`mailto:${CONTACT_EMAIL}`}
+        label="SECURE ENQUIRY INBOX"
+        value="Messages are saved securely for our review"
         gradient="from-deep-teal/30 to-pale-sage/30"
       />
     </div>
