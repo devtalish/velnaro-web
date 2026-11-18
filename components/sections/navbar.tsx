@@ -20,9 +20,6 @@ export const Navbar: FC = () => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const isServicePage = pathname.startsWith("/software-development") ||
-    pathname.startsWith("/ai-automation") ||
-    pathname.startsWith("/ai-search-visibility");
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -46,10 +43,10 @@ export const Navbar: FC = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 w-full transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 w-full border-b border-slate/10 transition-all duration-300 backdrop-blur-xl ${
         scrolled
-          ? "border-b border-slate/10 bg-ivory/95 shadow-sm shadow-graphite/[0.04] backdrop-blur-xl"
-          : "bg-transparent"
+          ? "bg-ivory/97 shadow-md shadow-graphite/[0.06]"
+          : "bg-ivory/90 shadow-sm shadow-graphite/[0.025]"
       }`}
     >
       <div className="c-space">
@@ -76,9 +73,9 @@ export const Navbar: FC = () => {
                   {item.label === "Services" ? (
                     <>
                       <button
-                        ref={servicesLinkRef as React.RefObject<HTMLButtonElement>}
+                        ref={servicesLinkRef}
                         type="button"
-                        onClick={() => setIsDropdownOpen((open) => !open)}
+                        onClick={() => setIsDropdownOpen(true)}
                         onFocus={() => setIsDropdownOpen(true)}
                         aria-haspopup="true"
                         aria-expanded={isDropdownOpen}
