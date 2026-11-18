@@ -80,10 +80,48 @@ export default async function ServiceLandingPage({ params }: { params: Promise<{
   const service = SERVICES[slug];
   if (!service) notFound();
   const url = `${SITE_URL}/services/${slug}`;
+  const geoOffers = slug === "geo-aeo-ai-search-visibility"
+    ? [
+        { name: "AI Search & GEO Diagnostic Audit", price: "850", billing: "one-time" },
+        { name: "GEO Strategy & Entity Roadmap", price: "1650", billing: "one-time" },
+        { name: "Complete GEO/AEO Technical Implementation Sprint", price: "2800", billing: "one-time" },
+        { name: "Monthly GEO/AEO Growth Optimization Retainer", price: "2200", billing: "monthly" },
+        { name: "Advanced Ongoing Authority Program", price: "4500", billing: "monthly" },
+      ].map((offer) => ({
+        "@type": "Offer",
+        name: offer.name,
+        price: offer.price,
+        priceCurrency: "USD",
+        url,
+        ...(offer.billing === "monthly"
+          ? { priceSpecification: { "@type": "UnitPriceSpecification", price: offer.price, priceCurrency: "USD", unitText: "month" } }
+          : {}),
+        itemOffered: { "@type": "Service", name: offer.name, provider: { "@id": `${SITE_URL}/#organization` } },
+      }))
+    : undefined;
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Service", "@id": `${url}#service`, name: service.title, serviceType: service.title, description: service.description, provider: { "@id": `${SITE_URL}/#organization` }, areaServed: ["Canada", "Australia", "United Kingdom", "Austria", "United States"], url },
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: service.title,
+        serviceType: service.title,
+        description: service.description,
+        provider: { "@id": `${SITE_URL}/#organization` },
+        areaServed: ["Canada", "Australia", "United Kingdom", "Austria", "United States"],
+        url,
+        ...(geoOffers ? { offers: geoOffers } : {}),
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: service.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      },
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: SITE_URL }, { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/#services` }, { "@type": "ListItem", position: 3, name: service.title, item: url }] }
     ]
   };
