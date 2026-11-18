@@ -107,9 +107,10 @@ export async function POST(req: Request) {
   }
 
   const forwardedFor = req.headers.get("x-forwarded-for");
+  const forwardedAddresses = forwardedFor?.split(",").map((value) => value.trim()).filter(Boolean) ?? [];
   const ip = req.headers.get("cf-connecting-ip")?.trim()
     || req.headers.get("x-real-ip")?.trim()
-    || forwardedFor?.split(",").at(-1)?.trim()
+    || forwardedAddresses[forwardedAddresses.length - 1]
     || "unknown";
   const ipHash = createHmac("sha256", serviceKey).update(ip).digest("hex");
 
