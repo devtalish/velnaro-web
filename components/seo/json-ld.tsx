@@ -8,7 +8,7 @@ import {
 const organizationId = `${SITE_URL}/#organization`;
 const websiteId = `${SITE_URL}/#website`;
 
-const serviceOffers = [
+const serviceOffers: Array<{ name: string; description: string; price: string; url: string; unitText?: string }> = [
   {
     name: "AI Search & GEO Diagnostic Audit",
     description: "A diagnostic review of technical search foundations, brand/entity clarity, content structure and AI-search discoverability opportunities.",
