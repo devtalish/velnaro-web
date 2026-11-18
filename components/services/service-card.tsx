@@ -24,7 +24,6 @@ export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => 
     [0, 1],
     [1, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]
   );
-  const scale = reduceMotion ? 1 : desktopScale;
   const y = useTransform(scrollYProgress, [0, 0.72, 1], [34, 0, -10]);
   const opacity = useTransform(scrollYProgress, [0, 0.35, 1], [0.72, 1, 0.96]);
   const rotateX = useTransform(scrollYProgress, [0, 1], [1.4, 0]);
