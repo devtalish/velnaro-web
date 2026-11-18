@@ -3,7 +3,6 @@
 import { useRef, type FC } from "react";
 import { motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import Link from "next/link";
-import { CONTACT_EMAIL } from "@/constants/portfolio-constants";
 import { VelnaroLogoWithWordmark } from "@/components/ui/velnaro-logo";
 
 const WaterWordmark: FC = () => {
@@ -82,9 +81,9 @@ export const Footer: FC = () => {
           <p className="mt-4 max-w-sm text-sm leading-7 text-muted">
             Software, AI automation and search visibility, shaped around real business problems.
           </p>
-          <a href={`mailto:${CONTACT_EMAIL}`} className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-graphite underline decoration-slate/30 underline-offset-4 transition-colors hover:text-deep-teal hover:decoration-deep-teal">
-            {CONTACT_EMAIL}
-          </a>
+          <Link href="/#contact" className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-graphite underline decoration-slate/30 underline-offset-4 transition-colors hover:text-deep-teal hover:decoration-deep-teal">
+            Contact VELNARO
+          </Link>
         </div>
 
         <div className="flex flex-col gap-7 md:items-end">
