@@ -17,6 +17,7 @@ export type AdminState =
   | { status: "signed-out" }
   | { status: "not-admin"; email: string }
   | { status: "schema-missing" }
+  | { status: "unavailable" }
   | { status: "not-configured" };
 
 export const getAdminState = cache(async (): Promise<AdminState> => {
@@ -28,7 +29,11 @@ export const getAdminState = cache(async (): Promise<AdminState> => {
     error,
   } = await supabase.auth.getUser();
 
-  if (error || !user) return { status: "signed-out" };
+  if (error) {
+    console.error("Could not verify Supabase session:", error.message);
+    return { status: "unavailable" };
+  }
+  if (!user) return { status: "signed-out" };
 
   const { data: adminRow, error: lookupError } = await supabase
     .from("admin_users")
@@ -38,6 +43,11 @@ export const getAdminState = cache(async (): Promise<AdminState> => {
 
   if (lookupError && isMissingTable(lookupError)) {
     return { status: "schema-missing" };
+  }
+
+  if (lookupError) {
+    console.error("Could not verify admin access:", lookupError.message);
+    return { status: "unavailable" };
   }
 
   if (!adminRow) {
