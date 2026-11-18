@@ -1,6 +1,6 @@
 # Deployment
 
-The public website can be deployed to Vercel as a frontend preview without connecting Supabase. The contact form, private admin inbox and email notifications require the production configuration below.
+The public website can run locally without Supabase. Direct contact email delivery requires Resend configuration; the private admin inbox additionally requires Supabase.
 
 If you only want a frontend-only preview, skip to
 [Front end only](#front-end-only-no-database-no-email). It needs no
@@ -36,50 +36,25 @@ Add these Vercel environment variables:
 
 Never prefix either server-only secret with `NEXT_PUBLIC_`, commit it, or paste it into chat.
 
-## 2. The lead notification email
+## 2. Direct contact email delivery
 
-Link the Supabase CLI to your actual project first. The project reference is the subdomain in your Supabase project URL:
+The public contact form sends valid enquiries directly to `hello@velnaro.agency` through Resend. The visitor's email address is set as Reply-To.
 
-```bash
-supabase link --project-ref YOUR_SUPABASE_PROJECT_REF
-```
+1. Create a Resend account and generate an API key.
+2. Add and verify the sending domain in Resend. Add the DNS records Resend provides at the domain's DNS host.
+3. Set these server-only environment variables locally and later in your hosting provider:
 
-Deploy the Edge Function:
+   ```env
+   RESEND_API_KEY=re_your_api_key
+   RESEND_FROM_EMAIL=VELNARO <website@velnaro.agency>
+   ```
 
-```bash
-supabase functions deploy notify-contact
+4. The From address must use a domain verified by Resend. Do not expose the API key to the browser or commit it.
+5. Restart the local server and submit a test enquiry. Confirm it arrives at `hello@velnaro.agency` and that Reply-To points to the submitter.
 
-# Generate one strong secret and store it in your password manager.
-openssl rand -hex 32
-```
+Supabase is not required for the email to be sent. If Supabase is configured, the same enquiry is also saved to the private admin inbox. Without Supabase, the email is still sent but the private inbox does not retain the enquiry. A process-local rate limiter is used as a fallback; use the persistent Supabase rate limiter for production traffic.
 
-Set the SMTP and function secrets. Replace every example value, and use the exact generated secret for `NOTIFY_WEBHOOK_SECRET`:
-
-```bash
-supabase secrets set \
-  SMTP_HOST=smtp.example.com \
-  SMTP_PORT=465 \
-  SMTP_USER=hello@velnaro.agency \
-  SMTP_PASS='your-smtp-app-password' \
-  CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
-  OWNER_NAME="VELNARO" \
-  SITE_URL=https://velnaro.agency \
-  NOTIFY_WEBHOOK_SECRET="PASTE_THE_GENERATED_VALUE_HERE"
-```
-
-Then Dashboard → **Database → Webhooks → Create a new hook**:
-
-| Field | Value |
-| --- | --- |
-| Table | `contact_submissions` |
-| Events | `Insert` only |
-| Type | Supabase Edge Functions |
-| Edge Function | `notify-contact` |
-| HTTP Headers | `x-webhook-secret: <the exact generated value>` |
-
-Use the same generated secret in all three places: the Edge Function secret, the database webhook header and Vercel's `NOTIFY_WEBHOOK_SECRET`. Do not generate separate values. Redeploy Vercel after changing its environment variables.
-
-The function refuses to process requests if the secret is missing or invalid. Supabase Edge Functions block outbound connections to ports 25 and 587, so this function accepts port 465 (implicit TLS) or 2525 (STARTTLS, if your provider supports it). Do not configure port 587 for this function. Verify the provider's actual host, port and authentication requirements. Supabase Auth SMTP is a separate service and may use its provider's documented port.
+The optional Supabase Edge Function remains responsible for sending visitor acknowledgement emails and for admin retry workflows. Its SMTP setup is separate from the direct owner notification above.
 
 ## 3. Supabase Auth email delivery
 
@@ -100,7 +75,7 @@ Confirm the admin account exists, is confirmed, and has a row in `public.admin_u
 3. Add the environment variables listed in Section 1 to the intended environments. Do not add SMTP credentials to Vercel; those belong in Supabase Edge Function secrets.
 4. Deploy and confirm the deployment uses the intended Git branch and domain.
 
-A frontend-only deployment can render without Supabase configuration, but contact submissions and admin operations will return unavailable/not-connected states until the required server and browser environment variables are configured.
+The public site and direct contact email can run without Supabase. The private admin inbox and its acknowledgement/retry workflows remain unavailable until Supabase is configured.
 
 ### Custom domain
 
@@ -114,7 +89,7 @@ This is a separate frontend-only deployment mode. The contact form, private admi
 
 ## Other hosts
 
-The Next.js application requires a supported Node.js runtime for the installed Next.js version. Email is sent by Supabase, not by the web host. Verify the host's Node.js and Next.js compatibility before deploying outside Vercel.
+The Next.js application requires a supported Node.js runtime for the installed Next.js version. Direct owner email is sent through Resend from the server route. Verify the host's Node.js and Next.js compatibility before deploying outside Vercel.
 
 ## Production checklist
 
@@ -122,7 +97,7 @@ The Next.js application requires a supported Node.js runtime for the installed N
 - [ ] `select email from public.admin_users;` returns only the intended administrator address(es)
 - [ ] Public signup disabled in Supabase Auth
 - [ ] Supabase Auth Site URL and redirect allowlist contain only intended origins
-- [ ] `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL` and `NOTIFY_WEBHOOK_SECRET` configured in Vercel
+- [ ] `RESEND_API_KEY` and `RESEND_FROM_EMAIL` configured as server-only environment variables\n- [ ] Sending domain verified with Resend and DNS records published\n- [ ] `NEXT_PUBLIC_SITE_URL` configured for the canonical site
 - [ ] `SUPABASE_SERVICE_ROLE_KEY` and `NOTIFY_WEBHOOK_SECRET` are server-only and absent from client bundles
 - [ ] `notify-contact` Edge Function deployed and its SMTP/shared-secret values configured
 - [ ] Database webhook configured for `contact_submissions` INSERT with the matching `x-webhook-secret`
@@ -144,13 +119,13 @@ Do not treat a successful build as proof that production services, email deliver
 
 **`/admin` shows "Database not connected".** Check the public Supabase URL and anon key, and confirm the deployment was rebuilt after environment changes.
 
-**The contact form returns unavailable.** Check `SUPABASE_SERVICE_ROLE_KEY`, the Supabase URL, and whether migrations `0001`–`0004` were applied. Check server logs for rate-limit RPC failures.
+**The contact form returns unavailable or cannot send.** Check `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, and that the sender domain is verified in Resend. If Supabase is enabled, also check migrations `0001`–`0004` and the database rate-limit RPC.
 
 **Signed in, but told "Not an admin".** The account has no `admin_users` row. Run `select public.grant_admin('you@example.com');` in the Supabase SQL editor.
 
 **Sign-in says "Invalid email or password".** Check that the user exists under Authentication → Users, is confirmed, and that the Auth Site URL/redirect configuration is correct.
 
-**The form saves but no email arrives.** Check the row's owner and acknowledgement delivery statuses in `/admin`. Inspect `supabase functions logs notify-contact`, verify SMTP secrets and confirm the database webhook fired with the correct shared-secret header.
+**The email does not arrive.** Check the Resend email logs and verify that the sender domain is verified and `RESEND_FROM_EMAIL` matches it. For visitor acknowledgements, separately check the Supabase Edge Function SMTP secrets and database webhook.
 
 **Admin retry says it is not configured.** Verify Vercel's `NOTIFY_WEBHOOK_SECRET` exactly matches the Supabase Edge Function secret, and redeploy Vercel after changing it.
 
