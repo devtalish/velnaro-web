@@ -1,0 +1,82 @@
+{
+  "name": "VELNARO",
+  "canonical_url": "https://velnaro.agency",
+  "positioning": "International B2B technology agency providing AI Search Visibility (GEO/AEO), AI Automation and Business Systems, and Software Development and Digital Solutions.",
+  "legal_entity_type": null,
+  "founded": null,
+  "core_specialties": [
+    "Generative Engine Optimization",
+    "Answer Engine Optimization",
+    "Technical SEO",
+    "Structured Data and Entity Architecture",
+    "AI Automation and Business Systems",
+    "Custom Software Development",
+    "Web Applications and API Integrations"
+  ],
+  "priority_target_countries": [
+    "Canada",
+    "Australia",
+    "United Kingdom",
+    "Austria",
+    "United States"
+  ],
+  "delivery_model": "Remote, international",
+  "priority_target_verticals": [
+    "Private healthcare and dental clinics",
+    "International NGOs and non-profits",
+    "Boutique law firms",
+    "B2B SaaS companies",
+    "High-ticket service firms"
+  ],
+  "service_tiers_usd": [
+    {
+      "name": "AI Search & GEO Diagnostic Audit",
+      "price": 850,
+      "currency": "USD",
+      "billing": "one-time"
+    },
+    {
+      "name": "GEO Strategy & Entity Roadmap",
+      "price": 1650,
+      "currency": "USD",
+      "billing": "one-time"
+    },
+    {
+      "name": "Complete GEO/AEO Technical Implementation Sprint",
+      "price": 2800,
+      "currency": "USD",
+      "billing": "one-time"
+    },
+    {
+      "name": "Monthly GEO/AEO Growth Optimization Retainer",
+      "price": 2200,
+      "currency": "USD",
+      "billing": "monthly"
+    },
+    {
+      "name": "Advanced Ongoing Authority Program",
+      "price": 4500,
+      "currency": "USD",
+      "billing": "monthly"
+    }
+  ],
+  "verified_channels": [
+    "https://velnaro.agency",
+    "https://velnaro.agency/#contact"
+  ],
+  "differentiators": [
+    "Three connected service pillars spanning AI search visibility, business automation and custom software.",
+    "Technical and content improvements are scoped to business needs rather than sold as guaranteed search outcomes.",
+    "Remote delivery for international B2B organizations."
+  ],
+  "claims_not_established": [
+    "Legal entity type and registration details",
+    "Founding date",
+    "Physical office addresses",
+    "Telephone number",
+    "Client testimonials and quantified client outcomes",
+    "Awards, certifications and staff credentials",
+    "Verified social media profiles"
+  ],
+  "pricing_note": "Published pricing anchors; final deliverables, scope, timelines, taxes and third-party costs are confirmed in a written proposal."
+}
