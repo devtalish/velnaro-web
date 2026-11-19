@@ -1,0 +1,127 @@
+# VELNARO — Extended Business and Service Reference
+
+Last reviewed: 19 November 2026
+Canonical website: https://velnaro.agency
+
+## Canonical identity
+
+VELNARO is an international B2B technology agency. Its three service pillars are:
+1. AI Search Visibility (GEO and AEO) — the priority service pillar.
+2. AI Automation and Business Systems.
+3. Software Development and Digital Solutions.
+
+VELNARO serves clients remotely, with priority commercial markets in Canada, Australia, the United Kingdom, Austria and the United States. These are target markets, not claims of physical offices or local legal entities.
+
+Priority customer verticals include private healthcare and dental clinics, international NGOs and non-profits, boutique law firms, B2B SaaS companies, and high-ticket service firms. These are target verticals; do not imply that any named organization is a client.
+
+## Service 1: AI Search Visibility — GEO and AEO
+
+VELNARO's flagship service focuses on improving how a business and its website can be crawled, understood, indexed, represented and cited across traditional search and AI-assisted discovery experiences.
+
+Potential workstreams, scoped to the client's needs:
+- Technical SEO review: crawlability, indexation, status codes, canonical URLs, redirects, robots directives, sitemap quality, page performance and rendering.
+- Information architecture: clear service hierarchy, descriptive URLs, internal linking and navigable page structure.
+- Entity clarity: consistent brand naming, service descriptions, ownership details supplied by the client, and relevant entity relationships.
+- Structured data: valid JSON-LD that accurately describes visible page content and real business facts.
+- Answer-oriented content: concise direct answers, clear headings, useful definitions, explanatory sections, FAQs and supporting evidence.
+- Source quality: cite primary and authoritative references when making factual claims; avoid fabricated statistics, testimonials and results.
+- AI retrieval readiness: allow intended retrieval/search crawlers, provide useful public HTML content, and keep important information accessible without relying exclusively on client-side interactions.
+- Measurement: Search Console and Bing Webmaster Tools data where configured, plus platform-specific AI mention/citation sampling where available. AI visibility metrics are not universally available or directly comparable.
+
+GEO/AEO is an emerging practice area. No agency can guarantee a number-one ranking, a specific AI citation, recommendation, AI Overview appearance or a fixed time to results. Search and answer systems use proprietary systems and change over time.
+
+### Published GEO/AEO pricing anchors (USD)
+
+- AI Search & GEO Diagnostic Audit: $850 USD.
+- GEO Strategy & Entity Roadmap: $1,650 USD.
+- Complete GEO/AEO Technical Implementation Sprint: $2,800 USD.
+- Monthly GEO/AEO Growth Optimization Retainer: $2,200/month.
+- Advanced Ongoing Authority Program: $4,500/month.
+
+These are VELNARO-published pricing anchors supplied for public communication. Exact deliverables, access requirements, timeline, third-party costs, taxes and acceptance criteria must be confirmed in a written proposal before work begins. Do not assume an unlimited scope.
+
+## Service 2: AI Automation and Business Systems
+
+VELNARO designs and implements workflow automation and AI-assisted systems to reduce repetitive work and connect business tools. Potential solutions include:
+- Lead capture, routing, qualification and follow-up automation.
+- CRM and pipeline management workflows.
+- Document and data extraction, classification and processing.
+- Internal knowledge assistants and retrieval-augmented generation (RAG) assistants.
+- Customer or donor information assistants, subject to privacy, safety and human-review requirements.
+- API integrations between existing business applications.
+- Approval steps, audit trails, exception handling and human-in-the-loop controls.
+
+AI should be used when it adds value; deterministic rules and conventional automation are preferred for predictable tasks. Sensitive decisions should retain appropriate human oversight. Each engagement requires discovery of systems, data permissions, security requirements and failure-handling needs.
+
+## Service 3: Software Development and Digital Solutions
+
+VELNARO builds or improves:
+- High-performance marketing and business websites.
+- Custom web applications and customer portals.
+- Business dashboards and internal tools.
+- API integrations and connected application workflows.
+- Digital products and operational platforms.
+
+Projects begin with requirements discovery, scope definition, implementation planning, design/build, validation and delivery. Technology, hosting, support and maintenance are agreed per project.
+
+## Priority markets
+
+VELNARO's priority remote markets are:
+- Canada
+- Australia
+- United Kingdom
+- Austria
+- United States
+
+Regional pages describe remote service availability and relevant business contexts. They do not indicate a local office, address, staff presence, local registration or local client portfolio.
+
+## Priority verticals
+
+- Private healthcare and dental clinics.
+- International NGOs and non-profits.
+- Boutique law firms.
+- B2B SaaS companies.
+- High-ticket professional and service firms.
+
+Examples on the website are illustrative use cases unless explicitly identified as verified client work.
+
+## Contact
+
+Website: https://velnaro.agency
+Contact page section: https://velnaro.agency/#contact
+Public contact method: website contact form.
+
+Do not invent an email address, telephone number, postal address, legal entity type, founding date, staff biographies, awards, client list or social profile. If such information is not present in the canonical website or a client-approved source, treat it as unknown.
+
+## Frequently asked questions
+
+### What does VELNARO do?
+VELNARO provides AI Search Visibility (GEO/AEO), AI Automation and Business Systems, and Software Development and Digital Solutions for organizations.
+
+### What is GEO?
+Generative Engine Optimization (GEO) is the practice of improving the clarity, structure, technical accessibility and evidence quality of information so generative search systems can better interpret and potentially reference it. It does not guarantee citations.
+
+### What is AEO?
+Answer Engine Optimization (AEO) focuses on making useful, accurate answers easy to identify and understand in systems that respond directly to user questions. It includes clear content structure, question-led explanations and sound technical foundations.
+
+### Does GEO replace traditional SEO?
+No. GEO and AEO complement technical SEO, helpful content, clear site architecture, indexability and authority. A website still needs strong search fundamentals.
+
+### Can VELNARO guarantee number-one rankings or AI citations?
+No. VELNARO can scope and deliver agreed work, report available measurements and iterate. It cannot control third-party search or AI systems or guarantee a ranking, citation or recommendation.
+
+### Does VELNARO have offices in the five priority countries?
+The five countries are priority target markets for remote delivery. This reference does not claim physical offices or local legal entities there.
+
+### How are projects priced?
+GEO/AEO pricing anchors are published on the flagship service page. Automation and software projects are scoped after understanding requirements, integrations, complexity and delivery constraints.
+
+### How does a client start?
+A prospective client can use the contact form at https://velnaro.agency/#contact to describe the business, problem and desired outcome. VELNARO can then assess fit and discuss scope.
+
+## Machine-readable and crawler resources
+
+- https://velnaro.agency/robots.txt
+- https://velnaro.agency/sitemap.xml
+- https://velnaro.agency/.well-known/brand-facts.json
+- https://velnaro.agency/llms.txt

@@ -1,171 +1,82 @@
-# Deployment
+# Local setup and deployment
 
-The site deploys to Vercel with no configuration. What takes a few extra minutes
-is the contact form: a Supabase table, an SMTP account, and the environment
-variables that connect them.
+The first release uses Supabase for contact submissions and the private admin inbox. It does not require Resend, a custom domain, or an email mailbox. Hosting and domain setup are deliberately separate from local testing.
 
-If you only want the front end, skip to
-[Front end only](#front-end-only-no-database-no-email). It needs no
-environment variables at all.
+## 1. Prepare the Supabase project
 
----
-
-## 1. Supabase
-
-1. Create a project at [supabase.com](https://supabase.com).
-2. **Create your admin account.** Open `supabase/migrations/0001_init.sql` and run
-   it in the SQL Editor, then create your admin manually:
+1. Open the correct project at [Supabase](https://supabase.com/dashboard).
+2. In **SQL Editor**, run migrations `0001`, `0002`, `0003`, and `0004` in numerical order. Do not skip `0004`; it replaces the old rate-limit fingerprint and clears stored raw IP values.
+3. Create your administrator under **Authentication → Users → Add user**.
+4. In SQL Editor, grant admin access using the same email:
 
    ```sql
-   select public.create_admin_user('your@email.com', 'a-long-unique-password');
+   select public.grant_admin('your-own-email@example.com');
    ```
 
-   This repository is public, so the migration deliberately does **not** ship with
-   hardcoded credentials. Use your own email and a long password.
+5. Under **Authentication → Providers → Email**, disable public sign-ups.
+6. Under **Project Settings → API**, copy the Project URL, anon/publishable key, and service-role/secret key.
 
-3. Paste the whole file into **SQL Editor** and run it. One file, idempotent:
-   it creates the table, the admin allowlist, every RLS policy, the
-   `grant_admin` helpers, and your admin account.
+Never paste the service-role key into chat, commit it, or expose it through a `NEXT_PUBLIC_` variable.
 
-4. Turn off public signup: Authentication → Providers → Email → disable
-   **Enable sign-ups**.
-5. Project Settings → **API** → copy the **Project URL** and the **anon** key.
+## 2. Connect the local project
 
-> There is no service-role key in this project, and you should not add one. The
-> anon key is public by design, and row-level security decides what it can read.
+In the project folder, copy `.env.example` to `.env.local`. Fill in:
 
-## 2. The lead notification email
-
-The web app cannot send email. A Supabase Edge Function does, which is why no
-SMTP credential appears in your host's environment.
-
-```bash
-supabase functions deploy notify-contact
-
-supabase secrets set \
-  SMTP_HOST=smtp.example.com \
-  SMTP_PORT=465 \
-  SMTP_USER=hello@velnaro.agency \
-  SMTP_PASS='app-password-not-your-account-password' \
-  CONTACT_RECIPIENT_EMAIL=hello@velnaro.agency \
-  OWNER_NAME="VELNARO" \
-  SITE_URL=https://velnaro.agency \
-  NOTIFY_WEBHOOK_SECRET="$(openssl rand -hex 32)"
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_PUBLIC_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVER_ONLY_SERVICE_ROLE_KEY
 ```
 
-Then Dashboard → **Database → Webhooks → Create a new hook**:
-
-| Field | Value |
-| --- | --- |
-| Table | `contact_submissions` |
-| Events | `Insert` only |
-| Type | Supabase Edge Functions |
-| Edge Function | `notify-contact` |
-| HTTP Headers | `x-webhook-secret: <the value you generated>` |
-
-That header is the only thing standing between the function and anyone who
-learns its URL. The function refuses to run at all if the secret is missing —
-it returns `503` instead of processing the payload.
-
-Any provider works: Gmail with an **App Password**, Zoho, Resend, Mailgun,
-Amazon SES. Port 465 is implicit TLS; 587 negotiates STARTTLS.
-
-## 3. Auth emails
-
-Password resets and invites are sent by Supabase, not by the app. Add your own
-SMTP under Authentication → **SMTP Settings**, because the built-in sender is
-rate-limited and not meant for production. They use Supabase's default styling;
-this project ships no templates for them.
-
-## 4. Deploy to Vercel
-
-1. Push the repo to GitHub.
-2. [vercel.com/new](https://vercel.com/new) → import the repo. The Next.js
-   preset is detected; nothing to change.
-3. **Settings → Environment Variables** → add the two values from
-   [`.env.example`](../.env.example), for **Production**, **Preview** and
-   **Development**.
-4. Deploy.
-
-Both are optional: the site deploys and runs without them. You just get the
-setup panel at `/admin` until they are set.
-
-### Custom domain
-
-Vercel → **Settings → Domains** → add yours and follow the DNS instructions,
-then set `NEXT_PUBLIC_SITE_URL` to it and redeploy. That one variable drives
-`metadataBase`, the canonical URL, `robots.txt`, `sitemap.xml` and every Open
-Graph image URL. There is nothing else to update.
-
-Afterwards, submit `https://velnaro.agency/sitemap.xml` in
-[Google Search Console](https://search.google.com/search-console) and check the
-structured data with the
-[Rich Results Test](https://search.google.com/test/rich-results).
-
-## Front end only (no database, no email)
-
-Delete `app/api/contact/`, `app/admin/`, `app/api/admin/`, `lib/admin/`,
-`supabase/` and `proxy.ts`, and point the contact form at a `mailto:` link or a
-hosted form service. What is left is a static-friendly Next.js app that deploys
-anywhere with zero environment variables.
-
-## Other hosts
-
-Nothing here is Vercel-specific. Any Node **20.9+** host works: Netlify,
-Railway, Render, Fly.io, a VPS with `npm run build && npm run start`, or Docker
-on `node:20-alpine`. The 3D scenes are client-only (`ssr: false`), so no host
-needs a GPU. Email is sent by Supabase, not by the host, so there is no mail
-transport to worry about either.
-
-## Production checklist
-
-- [ ] `0001_init.sql` run in the SQL editor
-- [ ] `select email from public.admin_users;` returns **your** address (no hardcoded defaults)
-- [ ] Public signup disabled in Authentication → Providers → Email
-- [ ] Both `NEXT_PUBLIC_` values set in the host's dashboard, not just local `.env`
-- [ ] Edge Function deployed and its secrets set
-- [ ] Webhook created, with the `x-webhook-secret` header
-- [ ] Custom SMTP configured under Authentication → SMTP Settings
-- [ ] `/admin` redirects to `/admin/login` when signed out
-- [ ] A test submission appears in `/admin`, emails you, **and** acknowledges the sender
-- [ ] `velnaro.agency` DNS resolves and `hello@velnaro.agency` receives mail
-- [ ] `NEXT_PUBLIC_SITE_URL` set to `https://velnaro.agency`
-- [ ] `/sitemap.xml` and `/robots.txt` both resolve and show that domain
-- [ ] `public/og.jpg` replaced with your own 1200×630 preview
-- [ ] `npm run build` passes
-
-Worth confirming, since the whole design rests on it:
+Save the file, then restart the development server:
 
 ```bash
-# Should return nothing at all.
-npm run build && grep -ri "service_role" .next/ | grep -v ".map"
+npm run dev
 ```
 
-## Troubleshooting
+The contact form uses the server-only service-role client after validating the request and applying the database rate limit. The browser never receives that key. Public users cannot insert directly into the table.
 
-**`/admin` shows "Database not connected".** The two `NEXT_PUBLIC_` values are
-missing or still hold `.env.example` placeholders. Environment changes need a
-redeploy to take effect.
+## 3. Verify the admin inbox
 
-**Signed in, but "Not an admin".** The Supabase account is real; it has no
-`admin_users` row. Run `select public.grant_admin('you@example.com');` and the
-page shows the exact statement.
+1. Open <http://localhost:3000/admin/login>.
+2. Sign in with the Auth user you created and granted as an admin.
+3. Open <http://localhost:3000/admin>.
+4. Submit a test enquiry through the public contact form.
+5. Refresh the inbox and confirm that the test enquiry appears.
+6. Delete the test enquiry from the inbox when finished.
 
-**Sign-in says "Invalid email or password" and you are sure it isn't.** Check the
-user exists under Authentication → Users and is **confirmed**. An unconfirmed
-user cannot sign in with a password.
+If the inbox reports that the user is not an admin, check that the exact email is present in `public.admin_users`:
 
-**Created the user with SQL and it still can't log in.** The `auth.identities`
-row is what password sign-in looks up. `create_admin_user` writes it; a
-hand-written `insert into auth.users` alone does not.
+```sql
+select email, created_at from public.admin_users;
+```
 
-**HTTP 429 on login.** Supabase's own sign-in rate limit. Wait a few minutes.
+If the contact form reports that it cannot connect, verify the three Supabase variables in `.env.local`, confirm migrations `0001`–`0004` have run, and restart the server. Do not send secrets in screenshots or chat.
 
-**The form saves but no email arrives.** Check `/admin` first. A row that is
-present, with a "notification email was not delivered" warning, means SMTP,
-not the form. `supabase functions logs notify-contact` has the reason. A row
-present with *no* warning means the webhook never fired: check Database →
-Webhooks.
+## 4. Email notifications are a later optional phase
 
-**Login loops back to `/admin/login`.** The session cookie is being dropped.
-Supabase auth cookies are `Secure` in production, so the site must be HTTPS.
+The current contact form saves enquiries in Supabase; it does not send email. After purchasing `velnaro.agency` and setting up a real mailbox, you can add owner notifications and visitor acknowledgements using a verified email provider or the Supabase `notify-contact` Edge Function.
+
+Buying a domain alone does not create a mailbox. Mail hosting or forwarding must be configured separately. Do not configure a fake `hello@velnaro.agency` sender before you control the domain.
+
+## 5. Production launch — only after local approval
+
+Do not deploy until the owner has approved the local site and completed the checks below.
+
+- [ ] Local desktop, tablet and mobile browser QA completed.
+- [ ] Contact submission successfully stored in the intended Supabase project.
+- [ ] Admin login, inbox access, deletion and unauthorized-access checks passed.
+- [ ] Migrations `0001`–`0004` confirmed on the production project.
+- [ ] Production environment variables set only in the hosting provider's secure settings.
+- [ ] Hosting provider selected and Next.js runtime compatibility confirmed.
+- [ ] Domain purchased and DNS/HTTPS configured, if using the custom domain.
+- [ ] Mailbox configured separately, if email notifications are required.
+- [ ] Legal business identity, jurisdiction, data-retention and privacy wording reviewed.
+- [ ] `npm run lint`, `npm run typecheck`, and `npm run build` pass.
+
+A successful build does not prove that Supabase, authentication, DNS, email or the visual design works in production.
+
+## 6. Other hosts
+
+Use a host that explicitly supports the installed Next.js version and its server routes. Confirm runtime, environment-variable and deployment compatibility before selecting a provider. Hosting selection is intentionally postponed until local QA is approved.

@@ -1,126 +1,116 @@
 import { type FC } from "react";
 import {
-  CONTACT_POINT_EMAIL,
   SITE_DESCRIPTION,
   SITE_NAME,
-  SITE_SECTIONS,
   SITE_URL,
-  SOCIAL_PROFILES,
 } from "@/constants/seo-constants";
-import {
-  HERO_LOCATION,
-  HERO_NAME,
-  HERO_ROLE,
-} from "@/constants/hero-constants";
-import { SERVICES } from "@/constants/services-constants";
-import { SKILL_CHIPS } from "@/constants/skills-constants";
 
-const [city, country] = HERO_LOCATION.split(",").map((part) => part.trim());
+const organizationId = `${SITE_URL}/#organization`;
+const websiteId = `${SITE_URL}/#website`;
 
-const person = {
-  "@type": "Person",
-  "@id": `${SITE_URL}/#person`,
-  name: HERO_NAME,
-  jobTitle: HERO_ROLE,
-  description: SITE_DESCRIPTION,
-  url: SITE_URL,
-  email: `mailto:${CONTACT_POINT_EMAIL}`,
-  image: `${SITE_URL}/og.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: city,
-    addressCountry: country,
+const serviceOffers: Array<{ name: string; description: string; price: string; url: string; unitText?: string }> = [
+  {
+    name: "AI Search & GEO Diagnostic Audit",
+    description: "A diagnostic review of technical search foundations, brand/entity clarity, content structure and AI-search discoverability opportunities.",
+    price: "850",
+    url: "/services/geo-aeo-ai-search-visibility",
   },
-  knowsAbout: SKILL_CHIPS,
-  sameAs: SOCIAL_PROFILES,
-};
-
-const website = {
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
-  inLanguage: "en",
-  publisher: { "@id": `${SITE_URL}/#person` },
-};
-
-const sectionId = (hash: string) => `${SITE_URL}/${hash}`;
-
-const sections = SITE_SECTIONS.map((section) => ({
-  "@type": "WebPageElement",
-  "@id": sectionId(section.hash),
-  name: section.name,
-  description: section.description,
-  url: sectionId(section.hash),
-  isPartOf: { "@id": `${SITE_URL}/#webpage` },
-}));
-
-const navigation = {
-  "@type": "ItemList",
-  "@id": `${SITE_URL}/#sections`,
-  name: `${SITE_NAME} sections`,
-  itemListOrder: "https://schema.org/ItemListOrderAscending",
-  numberOfItems: SITE_SECTIONS.length,
-  itemListElement: SITE_SECTIONS.map((section, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: section.name,
-    url: sectionId(section.hash),
-  })),
-};
-
-const profilePage = {
-  "@type": "ProfilePage",
-  "@id": `${SITE_URL}/#webpage`,
-  url: SITE_URL,
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
-  isPartOf: { "@id": `${SITE_URL}/#website` },
-  about: { "@id": `${SITE_URL}/#person` },
-  mainEntity: { "@id": `${SITE_URL}/#person` },
-  inLanguage: "en",
-  primaryImageOfPage: `${SITE_URL}/og.jpg`,
-  hasPart: sections.map((section) => ({ "@id": section["@id"] })),
-  significantLink: SITE_SECTIONS.map((section) => sectionId(section.hash)),
-};
-
-const professionalService = {
-  "@type": "ProfessionalService",
-  "@id": `${SITE_URL}/#service`,
-  name: `${HERO_NAME} Web & Mobile Development`,
-  url: SITE_URL,
-  provider: { "@id": `${SITE_URL}/#person` },
-  areaServed: "Worldwide",
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Services",
-    itemListElement: SERVICES.map((service) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: service.title,
-        description: service.description,
-      },
-    })),
+  {
+    name: "GEO Strategy & Entity Roadmap",
+    description: "A prioritized strategy and entity roadmap based on the diagnostic findings and agreed business objectives.",
+    price: "1650",
+    url: "/services/geo-aeo-ai-search-visibility",
   },
-};
+  {
+    name: "Complete GEO/AEO Technical Implementation Sprint",
+    description: "An implementation engagement for agreed technical, structured-data and content improvements.",
+    price: "2800",
+    url: "/services/geo-aeo-ai-search-visibility",
+  },
+  {
+    name: "Monthly GEO/AEO Growth Optimization Retainer",
+    description: "Ongoing optimization and measurement under a defined monthly scope.",
+    price: "2200",
+    url: "/services/geo-aeo-ai-search-visibility",
+    unitText: "month",
+  },
+  {
+    name: "Advanced Ongoing Authority Program",
+    description: "An advanced monthly authority and optimization engagement under a separately agreed scope.",
+    price: "4500",
+    url: "/services/geo-aeo-ai-search-visibility",
+    unitText: "month",
+  },
+];
 
+const coreServices = [
+  { name: "AI Search Visibility — GEO & AEO", description: "Technical SEO, generative and answer-engine readiness, entity clarity, structured data, answer-led content and measurement.", url: "/ai-search-visibility" },
+  { name: "AI Automation & Business Systems", description: "Workflow automation, CRM and lead-management systems, document processing, AI assistants and application integrations.", url: "/ai-automation" },
+  { name: "Software Development & Digital Solutions", description: "Custom websites, web applications, business dashboards, internal tools and API integrations.", url: "/software-development" },
+];
 const graph = {
   "@context": "https://schema.org",
   "@graph": [
-    person,
-    website,
-    profilePage,
-    navigation,
-    ...sections,
-    professionalService,
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      knowsAbout: [
+        "Generative Engine Optimization",
+        "Answer Engine Optimization",
+        "Technical SEO",
+        "Structured Data",
+        "AI Automation",
+        "Custom Software Development",
+      ],
+      areaServed: [
+        { "@type": "Country", name: "Canada" },
+        { "@type": "Country", name: "Australia" },
+        { "@type": "Country", name: "United Kingdom" },
+        { "@type": "Country", name: "Austria" },
+        { "@type": "Country", name: "United States" },
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "VELNARO Services and GEO/AEO Engagements",
+        itemListElement: [
+          ...coreServices.map((service) => ({
+            "@type": "Offer",
+            url: SITE_URL + service.url,
+            itemOffered: { "@type": "Service", name: service.name, description: service.description, provider: { "@id": organizationId } },
+          })),
+          ...serviceOffers.map((offer) => ({
+          "@type": "Offer",
+          name: offer.name,
+          description: offer.description,
+          url: `${SITE_URL}${offer.url}`,
+          priceCurrency: "USD",
+          price: offer.price,
+          ...(offer.unitText
+            ? { priceSpecification: { "@type": "UnitPriceSpecification", price: offer.price, priceCurrency: "USD", unitText: offer.unitText } }
+            : {}),
+          itemOffered: { "@type": "Service", name: offer.name, provider: { "@id": organizationId } },
+        })),
+        ],
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      publisher: { "@id": organizationId },
+    },
   ],
 };
 
 export const JsonLd: FC = () => (
   <script
     type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(graph).replace(/</g, "\\u003c") }}
   />
 );

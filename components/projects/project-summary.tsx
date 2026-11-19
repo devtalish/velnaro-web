@@ -10,7 +10,7 @@ const isComingSoon = (href: string) => !href || href.trim() === "";
 const reveal = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: false, amount: 0.4 },
+  viewport: { once: true, amount: 0.4 },
   transition: { duration: 0.6, delay },
 });
 
@@ -46,16 +46,18 @@ export const ProjectSummary: FC<ProjectSummaryProps> = ({
         {project.description}
       </motion.p>
 
-      <motion.div {...reveal(0.2)} className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag.id}
-            className="rounded-full border border-slate/20 bg-white px-3 py-1 text-xs text-muted"
-          >
-            {tag.name}
-          </span>
-        ))}
-      </motion.div>
+      {project.tags.length > 0 && (
+        <motion.div {...reveal(0.2)} className="mt-6 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span
+              key={tag.id}
+              className="rounded-full border border-slate/20 bg-white px-3 py-1 text-xs text-muted"
+            >
+              {tag.name}
+            </span>
+          ))}
+        </motion.div>
+      )}
 
       <motion.div {...reveal(0.3)} className="mt-7 flex flex-wrap gap-3">
         {!comingSoon && project.href && (
@@ -70,7 +72,7 @@ export const ProjectSummary: FC<ProjectSummaryProps> = ({
           </a>
         )}
         <button type="button" onClick={onOpen} className="btn-ghost">
-          <span>{comingSoon ? "View Details" : "Case study"}</span>
+          <span>{comingSoon ? "View Details" : "Project details"}</span>
         </button>
       </motion.div>
     </div>

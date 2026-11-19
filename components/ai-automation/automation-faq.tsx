@@ -10,15 +10,17 @@ type FAQItem = {
 type AutomationFAQProps = {
   title: string;
   items: FAQItem[];
+  eyebrow?: string;
 };
 
 export const AutomationFAQ: FC<AutomationFAQProps> = ({
   title,
   items,
+  eyebrow = "AI AUTOMATION",
 }) => (
   <section className="mb-20">
     <div>
-      <p className="text-eyebrow uppercase tracking-wider mb-3">AI AUTOMATION</p>
+      <p className="text-eyebrow uppercase tracking-wider mb-3">{eyebrow}</p>
       <h2 className="text-heading mb-5">{title}</h2>
     </div>
     <div className="mt-6 grid gap-4 md:grid-cols-2">

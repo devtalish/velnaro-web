@@ -1,8 +1,19 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
+import { useRef, useState, useSyncExternalStore } from "react";
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform, MotionValue } from "motion/react";
 import { SectionHeader } from "@/components/ui/section-header";
+
+const subscribeToReducedMotion = (onStoreChange: () => void) => {
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mediaQuery.addEventListener("change", onStoreChange);
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+};
+
+const getReducedMotionSnapshot = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const getReducedMotionServerSnapshot = () => false;
 
 type Step = {
   number: string;
@@ -61,11 +72,6 @@ const STEPS: Step[] = [
   },
 ];
 
-const getInitialReducedMotion = () => {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-};
-
 const AirplaneIcon = ({ className = "" }: { className?: string }) => (
   <svg
     className={className}
@@ -77,9 +83,7 @@ const AirplaneIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     aria-hidden="true"
   >
-    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-    <path d="M3.29 7.34 12 12l8.71-4.66" />
-    <path d="M12 22V12" />
+    <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8l-8.2-1.8a1 1 0 0 0-.9 1.7l6.2 3.7-3.6 3.6-2.4-.6a1 1 0 0 0-1.1 1.6l2.7 2.7a1 1 0 0 0 1.6-1.1l-.6-2.4 3.6-3.6 3.7 6.2a1 1 0 0 0 1.7-.9z" />
   </svg>
 );
 
@@ -109,12 +113,12 @@ const ProcessCard = ({
     <motion.div {...entranceStyle} className="relative">
       <div style={{ perspective: "1400px" }} className="relative">
         <div
-          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 duration-200"
+          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/10 via-pale-sage/30 to-deep-teal/10" />
 
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_45%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.35),transparent_45%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_85%,rgba(23,107,101,0.07),transparent_48%)]" />
 
           <div className="relative z-10 p-6 md:p-8 flex flex-col h-full">
             <div className="mt-5 flex-1 flex flex-col min-h-0">
@@ -160,7 +164,7 @@ const JourneyTrack = ({
     return (
       <div
         ref={trackRef}
-        className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-1 bg-gradient-to-b from-deep-teal/30 via-pale-sage/40 to-deep-teal/30"
+        className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-deep-teal/30 via-pale-sage/40 to-deep-teal/30"
         style={{ opacity: 0.4 }}
       />
     );
@@ -169,7 +173,7 @@ const JourneyTrack = ({
   return (
     <div
       ref={trackRef}
-      className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-1 pointer-events-none"
+      className="absolute left-0 top-0 h-full w-1 pointer-events-none"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-deep-teal/20 via-pale-sage/30 to-deep-teal/20" />
       
@@ -203,7 +207,7 @@ const JourneyMarker = ({
 
   return (
     <motion.div
-      className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
+      className="absolute left-0 top-0 -translate-y-1/2 pointer-events-none z-20"
       style={{
         transformOrigin: "center center",
         top: markerTop,
@@ -218,7 +222,7 @@ const JourneyMarker = ({
           }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
-        <div className="relative flex flex-col items-center filter drop-shadow-[0_4_12px_rgba(23,107,101,0.4)]">
+        <div className="relative flex flex-col items-center filter drop-shadow-[0_4px_12px_rgba(23,107,101,0.4)]">
           <AirplaneIcon className="w-8 h-8 text-deep-teal" />
         </div>
       </div>
@@ -245,7 +249,7 @@ const StepNode = ({
     ? "var(--color-deep-teal)"
     : isCompleted
     ? "var(--color-deep-teal)"
-    : "var(--color-slate)/30";
+    : "color-mix(in srgb, var(--color-slate) 30%, transparent)";
     
   const fillColor = isCompleted
     ? "var(--color-deep-teal)"
@@ -287,14 +291,11 @@ const StepNode = ({
 export const Process = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(getInitialReducedMotion);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+  const reducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -309,6 +310,12 @@ export const Process = () => {
 
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
   const markerTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    const nextIndex = Math.min(STEPS.length - 1, Math.max(0, Math.round(latest * (STEPS.length - 1))));
+    setActiveStepIndex((previous) => previous === nextIndex ? previous : nextIndex);
+  });
 
   const stepCount = STEPS.length;
 
@@ -326,7 +333,7 @@ export const Process = () => {
       <div className="relative max-w-[1400px] mx-auto">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left side - Heading */}
-          <div className="lg:col-span-5 lg:col-start-1 self-start sticky top-24">
+          <div className="lg:col-span-5 lg:col-start-1 self-start lg:sticky lg:top-24">
             <SectionHeader
               className="mb-0"
               eyebrow="OUR PROCESS"
@@ -348,11 +355,8 @@ export const Process = () => {
               {/* Step nodes */}
               <div className="absolute left-0 top-0 -translate-x-1/2 h-full pointer-events-none">
                 {STEPS.map((step, index) => {
-                  const cardProgressStart = index / (stepCount - 1);
-                  const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const progressValue = smoothProgress.get();
-                  const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
-                  const isCompleted = progressValue >= cardProgressEnd;
+                  const isActive = index === activeStepIndex;
+                  const isCompleted = index < activeStepIndex;
                   
                   return (
                     <StepNode
@@ -376,11 +380,8 @@ export const Process = () => {
               {/* Cards stack vertically */}
               <div className="relative z-10 space-y-8 lg:space-y-10 pl-4">
                 {STEPS.map((step, index) => {
-                  const cardProgressStart = index / (stepCount - 1);
-                  const cardProgressEnd = (index + 1) / (stepCount - 1);
-                  const progressValue = smoothProgress.get();
-                  const isActive = progressValue >= cardProgressStart && progressValue < cardProgressEnd;
-                  const isCompleted = progressValue >= cardProgressEnd;
+                  const isActive = index === activeStepIndex;
+                  const isCompleted = index < activeStepIndex;
 
                   return (
                     <div key={step.number}>

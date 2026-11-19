@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { Navbar } from "@/components/sections/navbar";
+import { Footer } from "@/components/sections/footer";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -19,6 +21,7 @@ import { AutomationTimeline } from "@/components/ai-automation/automation-timeli
 import { AutomationFAQ } from "@/components/ai-automation/automation-faq";
 import { ResponsibleAutomation } from "@/components/ai-automation/responsible-automation";
 import { ServiceCta } from "@/components/services/service-cta";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 
 type UseCase = {
   id: number;
@@ -27,6 +30,7 @@ type UseCase = {
   automatedWorkflow: string;
   improvement: string;
   visualAlt: string;
+  imageSrc: string;
 };
 
 const AUTOMATION_USE_CASES: UseCase[] = [
@@ -34,23 +38,25 @@ const AUTOMATION_USE_CASES: UseCase[] = [
     id: 1,
     title: "Lead Capture and Follow-up",
     manualProblem:
-      "Teams manually collect form submissions and spend hours on follow-up emails, often missing leads.",
+      "Teams may collect enquiries manually and coordinate follow-up across separate tools, creating extra handoffs.",
     automatedWorkflow:
-      "Form submission triggers automated capture, AI-powered lead scoring, and assignment to the right sales representative with immediate follow-up email.",
+      "A form submission can trigger structured capture, optional qualification rules or AI-assisted scoring, assignment to the appropriate team member, and a follow-up step.",
     improvement:
-      "Leads are captured and assigned 24/7 without manual data entry, reducing response time from hours to minutes.",
-    visualAlt: "Lead capture workflow",
+      "This can help enquiries get captured and routed consistently, with follow-up initiated according to agreed business rules.",
+    visualAlt: "Lead enquiry captured, qualified, assigned in a CRM and followed up automatically",
+    imageSrc: "/automation/lead-capture-follow-up.svg",
   },
   {
     id: 2,
     title: "Data Processing and Administration",
     manualProblem:
-      "Staff spend days each month entering data into spreadsheets and multiple systems, prone to errors and inconsistencies.",
+      "Teams may need to re-enter information across documents, spreadsheets and business systems, creating avoidable repetition.",
     automatedWorkflow:
-      "Documents are automatically parsed, data is extracted and synchronized across CRM, ERP, and accounting systems without manual entry.",
+      "Documents can be parsed, key information validated, and approved data passed to connected CRM, ERP or accounting systems.",
     improvement:
-      "Data processing completes in hours instead of days, with significantly reduced error rates and no duplicate entries.",
-    visualAlt: "Data processing workflow",
+      "This can reduce repetitive entry and improve consistency, while keeping exception handling and human review where needed.",
+    visualAlt: "Documents extracted and validated before syncing to CRM, ERP and finance systems",
+    imageSrc: "/automation/data-processing-admin.svg",
   },
 ];
 
@@ -126,13 +132,17 @@ export const metadata: Metadata = {
 
 export default function AIAutomation() {
   return (
-    <section id="ai-automation" className="c-space section-spacing relative overflow-visible">
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+    <>
+      <Navbar />
+      <section id="ai-automation" className="c-space relative overflow-visible">
+      <div className="mx-auto max-w-7xl px-0 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <AutomationHero
         eyebrow="AI AUTOMATION"
@@ -145,6 +155,8 @@ export default function AIAutomation() {
         secondaryCtaText="View Related Work"
         secondaryCtaHref="/#work"
       />
+
+      <ServiceLivePreviews />
 
       <ManualVsAutomated
         title="From manual process to connected workflow"
@@ -165,7 +177,7 @@ export default function AIAutomation() {
       <WorkflowCanvas
         title="Where automation helps"
         description="
-          Practical business scenarios where automation creates measurable operational improvement.
+          Practical business scenarios where connected workflows can reduce repetitive handoffs and improve process consistency.
         "
         nodes={[
           { id: "1", title: "Lead Capture", description: "Form submissions captured automatically" },
@@ -236,10 +248,13 @@ export default function AIAutomation() {
           Tell us about the processes that consume your team's time. We'll help you scope an automation solution that delivers real operational improvement.
         "
         primaryCtaText="Discuss an Automation Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText=""
         secondaryCtaHref=""
       />
-    </section>
+      </section>
+      <div className="c-space mx-auto max-w-7xl pb-12 text-center"><Link href="/services/ai-automation-business-systems" className="inline-flex items-center gap-2 text-sm font-semibold text-deep-teal underline-offset-4 hover:underline">Explore the AI automation service details <span aria-hidden="true">→</span></Link></div>
+      <Footer />
+    </>
   );
 }

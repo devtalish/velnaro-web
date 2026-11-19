@@ -10,8 +10,8 @@ export const ProjectPanel: FC<ProjectPanelProps> = ({
   onOpen,
   showPreview,
 }) => (
-  <div className="flex h-screen w-screen shrink-0 items-center justify-center px-6 md:px-20">
-    <div className="grid w-full max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-14">
+  <div className="flex min-h-[calc(100svh-4rem)] h-auto w-full shrink-0 items-center justify-center px-4 py-12 sm:px-6 md:px-10 lg:h-screen lg:min-h-screen lg:w-screen lg:px-20 lg:py-0">
+    <div className="grid w-full max-w-7xl grid-cols-1 items-center gap-7 md:gap-10 lg:grid-cols-12 lg:gap-14">
       <ProjectSummary
         project={project}
         index={index}

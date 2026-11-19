@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { Navbar } from "@/components/sections/navbar";
+import { Footer } from "@/components/sections/footer";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -13,17 +15,9 @@ import { SearchFramework } from "@/components/ai-search-visibility/search-framew
 import { VisibilityFramework } from "@/components/ai-search-visibility/visibility-framework";
 import { MeasurementExplainer } from "@/components/ai-search-visibility/measurement-explainer";
 import { ImprovementProcess } from "@/components/ai-search-visibility/improvement-process";
-import { RelatedWorkGrid } from "@/components/ai-search-visibility/related-work-grid";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 import { AutomationFAQ } from "@/components/ai-automation/automation-faq";
 import { ServiceCta } from "@/components/services/service-cta";
-
-type ProjectRef = {
-  title: string;
-  description: string;
-  href?: string;
-  image?: string;
-  capabilities: string[];
-};
 
 const MEASUREMENT_ITEMS = [
   {
@@ -65,7 +59,7 @@ const IMPROVEMENT_STAGES = [
     description:
       "Comprehensive review of technical foundations, content structure and entity clarity.",
     cta: "Request a Visibility Assessment",
-    ctaHref: "#contact",
+    ctaHref: "/#contact",
   },
   {
     number: "02",
@@ -93,29 +87,6 @@ const IMPROVEMENT_STAGES = [
   },
 ];
 
-const RELATED_WORK: ProjectRef[] = [
-  {
-    title: "Restaurant website",
-    description:
-      "A restaurant web experience focused on presenting the venue and its offering.",
-    href: "https://restaurant-d-g.vercel.app/",
-    capabilities: ["Website structure", "Content presentation", "Digital experience"],
-  },
-  {
-    title: "Aether Estates",
-    description:
-      "A real-estate web experience designed to present property information.",
-    href: "https://aether-estate-2ur6.vercel.app/",
-    capabilities: ["Property presentation", "Visual interface", "Discovery"],
-  },
-  {
-    title: "ClinicFlow",
-    description:
-      "A healthcare software concept focused on presenting clinical workflows.",
-    href: "https://cliniflow-eta.vercel.app/",
-    capabilities: ["Workflow presentation", "Structured interface", "Digital experience"],
-  },
-];
 
 export const metadata: Metadata = {
   title: {
@@ -147,13 +118,17 @@ export const metadata: Metadata = {
 
 export default function AISearchVisibility() {
   return (
-    <section id="ai-search-visibility" className="c-space section-spacing relative overflow-visible">
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+    <>
+      <Navbar />
+      <section id="ai-search-visibility" className="c-space relative overflow-visible">
+      <div className="mx-auto max-w-7xl px-0 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <SearchVisibilityHero
         eyebrow="AI SEARCH VISIBILITY / GEO / AEO"
@@ -162,7 +137,7 @@ export default function AISearchVisibility() {
           VELNARO works on the technical, content and structural foundations that help search engines and AI-assisted discovery systems understand a business. We focus on improving eligibility, clarity and discoverability rather than guaranteeing particular results.
         "
         primaryCtaText="Request a Visibility Assessment"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Approach"
         secondaryCtaHref="/#work"
       />
@@ -180,7 +155,7 @@ export default function AISearchVisibility() {
         aiItems={[
           "User asks a conversational question",
           "AI generates a response",
-          "Supporting sources and citations are provided",
+          "Supporting sources or citations may be provided",
           "User refines or follows up on the answer",
         ]}
       />
@@ -242,15 +217,16 @@ export default function AISearchVisibility() {
 
       <ImprovementProcess stages={IMPROVEMENT_STAGES} />
 
-      <RelatedWorkGrid projects={RELATED_WORK} />
+      <ServiceLivePreviews />
 
       <AutomationFAQ
+        eyebrow="AI SEARCH VISIBILITY"
         title="FAQ"
         items={[
           {
             question: "What is GEO?",
             answer:
-              "GEO (Generative Engine Optimization) ensures your brand, expertise and solutions are referenced in generative AI outputs where your expertise is relevant. It requires clear entity information, authoritative content and technical foundations that help AI models understand and cite your brand.",
+              "GEO (Generative Engine Optimization) improves the clarity, structure and authority of your business information so AI systems can better understand it. These practices may support discoverability and citation eligibility, but cannot guarantee that a brand will be referenced in AI-generated answers.",
           },
           {
             question: "What is AEO?",
@@ -286,10 +262,13 @@ export default function AISearchVisibility() {
           Tell us about your search visibility goals. We'll help you assess your current presence and develop a plan to improve your eligibility and discoverability across traditional and AI-powered search experiences.
         "
         primaryCtaText="Request a Visibility Assessment"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText=""
         secondaryCtaHref=""
       />
-    </section>
+      </section>
+      <div className="c-space mx-auto max-w-7xl pb-12 text-center"><Link href="/services/geo-aeo-ai-search-visibility" className="inline-flex items-center gap-2 text-sm font-semibold text-deep-teal underline-offset-4 hover:underline">Explore the dedicated GEO/AEO service page <span aria-hidden="true">→</span></Link></div>
+      <Footer />
+    </>
   );
 }

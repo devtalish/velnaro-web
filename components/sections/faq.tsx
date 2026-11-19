@@ -9,17 +9,17 @@ const FAQ_ITEMS_LEFT = [
   {
     question: "What can VELNARO help build?",
     answer:
-      "VELNARO works across three divisions: software development and digital solutions, AI automation and business systems, and AI search visibility (AEO & GEO). The right scope depends on the problem and requirements.",
+      "VELNARO works across software development and digital solutions, AI automation and business systems, and AI search visibility (AEO and GEO). The right scope depends on the problem, requirements and intended outcome.",
   },
   {
     question: "How does a project begin?",
     answer:
-      "It begins with a conversation about the problem, the intended outcome, and the constraints. From there, the scope and an appropriate next step can be discussed.",
+      "It begins with a conversation about the problem, the intended outcome and the constraints. From there, we can clarify the scope and discuss an appropriate next step.",
   },
   {
     question: "Can you work with an existing application or workflow?",
     answer:
-      "The first step is to understand the current system, the issue to address, and the technical constraints. That helps determine whether an improvement, integration, or larger change is appropriate.",
+      "Yes. The first step is to understand the current system, the issue to address and the technical constraints. That helps determine whether an improvement, integration or larger change is appropriate.",
   },
   {
     question: "How can I discuss a project?",
@@ -32,22 +32,22 @@ const FAQ_ITEMS_RIGHT = [
   {
     question: "What information should I share about my project?",
     answer:
-      "A brief description of the problem, what you want to achieve, and any important requirements or constraints is a useful starting point. You do not need a complete specification to begin the conversation.",
+      "A short description of the problem, what you want to achieve, who the solution is for and any important constraints is a useful starting point. You can share more detail as the conversation develops.",
   },
   {
     question: "Can you help define the right technical approach?",
     answer:
-      "Yes. Understanding the problem and its constraints is an important first step toward discussing a suitable technical approach, scope, and next steps.",
+      "Yes. Understanding the problem, users, existing systems and constraints comes before choosing a technology or architecture. The approach should serve the requirements rather than add unnecessary complexity.",
   },
   {
-    question: "Can an existing application or system be improved?",
+    question: "How do you approach project scope?",
     answer:
-      "Potentially. The first step is to understand the current application, the issues you want to address, and the technical constraints before determining an appropriate approach.",
+      "We start by clarifying the intended outcome, essential functionality, dependencies and constraints. This creates a clearer basis for agreeing on deliverables and milestones before implementation begins.",
   },
   {
     question: "What happens after I submit a project inquiry?",
     answer:
-      "Your inquiry provides the context needed to understand what you are looking for. The next step is to review the requirements and discuss an appropriate way forward.",
+      "We review the information you provide to understand the challenge and whether our capabilities are relevant. The next step is to discuss the requirements and an appropriate way forward.",
   },
 ] as const;
 
@@ -57,65 +57,89 @@ interface FaqColumnProps {
   items: readonly FaqItem[];
   openIndex: number | null;
   setOpenIndex: (index: number | null) => void;
+  startNumber: number;
 }
 
-const FaqColumn: FC<FaqColumnProps> = ({ items, openIndex, setOpenIndex }) => (
-  <div className="space-y-0">
-    {items.map((item, index) => (
-      <motion.div
-        key={item.question}
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_ONCE}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="border-t border-slate/20"
-      >
-        <button
-          type="button"
-          onClick={() => setOpenIndex(openIndex === index ? null : index)}
-          aria-expanded={openIndex === index}
-          className="flex w-full items-center justify-between gap-4 py-6 text-left"
+const FaqColumn: FC<FaqColumnProps> = ({
+  items,
+  openIndex,
+  setOpenIndex,
+  startNumber,
+}) => (
+  <div className="space-y-3">
+    {items.map((item, index) => {
+      const isOpen = openIndex === index;
+      const answerId = `faq-answer-${startNumber + index}`;
+
+      return (
+        <motion.article
+          key={item.question}
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+          transition={{ duration: 0.45, delay: index * 0.07 }}
+          className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${
+            isOpen
+              ? "border-deep-teal/25 bg-white shadow-lg shadow-graphite/[0.04]"
+              : "border-slate/15 bg-white/65 hover:border-deep-teal/20 hover:bg-white/90"
+          }`}
         >
-          <span className="text-lg font-semibold text-graphite pr-8">
-            {item.question}
-          </span>
-          <span
-            className="flex-shrink-0 h-6 w-6 text-muted transition-transform duration-300"
-            style={{
-              transform: openIndex === index ? "rotate(45deg)" : "rotate(0deg)",
-            }}
+          <button
+            type="button"
+            onClick={() => setOpenIndex(isOpen ? null : index)}
+            aria-expanded={isOpen}
+            aria-controls={answerId}
+            className="flex w-full items-center gap-4 px-5 py-5 text-left sm:px-6"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-6 w-6"
-              aria-hidden
+            <span className="shrink-0 font-mono text-[11px] tracking-wider text-deep-teal/70">
+              {String(startNumber + index).padStart(2, "0")}
+            </span>
+            <span className="min-w-0 flex-1 text-base font-semibold leading-snug text-graphite sm:text-[17px]">
+              {item.question}
+            </span>
+            <span
+              aria-hidden="true"
+              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
+                isOpen
+                  ? "rotate-180 border-deep-teal/25 bg-deep-teal text-white"
+                  : "border-slate/15 bg-ivory text-muted"
+              }`}
             >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </span>
-        </button>
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{
-            height: openIndex === index ? "auto" : 0,
-            opacity: openIndex === index ? 1 : 0,
-          }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="overflow-hidden"
-        >
-          <div className="pb-6 text-muted leading-relaxed">
-            {item.answer}
-          </div>
-        </motion.div>
-      </motion.div>
-    ))}
-    <div className="border-b border-slate/20" />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </span>
+          </button>
+
+          <motion.div
+            id={answerId}
+            initial={false}
+            animate={{
+              height: isOpen ? "auto" : 0,
+              opacity: isOpen ? 1 : 0,
+            }}
+            transition={{ duration: 0.28, ease: "easeInOut" }}
+            aria-hidden={!isOpen}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+              <div className="rounded-xl border-l-2 border-deep-teal/45 bg-deep-teal/[0.045] px-4 py-4 sm:ml-9">
+                <p className="text-sm leading-7 text-muted">{item.answer}</p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.article>
+      );
+    })}
   </div>
 );
 
@@ -133,23 +157,21 @@ export const FAQ: FC = () => {
       <SectionHeader
         className="mb-12"
         eyebrow="FAQ"
-        title={
-          <>
-            A few useful answers.
-          </>
-        }
+        title={<>A few useful answers.</>}
       />
 
-      <div className="grid gap-8 md:grid-cols-2 max-w-4xl">
+      <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2 md:gap-5">
         <FaqColumn
           items={FAQ_ITEMS_LEFT}
           openIndex={openLeftIndex}
           setOpenIndex={setOpenLeftIndex}
+          startNumber={1}
         />
         <FaqColumn
           items={FAQ_ITEMS_RIGHT}
           openIndex={openRightIndex}
           setOpenIndex={setOpenRightIndex}
+          startNumber={5}
         />
       </div>
     </section>

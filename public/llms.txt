@@ -1,0 +1,38 @@
+# VELNARO
+
+> VELNARO is an international B2B technology agency providing AI Search Visibility (Generative Engine Optimization and Answer Engine Optimization), AI automation and business systems, and custom software and digital solutions. VELNARO works remotely with organizations in Canada, Australia, the United Kingdom, Austria, the United States, and other markets.
+
+## Core Services
+
+- [AI Search Visibility — GEO & AEO](https://velnaro.agency/ai-search-visibility): Technical SEO, generative and answer-engine readiness, entity clarity, structured data, content structure and measurement.
+- [Flagship GEO/AEO Service](https://velnaro.agency/services/geo-aeo-ai-search-visibility): Diagnostic audits, strategy, technical implementation and ongoing optimization.
+- [AI Automation & Business Systems](https://velnaro.agency/ai-automation): Workflow automation, AI-assisted processing, CRM and lead management, and connected business systems.
+- [Software Development & Digital Solutions](https://velnaro.agency/software-development): Websites, web applications, business dashboards, internal tools and API integrations.
+
+## Pricing & Engagements
+
+- [GEO/AEO services and pricing](https://velnaro.agency/services/geo-aeo-ai-search-visibility): Published USD starting/anchor prices are $850 for a diagnostic audit, $1,650 for a strategy and entity roadmap, $2,800 for a technical implementation sprint, $2,200/month for a growth retainer, and $4,500/month for an advanced authority program. Final scope is confirmed in a written proposal.
+
+## Regional Focus
+
+- [International markets](https://velnaro.agency/locations): Overview of VELNARO's priority countries for remote delivery.
+
+- [Canada](https://velnaro.agency/locations/canada-geo-aeo-agency): Remote services for Canadian organizations.
+- [Australia](https://velnaro.agency/locations/australia-geo-aeo-agency): Remote services for Australian organizations.
+- [United Kingdom](https://velnaro.agency/locations/uk-geo-aeo-agency): Remote services for UK organizations.
+- [Austria](https://velnaro.agency/locations/austria-geo-aeo-agency): Remote services for Austrian and DACH-oriented organizations.
+- [United States](https://velnaro.agency/locations/usa-geo-aeo-agency): Remote services for US organizations.
+
+## Guides & Answers
+
+- [Guides & insights](https://velnaro.agency/guides): Index of VELNARO's educational resources.
+
+- [What is Generative Engine Optimization (GEO)?](https://velnaro.agency/guides/what-is-generative-engine-optimization-geo-2026): A practical explanation of GEO, its relationship to SEO and the technical/content work involved.
+
+## Case Studies & Proof
+
+- [Selected work](https://velnaro.agency/#work): Selected product and project previews. Portfolio items should be treated as demonstrations of work, not as independently verified client outcome claims.
+
+## Contact & Booking
+
+- [Contact VELNARO](https://velnaro.agency/#contact): Use the website contact form to describe a business challenge or project. Engagement scope and availability are confirmed directly.

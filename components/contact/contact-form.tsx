@@ -76,6 +76,10 @@ export const ContactForm: FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="relative space-y-4">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+            <label htmlFor="website">Leave this field empty</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <FloatingField
               id="name"

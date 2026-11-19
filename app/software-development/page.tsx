@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { Navbar } from "@/components/sections/navbar";
+import { Footer } from "@/components/sections/footer";
 import {
   OG_IMAGES,
   OG_LOCALE,
@@ -12,45 +14,9 @@ import { ProductInterfaceShowcase } from "@/components/services/product-interfac
 import { CapabilityFeature } from "@/components/services/capability-feature";
 import { ArchitectureDiagram } from "@/components/services/architecture-diagram";
 import { DevelopmentTimeline } from "@/components/services/development-timeline";
-import { ServiceProjectGrid } from "@/components/services/service-project-grid";
+import { ServiceLivePreviews } from "@/components/services/service-live-previews";
 import { FAQAccordion } from "@/components/services/faq-accordion";
 import { ServiceCta } from "@/components/services/service-cta";
-
-type ServiceProject = {
-  title: string;
-  category: string;
-  description: string;
-  href?: string;
-  image?: string;
-  technologies: string[];
-};
-
-const SOFTWARE_PROJECTS: ServiceProject[] = [
-  {
-    title: "Restaurant",
-    category: "Restaurant / Web Experience",
-    description:
-      "A restaurant web experience focused on presenting the venue and its offering through a polished digital presence.",
-    href: "https://restaurant-d-g.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Motion"],
-  },
-  {
-    title: "Aether Estates",
-    category: "Real Estate / Web Experience",
-    description:
-      "A real-estate web experience designed to present property information through a focused, visual interface.",
-    href: "https://aether-estate-2ur6.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Motion"],
-  },
-  {
-    title: "ClinicFlow",
-    category: "Healthcare Software Concept",
-    description:
-      "A healthcare-oriented software concept focused on presenting clinical workflows in a structured digital interface.",
-    href: "https://cliniflow-eta.vercel.app/",
-    technologies: ["Next.js", "TypeScript", "TailwindCSS", "React"],
-  },
-];
 
 const DEVELOPMENT_PROCESS = [
   {
@@ -113,16 +79,20 @@ export const metadata: Metadata = {
 
 export default function SoftwareDevelopment() {
   return (
-    <section
+    <>
+      <Navbar />
+      <section
       id="software-development"
-      className="c-space section-spacing relative overflow-visible"
+      className="c-space relative overflow-visible"
     >
-      <Link
-        href="/"
-        className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-deep-teal"
-      >
-        <span aria-hidden>←</span> Back to VELNARO
-      </Link>
+      <div className="mx-auto max-w-7xl px-0 pt-28">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-deep-teal"
+        >
+          <span aria-hidden>←</span> Back to VELNARO
+        </Link>
+      </div>
 
       <ServiceHero
         eyebrow="SOFTWARE DEVELOPMENT"
@@ -131,7 +101,7 @@ export default function SoftwareDevelopment() {
           We design and develop websites, web applications, internal platforms and custom digital products that align with your business processes and grow with your organization.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
         capabilityLine="Digital products · Web applications · Business platforms"
@@ -200,10 +170,7 @@ export default function SoftwareDevelopment() {
 
       <DevelopmentTimeline steps={DEVELOPMENT_PROCESS} />
 
-      <ServiceProjectGrid
-        projects={SOFTWARE_PROJECTS}
-        seeAllHref="/#work"
-      />
+      <ServiceLivePreviews />
 
       <FAQAccordion
         title="FAQ"
@@ -237,10 +204,13 @@ export default function SoftwareDevelopment() {
           Tell us about your idea, requirements, and constraints. We'll help you scope a solution that fits your business and gets results.
         "
         primaryCtaText="Discuss Your Project"
-        primaryCtaHref="#contact"
+        primaryCtaHref="/#contact"
         secondaryCtaText="Explore Our Work"
         secondaryCtaHref="/#work"
       />
-    </section>
+      </section>
+      <div className="c-space mx-auto max-w-7xl pb-12 text-center"><Link href="/services/custom-software-web-development" className="inline-flex items-center gap-2 text-sm font-semibold text-deep-teal underline-offset-4 hover:underline">Explore the custom software service details <span aria-hidden="true">→</span></Link></div>
+      <Footer />
+    </>
   );
 }

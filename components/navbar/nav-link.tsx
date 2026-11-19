@@ -9,6 +9,10 @@ import { type NavLinkProps } from "@/types/navigation-types";
 export interface NavLinkExtendedProps extends NavLinkProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  onFocus?: () => void;
+  ariaExpanded?: boolean;
+  ariaHaspopup?: boolean;
+  ariaControls?: string;
 }
 
 export const NavLink = forwardRef<HTMLAnchorElement, NavLinkExtendedProps>(
@@ -20,6 +24,10 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkExtendedProps>(
       onClick,
       onMouseEnter,
       onMouseLeave,
+      onFocus,
+      ariaExpanded,
+      ariaHaspopup,
+      ariaControls,
     },
     ref
   ) => {
@@ -38,6 +46,10 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkExtendedProps>(
         onClick={handleClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        onFocus={onFocus}
+        aria-expanded={ariaExpanded}
+        aria-haspopup={ariaHaspopup}
+        aria-controls={ariaControls}
         aria-current={active ? "page" : undefined}
         className={`nav-link relative ${active ? "text-deep-teal" : ""}`}
       >

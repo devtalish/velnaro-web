@@ -11,16 +11,17 @@ export const ResponsibleAutomation: FC<ResponsibleAutomationProps> = ({
   title,
   items,
 }) => (
-  <section className="mb-20">
-    <div>
-      <p className="text-eyebrow uppercase tracking-wider mb-3">AI AUTOMATION</p>
-      <h2 className="text-heading mb-5">{title}</h2>
+  <section className="mb-24">
+    <div className="mb-8 max-w-3xl">
+      <p className="text-eyebrow mb-3 uppercase tracking-wider">RELIABILITY BY DESIGN</p>
+      <h2 className="text-heading mb-4">{title}</h2>
+      <p className="text-base leading-relaxed text-muted">Automation should be observable, controlled and maintainable—not a black box.</p>
     </div>
-    <ul className="space-y-3 text-sm text-muted">
-      {items.map((item, index) => (
-        <li key={index} className="flex items-start gap-3">
-          <span className="mt-0.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-deep-teal" />
-          <span>{item}</span>
+    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((item) => (
+        <li key={item} className="flex min-h-28 items-start gap-3 rounded-2xl border border-slate/15 bg-white/70 p-5 transition-colors hover:border-deep-teal/25">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-deep-teal/10 text-xs font-semibold text-deep-teal">✓</span>
+          <span className="pt-0.5 text-sm leading-relaxed text-muted">{item}</span>
         </li>
       ))}
     </ul>

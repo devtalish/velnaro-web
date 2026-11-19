@@ -9,7 +9,7 @@ import {
 import { type FloatingFieldProps } from "@/types/contact-types";
 
 const SHARED_INPUT =
-  "block w-full bg-transparent text-sm text-graphite placeholder-muted focus:outline-none";
+  "block w-full bg-transparent text-[15px] leading-6 text-graphite placeholder-muted focus:outline-none";
 
 export const FloatingField: FC<FloatingFieldProps> = ({
   id,
@@ -40,8 +40,8 @@ export const FloatingField: FC<FloatingFieldProps> = ({
     <div
       className={`relative rounded-xl border transition-colors ${
         focused
-          ? "border-deep-teal/60 bg-white/80"
-          : "border-slate/20 bg-white/50"
+          ? "border-deep-teal/70 bg-white shadow-[0_0_0_3px_rgba(23,107,101,0.08)]"
+          : "border-slate/25 bg-white/75 shadow-[0_4px_18px_-16px_rgba(23,27,31,0.45)]"
       }`}
     >
       <label

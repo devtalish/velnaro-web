@@ -1,0 +1,57 @@
+name: Quality checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Install, audit, lint, typecheck and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies from committed lockfile
+        run: npm ci --no-audit --no-fund
+      - name: Production dependency security audit
+        run: npm audit --omit=dev
+      # The current upstream picomatch ReDoS advisory affects the development-only
+      # ESLint/glob toolchain. No official fixed release is available yet; keep
+      # this audit visible without blocking production checks or hiding the finding.
+      - name: Development dependency audit (known upstream picomatch advisory)
+        run: npm audit --include=dev
+        continue-on-error: true
+      - name: Lint
+        run: npm run lint
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+
+  edge-function:
+    name: Check Supabase Edge Function
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Test notification email templates
+        run: deno test --frozen supabase/functions/notify-contact/email-template_test.ts
+      - name: Type-check notification function
+        run: deno check --frozen supabase/functions/notify-contact/index.ts

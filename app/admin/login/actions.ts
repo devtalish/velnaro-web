@@ -11,8 +11,26 @@ export interface LoginState {
 
 const INVALID = "Invalid email or password.";
 
-const safeRedirect = (next: string | null): string =>
-  next && next.startsWith("/") && !next.startsWith("//") ? next : "/admin";
+const safeRedirect = (next: string | null): string => {
+  if (
+    !next ||
+    !next.startsWith("/") ||
+    next.startsWith("//") ||
+    next.includes("\\") ||
+    /[\u0000-\u001f\u007f]/.test(next)
+  ) {
+    return "/admin";
+  }
+
+  try {
+    const target = new URL(next, "https://velnaro.invalid");
+    const isAdminPath = target.pathname === "/admin" || target.pathname.startsWith("/admin/");
+    if (target.origin !== "https://velnaro.invalid" || !isAdminPath) return "/admin";
+    return target.pathname + target.search + target.hash;
+  } catch {
+    return "/admin";
+  }
+};
 
 export const signIn = async (
   _prev: LoginState,
@@ -52,11 +70,22 @@ export const signIn = async (
     return { error: INVALID };
   }
 
-  const { data: adminRow } = await supabase
+  const { data: adminRow, error: adminLookupError } = await supabase
     .from("admin_users")
     .select("user_id")
     .eq("user_id", data.user.id)
     .maybeSingle();
+
+  if (adminLookupError) {
+    console.error("Admin permission lookup failed:", {
+      code: adminLookupError.code,
+      message: adminLookupError.message,
+      details: adminLookupError.details,
+      hint: adminLookupError.hint,
+    });
+    await supabase.auth.signOut();
+    return { error: "Could not verify admin permissions. Please try again shortly." };
+  }
 
   if (!adminRow) {
     await supabase.auth.signOut();

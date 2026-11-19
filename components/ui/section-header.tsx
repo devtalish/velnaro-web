@@ -29,7 +29,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={VIEWPORT_ONCE}
         transition={{ duration: 0.7, delay: 0.05 }}
-        className="text-heading mt-3 max-w-3xl"
+        className="text-heading mt-3 max-w-3xl text-pretty"
       >
         {title}
       </motion.h2>
@@ -41,10 +41,10 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
         whileInView={{ opacity: 1, x: 0 }}
         viewport={VIEWPORT_ONCE}
         transition={{ duration: 0.6 }}
-        className="hidden items-center gap-3 text-xs uppercase tracking-[0.3em] text-neutral-400 md:flex"
+        className="hidden items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted/75 md:flex"
       >
         <span>{hint[0]}</span>
-        <span className="block h-px w-10 bg-gradient-to-r from-white/40 to-transparent" />
+        <span className="block h-px w-10 bg-gradient-to-r from-slate/35 to-transparent" />
         <span>{hint[1]}</span>
       </motion.p>
     )}

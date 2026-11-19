@@ -8,7 +8,7 @@ import { type BudgetFieldProps } from "@/types/contact-types";
 
 export const BudgetField: FC<BudgetFieldProps> = ({ value, onChange }) => (
   <div>
-    <p className="mb-3 text-[10px] uppercase tracking-[0.25em] text-muted">
+    <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-graphite">
       Project budget
     </p>
     <div className="flex flex-wrap gap-2">
@@ -20,10 +20,10 @@ export const BudgetField: FC<BudgetFieldProps> = ({ value, onChange }) => (
             type="button"
             onClick={() => onChange(active ? "" : option.value)}
             aria-pressed={active}
-            className={`group relative rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
+            className={`group relative rounded-full border px-4 py-2.5 text-xs font-semibold transition-all duration-200 ${
               active
                 ? "border-deep-teal/60 bg-white/80 text-graphite"
-                : "border-slate/20 text-muted hover:border-deep-teal/50"
+                : "border-slate/25 bg-white/70 text-muted hover:border-deep-teal/50 hover:bg-white"
             }`}
           >
             {active && (

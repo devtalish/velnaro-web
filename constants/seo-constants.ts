@@ -9,15 +9,15 @@ export const absoluteUrl = (path: string) =>
 
 export const SITE_NAME = "VELNARO";
 
-export const SITE_TITLE = "VELNARO — Software, AI Automation & AI Search Visibility";
+export const SITE_TITLE = "VELNARO — AI Search Visibility, Automation & Software";
 
 export const SITE_DESCRIPTION =
-  "VELNARO is a digital agency building custom software, AI automation systems, and AI search visibility programs that help businesses grow.";
+  "VELNARO is an international B2B technology agency specializing in AI search visibility (GEO & AEO), supported by AI automation and custom software solutions.";
 
 export const SITE_TAGLINE =
-  "Software, AI automation, and AI search visibility built with purpose.";
+  "AI search visibility, automation and custom software for business growth.";
 
-export const OG_IMAGE = "/og.jpg";
+export const OG_IMAGE = "/opengraph-image";
 export const OG_IMAGE_ALT = "VELNARO — Software, AI Automation & AI Search Visibility";
 export const OG_LOCALE = "en_US";
 
@@ -50,10 +50,10 @@ export const SITE_KEYWORDS = [
   "Digital Products",
 ];
 
-export const HOME_TITLE = "VELNARO — Software, AI Automation & AI Search Visibility";
+export const HOME_TITLE = "VELNARO — AI Search Visibility, Automation & Software";
 
 export const HOME_DESCRIPTION =
-  "VELNARO is a digital agency building custom software, AI automation systems, and AI search visibility programs that help businesses grow.";
+  "VELNARO is an international B2B technology agency specializing in AI search visibility (GEO & AEO), supported by AI automation and custom software solutions.";
 
 export const ADMIN_TITLE = "Contact submissions";
 

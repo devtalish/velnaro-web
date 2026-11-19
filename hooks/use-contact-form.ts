@@ -51,10 +51,11 @@ export const useContactForm = () => {
       setIsLoading(true);
 
       try {
+        const honeypot = new FormData(event.currentTarget as HTMLFormElement).get("website");
         const response = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ ...formData, website: typeof honeypot === "string" ? honeypot : "" }),
         });
         const data = (await response.json().catch(() => ({}))) as {
           error?: string;
