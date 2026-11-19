@@ -72,7 +72,7 @@ export const ProjectSummary: FC<ProjectSummaryProps> = ({
           </a>
         )}
         <button type="button" onClick={onOpen} className="btn-ghost">
-          <span>{comingSoon ? "View Details" : "Project details"}</span>
+          <span>Case Study</span>
         </button>
       </motion.div>
     </div>
