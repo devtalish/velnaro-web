@@ -17,7 +17,7 @@ const LazyPanel: FC<Omit<ProjectPanelProps, "showPreview">> = (props) => {
     if (!element) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
       { rootMargin: "160px 0px", threshold: 0.01 }
     );
 
