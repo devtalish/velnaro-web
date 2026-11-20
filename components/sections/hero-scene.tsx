@@ -24,7 +24,7 @@ export const HeroScene: FC = () => {
         <directionalLight position={[3, 4, 5]} intensity={1.6} />
         <Suspense fallback={<Loader />}>
           <Float rotationIntensity={0.3} floatIntensity={0.5} speed={0.5}>
-            <Astronaut scale={isMobile ? 0.34 : 0.245} position={isMobile ? [1.05, -0.75, 0] : [2.05, -0.58, 0]} rotation={[-Math.PI / 2, -0.2, 2.2]} />
+            <Astronaut scale={isMobile ? 0.30 : 0.245} position={isMobile ? [0.42, -0.58, 0] : [2.05, -0.58, 0]} rotation={[-Math.PI / 2, -0.2, 2.2]} />
           </Float>
           <Rig />
         </Suspense>
