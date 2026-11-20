@@ -61,7 +61,7 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-                  allow="fullscreen"
+                  allow="fullscreen; camera; microphone; autoplay; clipboard-read; clipboard-write"
                   className="h-full w-full border-0 bg-white"
                 />
               ) : (
