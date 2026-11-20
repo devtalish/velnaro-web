@@ -113,14 +113,14 @@ const ProcessCard = ({
     <motion.div {...entranceStyle} className="relative">
       <div style={{ perspective: "1400px" }} className="relative">
         <div
-          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1"
+          className="relative rounded-3xl border border-slate/20 bg-white/90 shadow-2xl shadow-black/10 backdrop-blur-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 active:-translate-y-1 active:scale-[0.995]"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/10 via-pale-sage/30 to-deep-teal/10" />
 
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_45%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_85%,rgba(23,107,101,0.07),transparent_48%)]" />
 
-          <div className="relative z-10 p-6 md:p-8 flex flex-col h-full">
+          <div className="relative z-10 p-5 sm:p-6 md:p-8 flex flex-col h-full">
             <div className="mt-5 flex-1 flex flex-col min-h-0">
               <h3
                 className="text-lg md:text-xl font-bold leading-tight transition-colors duration-300"
