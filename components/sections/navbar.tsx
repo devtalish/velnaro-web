@@ -36,17 +36,10 @@ export const Navbar: FC = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isDropdownOpen, isOpen]);
 
-
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 w-full border-b border-slate/10 transition-all duration-300 backdrop-blur-xl ${
-        scrolled
-          ? "bg-ivory/97 shadow-md shadow-graphite/[0.06]"
-          : "bg-ivory/90 shadow-sm shadow-graphite/[0.025]"
-      }`}
-    >
+    <header className={`fixed inset-x-0 top-0 z-50 w-full border-b border-slate/10 transition-all duration-300 backdrop-blur-xl ${scrolled ? "bg-ivory/97 shadow-md shadow-graphite/[0.06]" : "bg-ivory/90 shadow-sm shadow-graphite/[0.025]"}`}>
       <div className="c-space">
-        <div className="flex min-h-[72px] items-center justify-between gap-5 py-2">
+        <div className="mx-auto flex min-h-[72px] w-full max-w-screen-2xl items-center justify-between gap-5 py-2">
           <NavBrand />
           <nav className="hidden lg:flex" aria-label="Main navigation">
             <ul className="nav-ul">
@@ -62,22 +55,12 @@ export const Navbar: FC = () => {
                     }
                   }}
                   onBlur={(event) => {
-                    if (item.label === "Services" && !event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                      setIsDropdownOpen(false);
-                    }
+                    if (item.label === "Services" && !event.currentTarget.contains(event.relatedTarget as Node | null)) setIsDropdownOpen(false);
                   }}
                 >
                   {item.label === "Services" ? (
                     <>
-                      <button
-                        ref={servicesLinkRef}
-                        type="button"
-                        onClick={() => setIsDropdownOpen(true)}
-                        aria-haspopup="true"
-                        aria-expanded={isDropdownOpen}
-                        aria-controls="services-navigation-menu"
-                        className="nav-link relative inline-flex items-center gap-2"
-                      >
+                      <button ref={servicesLinkRef} type="button" onClick={() => setIsDropdownOpen(true)} aria-haspopup="true" aria-expanded={isDropdownOpen} aria-controls="services-navigation-menu" className="nav-link relative inline-flex items-center gap-2">
                         Services
                         <span aria-hidden className={`text-[10px] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}>⌄</span>
                       </button>
@@ -87,12 +70,7 @@ export const Navbar: FC = () => {
                             <ul className="flex flex-col gap-1">
                               {item.dropdown?.map((subItem) => (
                                 <li key={subItem.link}>
-                                  <NavLink
-                                    href={subItem.link}
-                                    label={subItem.label}
-                                    active={pathname === subItem.link}
-                                    onClick={() => setIsDropdownOpen(false)}
-                                  />
+                                  <NavLink href={subItem.link} label={subItem.label} active={pathname === subItem.link} onClick={() => setIsDropdownOpen(false)} />
                                 </li>
                               ))}
                             </ul>
@@ -101,11 +79,7 @@ export const Navbar: FC = () => {
                       )}
                     </>
                   ) : (
-                    <NavLink
-                      href={isHomePage ? item.href : `/${item.href}`}
-                      label={item.label}
-                      active={isHomePage && active === item.href}
-                    />
+                    <NavLink href={isHomePage ? item.href : `/${item.href}`} label={item.label} active={isHomePage && active === item.href} />
                   )}
                 </li>
               ))}
@@ -116,18 +90,12 @@ export const Navbar: FC = () => {
             ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((open) => !open)}
-            className="relative z-[60] mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate/20 bg-white text-graphite shadow-sm transition-colors hover:border-deep-teal/40 hover:text-deep-teal sm:mr-2 lg:hidden"
+            className="relative z-[60] flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate/20 bg-white text-graphite shadow-sm transition-colors hover:border-deep-teal/40 hover:text-deep-teal active:scale-95 lg:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
           >
-            <Image
-              src={isOpen ? "/assets/close.svg" : "/assets/menu.svg"}
-              alt=""
-              width={22}
-              height={22}
-              className="h-[22px] w-[22px]"
-            />
+            <Image src={isOpen ? "/assets/close.svg" : "/assets/menu.svg"} alt="" width={22} height={22} className="h-[22px] w-[22px]" />
           </button>
         </div>
       </div>
