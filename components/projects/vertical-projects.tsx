@@ -19,7 +19,7 @@ const LazyPanel: FC<Omit<ProjectPanelProps, "showPreview">> = (props) => {
 };
 
 export const VerticalProjects: FC<ProjectListProps> = ({ onOpen }) => (
-  <div className="mt-12 space-y-20">
+  <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-14 lg:mt-12 lg:space-y-20">
     {MY_PROJECTS.map((project, index) => (
       <LazyPanel
         key={project.id}
