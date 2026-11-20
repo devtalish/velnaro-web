@@ -9,7 +9,7 @@ const isComingSoon = (href: string) => !href || href.trim() === "";
 const DESKTOP_VIEWPORT_WIDTH = 1440;
 const DESKTOP_VIEWPORT_HEIGHT = 900;
 
-export const ProjectPreview: FC<ProjectPreviewProps> = ({ project }) => {
+export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }) => {
   const prefersReducedMotion = useReducedMotion();
   const pointerX = useMotionValue(0.5);
   const pointerY = useMotionValue(0.5);
@@ -27,12 +27,11 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project }) => {
     const updateScale = () => {
       const bounds = element.getBoundingClientRect();
       if (!bounds.width || !bounds.height) return;
-      setPreviewScale(
-        Math.min(
-          bounds.width / DESKTOP_VIEWPORT_WIDTH,
-          bounds.height / DESKTOP_VIEWPORT_HEIGHT
-        )
+      const nextScale = Math.min(
+        bounds.width / DESKTOP_VIEWPORT_WIDTH,
+        bounds.height / DESKTOP_VIEWPORT_HEIGHT
       );
+      setPreviewScale(nextScale);
     };
 
     updateScale();
@@ -62,11 +61,11 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project }) => {
         <motion.div
           onMouseMove={handleMove}
           onMouseLeave={handleLeave}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.995 }}
           style={{ rotateX: prefersReducedMotion ? 0 : rotateX, rotateY: prefersReducedMotion ? 0 : rotateY, transformStyle: "preserve-3d" }}
           className="group relative aspect-[4/3] overflow-hidden rounded-[28px] border border-slate/15 bg-[#e9eeeb] shadow-[0_28px_80px_-38px_rgba(23,27,31,0.28)] md:aspect-[16/10]"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-deep-teal/15 via-pale-sage/35 to-[#f7f7f3]" />
-
           <div className="absolute inset-0 bg-white p-2 sm:p-3">
             <div className="relative z-20 flex h-8 items-center gap-2 rounded-t-xl border border-slate/10 bg-[#f5f5f2] px-3">
               <span className="h-2 w-2 rounded-full bg-[#d5a49b]" />
@@ -84,40 +83,40 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project }) => {
 
             <div ref={viewportRef} className="absolute inset-x-2 bottom-2 top-10 overflow-hidden rounded-b-lg border-x border-b border-slate/10 bg-[#f8faf8] sm:inset-x-3 sm:bottom-3 sm:top-11">
               {previewUrl && !comingSoon ? (
-                <div className="absolute left-1/2 top-1/2" style={{ width: scaledWidth, height: scaledHeight, transform: "translate(-50%, -50%)" }}>
-                  <iframe
-                    src={previewUrl}
-                    title={`${project.title} desktop website preview`}
-                    loading="eager"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-                    allow="fullscreen; camera; microphone; autoplay; clipboard-read; clipboard-write"
-                    style={{
-                      width: DESKTOP_VIEWPORT_WIDTH,
-                      height: DESKTOP_VIEWPORT_HEIGHT,
-                      transform: `scale(${previewScale})`,
-                      transformOrigin: "top left",
-                    }}
-                    className="block max-w-none border-0 bg-white"
-                  />
-                </div>
+                showPreview ? (
+                  <div className="absolute left-1/2 top-1/2" style={{ width: scaledWidth, height: scaledHeight, transform: "translate(-50%, -50%)" }}>
+                    <iframe
+                      src={previewUrl}
+                      title={`${project.title} desktop website preview`}
+                      width={DESKTOP_VIEWPORT_WIDTH}
+                      height={DESKTOP_VIEWPORT_HEIGHT}
+                      loading="eager"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                      allow="fullscreen; camera; microphone; autoplay; clipboard-read; clipboard-write"
+                      style={{
+                        width: DESKTOP_VIEWPORT_WIDTH,
+                        height: DESKTOP_VIEWPORT_HEIGHT,
+                        transform: `scale(${previewScale})`,
+                        transformOrigin: "top left",
+                      }}
+                      className="block max-w-none border-0 bg-white"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#f8faf8] via-[#edf3f0] to-[#e5eeea]">
+                    <div className="h-2 w-2 animate-pulse rounded-full bg-deep-teal" aria-label="Loading project preview" />
+                  </div>
+                )
               ) : (
                 <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#f8faf8] via-[#edf3f0] to-[#e5eeea] p-5 sm:p-8">
                   <div className="w-full max-w-xl rounded-2xl border border-white/80 bg-white/85 p-6 shadow-[0_24px_70px_-32px_rgba(23,27,31,0.25)] sm:p-9">
-                    <span className="inline-flex rounded-full border border-deep-teal/15 bg-deep-teal/[0.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-deep-teal">
-                      {project.category}
-                    </span>
-                    <h4 className="mt-5 text-3xl font-semibold leading-tight tracking-tight text-graphite sm:text-5xl">
-                      {project.title}
-                    </h4>
-                    <p className="mt-3 max-w-lg text-xs leading-6 text-muted sm:text-sm">
-                      {project.description}
-                    </p>
+                    <span className="inline-flex rounded-full border border-deep-teal/15 bg-deep-teal/[0.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-deep-teal">{project.category}</span>
+                    <h4 className="mt-5 text-3xl font-semibold leading-tight tracking-tight text-graphite sm:text-5xl">{project.title}</h4>
+                    <p className="mt-3 max-w-lg text-xs leading-6 text-muted sm:text-sm">{project.description}</p>
                     <div className="mt-7 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 rounded-full bg-deep-teal" />
-                      <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted">
-                        Concept preview
-                      </span>
+                      <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted">Concept preview</span>
                     </div>
                   </div>
                 </div>
@@ -128,11 +127,8 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project }) => {
           <span className="absolute left-5 top-5 z-30 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-deep-teal shadow-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-deep-teal" /> Original site
           </span>
-
           {comingSoon && (
-            <span className="absolute bottom-5 right-5 z-30 rounded-full border border-slate/15 bg-white/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-              In development
-            </span>
+            <span className="absolute bottom-5 right-5 z-30 rounded-full border border-slate/15 bg-white/90 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">In development</span>
           )}
         </motion.div>
       </div>
