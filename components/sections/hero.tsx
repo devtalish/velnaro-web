@@ -14,7 +14,7 @@ const HeroScene = dynamic(
 
 export const Hero: FC = () => {
   // Keep phones on the lightweight branded artwork; load the heavy astronaut only on larger screens.
-  const showScene = useDeferred3D(0, 854);
+  const showScene = useDeferred3D(0, 320);
 
   return (
     <section
