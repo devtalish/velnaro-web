@@ -1,8 +1,7 @@
 "use client";
 
-import { type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { MY_PROJECTS } from "@/constants/portfolio-constants";
-import { useInViewOnce } from "@/hooks/use-in-view-once";
 import {
   type ProjectListProps,
   type ProjectPanelProps,
@@ -10,7 +9,22 @@ import {
 import { ProjectPanel } from "./project-panel";
 
 const LazyPanel: FC<Omit<ProjectPanelProps, "showPreview">> = (props) => {
-  const [ref, inView] = useInViewOnce<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "160px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div ref={ref}>
       <ProjectPanel {...props} showPreview={inView} />
