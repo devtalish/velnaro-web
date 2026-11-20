@@ -104,8 +104,9 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }
                     />
                   </div>
                 ) : (
-                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#f8faf8] via-[#edf3f0] to-[#e5eeea]">
-                    <div className="h-2 w-2 animate-pulse rounded-full bg-deep-teal" aria-label="Loading project preview" />
+                  <div className="flex h-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#f8faf8] via-[#edf3f0] to-[#e5eeea]">
+                    <div className="h-3 w-3 animate-pulse rounded-full bg-deep-teal" aria-hidden="true" />
+                    <span className="text-[10px] font-medium tracking-wide text-muted">Preparing live desktop preview…</span>
                   </div>
                 )
               ) : (
