@@ -24,8 +24,9 @@ export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => 
     [0, 1],
     [1, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]
   );
-  const y = useTransform(scrollYProgress, [0, 0.72, 1], [34, 0, -10]);
-  const opacity = useTransform(scrollYProgress, [0, 0.35, 1], [0.72, 1, 0.96]);
+  const y = useTransform(scrollYProgress, [0, 0.55, 1], [42, 0, -8]);
+  const x = useTransform(scrollYProgress, [0, 0.6, 1], [28, 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 1], [0.38, 1, 1]);
   const rotateX = useTransform(scrollYProgress, [0, 1], [1.4, 0]);
 
   return (
@@ -40,6 +41,7 @@ export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => 
       <motion.article
         style={{
           scale: reduceMotion ? 1 : desktopScale,
+          x: reduceMotion ? 0 : x,
           y: reduceMotion ? 0 : y,
           opacity: reduceMotion ? 1 : opacity,
           rotateX: reduceMotion ? 0 : rotateX,
