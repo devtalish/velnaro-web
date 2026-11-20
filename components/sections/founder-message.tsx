@@ -76,13 +76,13 @@ export const FounderMessage: FC = () => {
             </div>
 
             <div style={{ transform: "translateZ(50px)" }} className="mt-6 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
-              <div className="flex min-w-0 flex-1 items-center gap-4">
+              <div className="flex min-w-0 flex-1 items-start gap-4 sm:items-center">
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-graphite to-slate">
                   <span className="text-xl font-black text-white">MT</span>
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-graphite">Muhammad Talish</p>
-                  <p className="truncate text-sm text-muted">Founder & Product / Technical Lead, VELNARO</p>
+                  <p className="break-words text-sm leading-snug text-muted">Founder & Product / Technical Lead, VELNARO</p>
                 </div>
               </div>
               <a
