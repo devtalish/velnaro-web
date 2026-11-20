@@ -41,8 +41,8 @@ export const HeroScene: FC = () => {
         <Suspense fallback={<Loader />}>
           <Float rotationIntensity={0.3} floatIntensity={0.5} speed={0.5}>
             <Astronaut
-              scale={isMobile ? 0.235 : 0.29}
-              position={isMobile ? [0.9, -1.45, 0] : [3.15, -0.48, 0]}
+              scale={isMobile ? 0.19 : 0.29}
+              position={isMobile ? [0.95, -0.55, 0] : [3.15, -0.48, 0]}
               rotation={[-Math.PI / 2, -0.2, 2.2]}
             />
           </Float>
