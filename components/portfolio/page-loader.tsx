@@ -13,8 +13,8 @@ export const PageLoader: FC = () => {
   useEffect(() => {
     try {
       if (window.sessionStorage.getItem(SESSION_KEY) === "1") {
-        setRemoved(true);
-        return;
+        const frame = window.requestAnimationFrame(() => setRemoved(true));
+        return () => window.cancelAnimationFrame(frame);
       }
     } catch {
       // Storage may be unavailable; the intro remains non-blocking.
