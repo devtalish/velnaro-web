@@ -12,7 +12,7 @@ const delay = (seconds: number): CSSProperties => ({
 
 export const HeroText: FC = () => {
   return (
-    <div className="relative z-10 mx-auto mt-2 w-full max-w-6xl px-5 pb-[34svh] text-center sm:mt-4 sm:px-8 sm:pb-20 md:mx-0 md:mt-32 md:px-0 md:pb-0 md:text-left lg:max-w-[56%]">
+    <div className="relative z-10 mx-auto mt-2 w-full max-w-6xl px-5 pb-[34svh] text-center sm:mt-4 sm:px-8 sm:pb-[32svh] md:mx-0 md:mt-32 md:px-0 md:pb-0 max-[853px]:pb-[32svh] md:text-left lg:max-w-[56%]">
       <div className="flex flex-col md:px-10 lg:px-15">
         <div
           className="reveal mb-5 inline-flex max-w-full items-center gap-2 self-center rounded-full border border-graphite/15 bg-ivory/85 px-3 py-1.5 backdrop-blur-md sm:mb-6 md:self-start"
