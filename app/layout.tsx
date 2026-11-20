@@ -89,6 +89,9 @@ export default function RootLayout({
       className={`${funnelDisplay.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preload" href="/models/astronaut.glb" as="fetch" crossOrigin="anonymous" />
+      </head>
       <body
         className="min-h-full flex flex-col"
         suppressHydrationWarning
