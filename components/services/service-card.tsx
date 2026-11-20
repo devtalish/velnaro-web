@@ -19,7 +19,7 @@ export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => 
   const rotateX = useTransform(scrollYProgress, [0, 1], [3, 0]);
 
   return (
-    <div ref={ref} className="sticky" style={{ top: `calc(5.25rem + ${index * 0.45}rem)`, zIndex: index + 1 }}>
+    <div ref={ref} className="relative md:sticky" style={{ top: `calc(5.25rem + ${index * 0.45}rem)`, zIndex: index + 1 }}>
       <motion.article
         style={{ scale: reduceMotion ? 1 : cardScale, x: reduceMotion ? 0 : x, y: reduceMotion ? 0 : y, opacity: reduceMotion ? 1 : opacity, rotateX: reduceMotion ? 0 : rotateX, transformPerspective: 1200, transformOrigin: "center top" }}
         whileTap={reduceMotion ? undefined : { scale: 0.985 }}
