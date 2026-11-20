@@ -2,7 +2,7 @@
 import { useRef, type FC } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
-import { SERVICE_ACCENTS, STACK_OFFSET_REM, STACK_SCALE_STEP } from "@/constants/services-ui-constants";
+import { SERVICE_ACCENTS, STACK_SCALE_STEP } from "@/constants/services-ui-constants";
 import { formatCounter, padIndex } from "@/helpers/format-helpers";
 import { type ServiceCardProps } from "@/types/services-types";
 import { ServiceBullets } from "./service-bullets";
@@ -11,16 +11,20 @@ import { ServiceCta } from "./service-cta";
 export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 88%", "end 18%"] });
-  const cardScale = useTransform(scrollYProgress, [0, 1], [1, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]);
-  const y = useTransform(scrollYProgress, [0, 0.55, 1], [72, 0, -10]);
-  const x = useTransform(scrollYProgress, [0, 0.6, 1], [-18, 0, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 1], [0.25, 1, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [2, 0]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 92%", "end 12%"] });
+  const cardScale = useTransform(scrollYProgress, [0, 1], [0.975, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]);
+  const y = useTransform(scrollYProgress, [0, 0.48, 1], [88, 0, -12]);
+  const x = useTransform(scrollYProgress, [0, 0.55, 1], [-22, 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.28, 1], [0.2, 1, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [3, 0]);
 
   return (
     <div ref={ref} className="sticky" style={{ top: `calc(5.25rem + ${index * 0.45}rem)`, zIndex: index + 1 }}>
-      <motion.article style={{ scale: reduceMotion ? 1 : cardScale, x: reduceMotion ? 0 : x, y: reduceMotion ? 0 : y, opacity: reduceMotion ? 1 : opacity, rotateX: reduceMotion ? 0 : rotateX, transformPerspective: 1200, transformOrigin: "center top" }} className="relative isolate overflow-hidden rounded-[1.6rem] border border-slate/15 bg-white shadow-[0_24px_70px_-42px_rgba(23,27,31,0.28)] will-change-transform">
+      <motion.article
+        style={{ scale: reduceMotion ? 1 : cardScale, x: reduceMotion ? 0 : x, y: reduceMotion ? 0 : y, opacity: reduceMotion ? 1 : opacity, rotateX: reduceMotion ? 0 : rotateX, transformPerspective: 1200, transformOrigin: "center top" }}
+        whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+        className="relative isolate overflow-hidden rounded-[1.6rem] border border-slate/15 bg-white shadow-[0_24px_70px_-42px_rgba(23,27,31,0.28)] will-change-transform"
+      >
         <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-25 ${SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]}`} />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(23,107,101,0.10),transparent_45%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(23,107,101,0.07),transparent_48%)]" />
