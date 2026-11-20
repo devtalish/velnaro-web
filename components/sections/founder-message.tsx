@@ -34,7 +34,7 @@ export const FounderMessage: FC = () => {
       </div>
 
       <SectionHeader
-        className="mb-12"
+        className="mb-8 sm:mb-12"
         eyebrow="A NOTE FROM THE FOUNDER"
         title={<>Technology matters when it solves the right problem.</>}
       />
@@ -44,6 +44,7 @@ export const FounderMessage: FC = () => {
           onPointerMove={prefersReducedMotion ? undefined : handleMove}
           onPointerLeave={handleLeave}
           style={{ rotateX: prefersReducedMotion ? 0 : rotateX, rotateY: prefersReducedMotion ? 0 : rotateY, transformStyle: "preserve-3d" }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.995 }}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT_ONCE}
@@ -52,7 +53,7 @@ export const FounderMessage: FC = () => {
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(23,107,101,0.09),transparent_42%),radial-gradient(circle_at_100%_100%,rgba(217,231,226,0.55),transparent_48%)]" />
 
-          <div className="relative z-10 p-8 md:p-12">
+          <div className="relative z-10 p-6 sm:p-8 md:p-12">
             <div className="max-w-4xl">
               <p className="text-base leading-relaxed text-muted md:text-lg">
                 I started VELNARO around a simple idea: good software should do more than look impressive. It
@@ -69,7 +70,7 @@ export const FounderMessage: FC = () => {
               </p>
             </div>
 
-            <div style={{ transform: "translateZ(70px)" }} className="mt-8 flex items-center justify-between gap-4">
+            <div style={{ transform: "translateZ(70px)" }} className="mt-8 flex flex-wrap items-center justify-between gap-3">
               <span className={BADGE}>A note from our founder</span>
               <span className={BADGE}>01 / 01</span>
             </div>
