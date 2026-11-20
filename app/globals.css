@@ -319,3 +319,32 @@ img, video, canvas, svg {
   .intro-fill, .intro-knob, .intro-count { animation: none !important; }
   .page-loader { display: none; }
 }
+
+/* Touch devices receive the same tactile feedback as pointer-hover devices. */
+@media (hover: none) and (pointer: coarse) {
+  .hover-animation:active,
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: translateY(-2px) scale(0.985);
+  }
+
+  .nav-link:active {
+    color: var(--color-deep-teal);
+  }
+}
+
+/* Keep section rhythm compact and consistent on narrow screens. */
+@media (max-width: 767px) {
+  .section-spacing {
+    margin-top: 4rem;
+  }
+
+  .text-heading {
+    font-size: clamp(1.85rem, 7vw, 2.35rem);
+    line-height: 1.08;
+  }
+
+  .text-eyebrow {
+    letter-spacing: 0.22em;
+  }
+}

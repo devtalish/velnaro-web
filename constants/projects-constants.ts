@@ -110,4 +110,4 @@ export const TILT_RANGE: { x: [number, number]; y: [number, number] } = {
 export const TRACK_SPRING: Transition = { stiffness: 60, damping: 20 };
 
 // Keep only the active desktop project iframe mounted to avoid multiple live sites loading together.
-export const PREVIEW_WINDOW = 0;
+export const PREVIEW_WINDOW = 1;

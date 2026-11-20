@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Particles } from "@/components/portfolio/particles";
 import { useInViewOnce } from "@/hooks/use-in-view-once";
 import { ContactDetails } from "@/components/contact/contact-details";
@@ -8,6 +9,7 @@ import { ContactForm } from "@/components/contact/contact-form";
 
 export const Contact: FC = () => {
   const [particlesRef, particlesInView] = useInViewOnce<HTMLDivElement>();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   return (
     <section
@@ -18,7 +20,7 @@ export const Contact: FC = () => {
         {particlesInView && (
           <Particles
             className="absolute inset-0"
-            quantity={120}
+            quantity={isMobile ? 36 : 120}
             ease={80}
             color="#176B65"
             refresh

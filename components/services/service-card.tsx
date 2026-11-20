@@ -1,9 +1,8 @@
 "use client";
-
 import { useRef, type FC } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
-import { SERVICE_ACCENTS, STACK_OFFSET_REM, STACK_SCALE_STEP } from "@/constants/services-ui-constants";
+import { SERVICE_ACCENTS, STACK_SCALE_STEP } from "@/constants/services-ui-constants";
 import { formatCounter, padIndex } from "@/helpers/format-helpers";
 import { type ServiceCardProps } from "@/types/services-types";
 import { ServiceBullets } from "./service-bullets";
@@ -12,42 +11,18 @@ import { ServiceCta } from "./service-cta";
 export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 88%", "end 18%"],
-  });
-
-  // Keep the layered, scroll-stacking motion while letting every card grow
-  // to its content height. Mobile uses a lighter slide-in rather than overlap.
-  const desktopScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [1, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]
-  );
-  const y = useTransform(scrollYProgress, [0, 0.55, 1], [42, 0, -8]);
-  const x = useTransform(scrollYProgress, [0, 0.6, 1], [28, 0, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 1], [0.38, 1, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [1.4, 0]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 92%", "end 12%"] });
+  const cardScale = useTransform(scrollYProgress, [0, 1], [0.975, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]);
+  const y = useTransform(scrollYProgress, [0, 0.48, 1], [88, 0, -12]);
+  const x = useTransform(scrollYProgress, [0, 0.55, 1], [-22, 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.28, 1], [0.2, 1, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [3, 0]);
 
   return (
-    <div
-      ref={ref}
-      className="relative md:sticky"
-      style={{
-        top: `calc(6.5rem + ${index * STACK_OFFSET_REM}rem)`,
-        zIndex: index + 1,
-      }}
-    >
+    <div ref={ref} className="sticky" style={{ top: `calc(5.25rem + ${index * 0.45}rem)`, zIndex: index + 1 }}>
       <motion.article
-        style={{
-          scale: reduceMotion ? 1 : desktopScale,
-          x: reduceMotion ? 0 : x,
-          y: reduceMotion ? 0 : y,
-          opacity: reduceMotion ? 1 : opacity,
-          rotateX: reduceMotion ? 0 : rotateX,
-          transformPerspective: 1200,
-          transformOrigin: "center top",
-        }}
+        style={{ scale: reduceMotion ? 1 : cardScale, x: reduceMotion ? 0 : x, y: reduceMotion ? 0 : y, opacity: reduceMotion ? 1 : opacity, rotateX: reduceMotion ? 0 : rotateX, transformPerspective: 1200, transformOrigin: "center top" }}
+        whileTap={reduceMotion ? undefined : { scale: 0.985 }}
         className="relative isolate overflow-hidden rounded-[1.6rem] border border-slate/15 bg-white shadow-[0_24px_70px_-42px_rgba(23,27,31,0.28)] will-change-transform"
       >
         <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-25 ${SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]}`} />
@@ -57,34 +32,20 @@ export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => 
           <div className="flex min-w-0 flex-col justify-between md:col-span-7">
             <div>
               <div className="flex items-center gap-4">
-                <span className="rounded-full border border-slate/20 bg-white/75 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted">
-                  Service {formatCounter(index, total)}
-                </span>
+                <span className="rounded-full border border-slate/20 bg-white/75 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted">Service {formatCounter(index, total)}</span>
                 <span className="block h-px w-10 bg-slate/30" />
               </div>
-              <h3 className="mt-6 max-w-2xl text-[clamp(1.8rem,5vw,3.75rem)] font-semibold leading-[1.06] tracking-tight text-graphite">
-                {service.title}
-              </h3>
-              <p className="mt-4 max-w-2xl text-[15px] leading-7 text-muted sm:text-base md:mt-5 md:text-lg md:leading-8">
-                {service.description}
-              </p>
+              <h3 className="mt-6 max-w-2xl text-[clamp(1.8rem,5vw,3.75rem)] font-semibold leading-[1.06] tracking-tight text-graphite">{service.title}</h3>
+              <p className="mt-4 max-w-2xl text-[15px] leading-7 text-muted sm:text-base md:mt-5 md:text-lg md:leading-8">{service.description}</p>
             </div>
-            <div className="mt-7 md:mt-9">
-              <ServiceCta href={service.href} ariaLabel={`Explore ${service.title}`} />
-            </div>
+            <div className="mt-7 md:mt-9"><ServiceCta href={service.href} ariaLabel={`Explore ${service.title}`} /></div>
           </div>
           <div className="flex min-w-0 flex-col justify-between gap-5 md:col-span-5 md:gap-7">
             <div className="relative flex min-h-16 items-start justify-end sm:min-h-24">
-              <span className="text-[5rem] font-black leading-none tracking-tighter text-slate/[0.08] sm:text-[7rem] md:text-[8rem]">
-                {padIndex(index + 1)}
-              </span>
-              <div className="absolute right-0 top-2 flex h-12 w-12 items-center justify-center rounded-2xl border border-slate/15 bg-white/90 shadow-sm sm:h-16 sm:w-16">
-                <VelnaroLogo aria-hidden className="h-7 w-7 opacity-90 sm:h-8 sm:w-8" />
-              </div>
+              <span className="text-[5rem] font-black leading-none tracking-tighter text-slate/[0.08] sm:text-[7rem] md:text-[8rem]">{padIndex(index + 1)}</span>
+              <div className="absolute right-0 top-2 flex h-12 w-12 items-center justify-center rounded-2xl border border-slate/15 bg-white/90 shadow-sm sm:h-16 sm:w-16"><VelnaroLogo aria-hidden className="h-7 w-7 opacity-90 sm:h-8 sm:w-8" /></div>
             </div>
-            <div className="rounded-2xl border border-slate/10 bg-white/85 p-4 shadow-sm shadow-graphite/[0.025] sm:p-6">
-              <ServiceBullets bullets={service.bullets} />
-            </div>
+            <div className="rounded-2xl border border-slate/10 bg-white/85 p-4 shadow-sm shadow-graphite/[0.025] sm:p-6"><ServiceBullets bullets={service.bullets} /></div>
           </div>
         </div>
         <div className="pointer-events-none absolute inset-0 rounded-[1.6rem] ring-1 ring-inset ring-white/60" />

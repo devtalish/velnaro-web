@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import { motion, useSpring, useTransform } from "motion/react";
 import {
   MY_PROJECTS,
@@ -10,6 +10,47 @@ import {
 import { usePinnedProgress } from "@/hooks/use-pinned-progress";
 import { type ProjectListProps } from "@/types/project-types";
 import { ProjectPanel } from "./project-panel";
+
+const RememberLoadedPanel: FC<{
+  project: (typeof MY_PROJECTS)[number];
+  index: number;
+  total: number;
+  onOpen: () => void;
+  shouldLoad: boolean;
+}> = ({ project, index, total, onOpen, shouldLoad }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  useEffect(() => {
+    const element = panelRef.current;
+    if (!shouldLoad || !element || hasLoaded) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "160px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [hasLoaded, shouldLoad]);
+
+  return (
+    <div ref={panelRef} className="h-full w-screen shrink-0">
+      <ProjectPanel
+        project={project}
+        index={index}
+        total={total}
+        onOpen={onOpen}
+        showPreview={hasLoaded}
+      />
+    </div>
+  );
+};
 
 export const PinnedShowcase: FC<ProjectListProps> = ({ onOpen }) => {
   const total = MY_PROJECTS.length;
@@ -35,13 +76,13 @@ export const PinnedShowcase: FC<ProjectListProps> = ({ onOpen }) => {
 
         <motion.div style={{ x }} className="flex h-full will-change-transform">
           {MY_PROJECTS.map((project, index) => (
-            <ProjectPanel
+            <RememberLoadedPanel
               key={project.id}
               project={project}
               index={index}
               total={total}
               onOpen={() => onOpen(project)}
-              showPreview={Math.abs(index - activeIndex) <= PREVIEW_WINDOW}
+              shouldLoad={Math.abs(index - activeIndex) <= PREVIEW_WINDOW}
             />
           ))}
         </motion.div>

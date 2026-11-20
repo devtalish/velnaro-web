@@ -20,7 +20,7 @@ export const AboutStatCard: FC<Stat & { index: number }> = ({
       animate={inView ? "visible" : "hidden"}
       variants={fadeInUp}
       transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-      className="glass gradient-border p-6 md:p-7"
+      className="glass gradient-border p-4 sm:p-6 md:p-7"
     >
       <p className="text-4xl font-extrabold text-gradient md:text-5xl">
         {value}
