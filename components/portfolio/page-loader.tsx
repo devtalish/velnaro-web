@@ -4,13 +4,22 @@ import { useEffect, useState, type FC } from "react";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
 import { HERO_NAME } from "@/constants/hero-constants";
 
-const VISIBLE_MS = 900;
+const VISIBLE_MS = 400;
 const SESSION_KEY = "intro-played";
 
 export const PageLoader: FC = () => {
   const [removed, setRemoved] = useState(false);
 
   useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem(SESSION_KEY) === "1") {
+        setRemoved(true);
+        return;
+      }
+    } catch {
+      // Storage may be unavailable; the intro remains non-blocking.
+    }
+
     const timer = window.setTimeout(() => {
       try {
         window.sessionStorage.setItem(SESSION_KEY, "1");
