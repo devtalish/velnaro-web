@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const MIN_3D_VIEWPORT = 320;
-const MIN_LAYERS_VIEWPORT = 854;
+const MIN_LAYERS_VIEWPORT = 320;
 const IDLE_TIMEOUT_MS = 2000;
 
 const isCapableDevice = (minViewport: number) => {
