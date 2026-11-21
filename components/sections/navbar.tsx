@@ -90,7 +90,7 @@ export const Navbar: FC = () => {
             ref={menuButtonRef}
             type="button"
             onClick={() => setIsOpen((open) => !open)}
-            className="relative z-[60] flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate/20 bg-white text-graphite shadow-sm transition-colors hover:border-deep-teal/40 hover:text-deep-teal active:scale-95 lg:hidden"
+            className="relative z-[60] mr-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate/20 bg-white text-graphite shadow-sm transition-colors hover:border-deep-teal/40 hover:text-deep-teal active:scale-95 sm:mr-2 lg:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
