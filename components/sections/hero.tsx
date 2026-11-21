@@ -8,7 +8,7 @@ import { useDeferred3D } from "@/hooks/use-deferred-3d";
 const HeroScene = dynamic(() => import("@/components/sections/hero-scene").then((mod) => mod.HeroScene), { ssr: false });
 
 export const Hero: FC = () => {
-  const showScene = useDeferred3D(0, 320);
+  const showScene = useDeferred3D(320);
   return (
     <section id="home" className="relative flex min-h-[112svh] items-start justify-center overflow-hidden pb-10 pt-24 sm:min-h-[100svh] sm:pb-20 md:min-h-screen md:items-start md:justify-start md:pb-0 md:pt-0">
       <ParallaxBackground />
