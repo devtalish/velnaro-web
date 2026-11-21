@@ -9,7 +9,7 @@ const isComingSoon = (href: string) => !href || href.trim() === "";
 const DESKTOP_VIEWPORT_WIDTH = 1440;
 const DESKTOP_VIEWPORT_HEIGHT = 900;
 
-type PreviewStatus = "idle" | "loading" | "loaded" | "slow" | "error";
+type PreviewStatus = "loading" | "loaded" | "slow" | "error";
 
 export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }) => {
   const prefersReducedMotion = useReducedMotion();
@@ -19,7 +19,7 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }
   const rotateY = useSpring(useTransform(pointerX, [0, 1], TILT_RANGE.y), TILT_SPRING);
   const viewportRef = useRef<HTMLDivElement>(null);
   const [previewScale, setPreviewScale] = useState(0.25);
-  const [previewStatus, setPreviewStatus] = useState<PreviewStatus>("idle");
+  const [previewStatus, setPreviewStatus] = useState<PreviewStatus>("loading");
   const comingSoon = isComingSoon(project.href);
   const previewUrl = project.href?.trim();
 
@@ -38,11 +38,7 @@ export const ProjectPreview: FC<ProjectPreviewProps> = ({ project, showPreview }
   }, []);
 
   useEffect(() => {
-    if (!showPreview || !previewUrl || comingSoon) {
-      setPreviewStatus("idle");
-      return;
-    }
-    setPreviewStatus("loading");
+    if (!showPreview || !previewUrl || comingSoon) return;
     const timeout = window.setTimeout(() => {
       setPreviewStatus((current) => current === "loading" ? "slow" : current);
     }, 12000);
