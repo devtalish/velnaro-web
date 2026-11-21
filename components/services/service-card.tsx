@@ -1,6 +1,7 @@
 "use client";
 import { useRef, type FC } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useMediaQuery } from "react-responsive";
 import { VelnaroLogo } from "@/components/ui/velnaro-logo";
 import { SERVICE_ACCENTS, STACK_SCALE_STEP } from "@/constants/services-ui-constants";
 import { formatCounter, padIndex } from "@/helpers/format-helpers";
@@ -11,12 +12,13 @@ import { ServiceCta } from "./service-cta";
 export const ServiceCard: FC<ServiceCardProps> = ({ service, index, total }) => {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 96%", "end 8%"] });
-  const cardScale = useTransform(scrollYProgress, [0, 1], [0.94, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]);
-  const y = useTransform(scrollYProgress, [0, 0.5, 1], [104, 0, -16]);
-  const x = useTransform(scrollYProgress, [0, 0.55, 1], [-18, 0, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.32, 1], [0.12, 1, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [4, 0]);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const { scrollYProgress } = useScroll({ target: ref, offset: isMobile ? ["start 96%", "end 8%"] : ["start 92%", "end 12%"] });
+  const cardScale = useTransform(scrollYProgress, [0, 1], [isMobile ? 0.94 : 0.975, Math.max(0.925, 1 - (total - index) * STACK_SCALE_STEP)]);
+  const y = useTransform(scrollYProgress, [0, isMobile ? 0.5 : 0.48, 1], isMobile ? [104, 0, -16] : [88, 0, -12]);
+  const x = useTransform(scrollYProgress, [0, 0.55, 1], [isMobile ? -18 : -22, 0, 0]);
+  const opacity = useTransform(scrollYProgress, [0, isMobile ? 0.32 : 0.28, 1], [isMobile ? 0.12 : 0.2, 1, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [isMobile ? 4 : 3, 0]);
 
   return (
     <div ref={ref} className="relative md:sticky" style={{ top: "calc(5.25rem + " + index * 0.45 + "rem)", zIndex: index + 1 }}>
