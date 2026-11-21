@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const MIN_3D_VIEWPORT = 320;
-const MIN_LAYERS_VIEWPORT = 854;
+const MIN_LAYERS_VIEWPORT = 320;
 const IDLE_TIMEOUT_MS = 2000;
 
 const isCapableDevice = (minViewport: number) => {
@@ -73,6 +73,7 @@ const useStagedFlag = (stage: number, test: () => boolean, minViewport: number) 
 
 /** Start the hero scene on the first animation frame instead of waiting for idle time. */
 export const useDeferred3D = (_stage = 0, minViewport = MIN_3D_VIEWPORT): boolean => {
+  void _stage;
   const [enabled, setEnabled] = useState(false);
   useEffect(() => {
     const viewport = window.matchMedia(`(min-width: ${minViewport}px)`);
