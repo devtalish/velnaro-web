@@ -18,13 +18,13 @@ export const HeroScene: FC = () => {
   const frame = useRef<HTMLElement>(null);
   const active = useSceneActive({ whenVisible: frame });
   return (
-    <figure ref={frame} aria-hidden="true" className={isMobile ? "pointer-events-none absolute bottom-[0%] right-[-2%] z-[1] h-[38svh] w-[88vw] max-w-[30rem] overflow-visible" : "pointer-events-none absolute inset-0 z-[2] overflow-hidden"}>
-      <Canvas camera={{ position: [0, 1, 4], fov: isMobile ? 37 : 50 }} dpr={isMobile ? [1.25, 1.6] : [1, 1.5]} frameloop={active ? "always" : "never"} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
+    <figure ref={frame} aria-hidden="true" className={isMobile ? "pointer-events-none absolute bottom-[-1%] right-0 z-[1] h-[48svh] w-full max-w-none overflow-visible" : "pointer-events-none absolute inset-0 z-[2] overflow-hidden"}>
+      <Canvas camera={{ position: [0, isMobile ? -0.35 : 1, 4], fov: isMobile ? 46 : 50 }} dpr={isMobile ? [1.5, 1.85] : [1, 1.5]} frameloop={active ? "always" : "never"} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={1.1} />
         <directionalLight position={[3, 4, 5]} intensity={1.6} />
         <Suspense fallback={<Loader />}>
           <Float rotationIntensity={0.3} floatIntensity={0.5} speed={0.5}>
-            <Astronaut scale={isMobile ? 0.35 : 0.245} position={isMobile ? [0.18, -0.52, 0] : [2.05, -0.58, 0]} rotation={[-Math.PI / 2, -0.2, 2.2]} />
+            <Astronaut scale={isMobile ? 0.27 : 0.245} position={isMobile ? [0, -0.52, 0] : [2.05, -0.58, 0]} rotation={[-Math.PI / 2, -0.2, 2.2]} />
           </Float>
           <Rig />
         </Suspense>
