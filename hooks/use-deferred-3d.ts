@@ -72,7 +72,7 @@ const useStagedFlag = (stage: number, test: () => boolean, minViewport: number) 
 };
 
 /** Start the hero scene on the first animation frame instead of waiting for idle time. */
-export const useDeferred3D = (_stage = 0, minViewport = MIN_3D_VIEWPORT): boolean => {
+export const useDeferred3D = (minViewport = MIN_3D_VIEWPORT): boolean => {
   const [enabled, setEnabled] = useState(false);
   useEffect(() => {
     const viewport = window.matchMedia(`(min-width: ${minViewport}px)`);
