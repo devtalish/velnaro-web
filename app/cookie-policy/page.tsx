@@ -57,7 +57,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies We Use</h2>
         <p className="mb-4">
-          We do not currently deploy analytics cookies, marketing cookies, advertising pixels, or cross-site behavioural tracking. The public marketing pages do not require an account or tracking cookie.
+          Google Analytics 4 analytics storage is used only after a visitor explicitly opts in through the consent notice. If a visitor rejects analytics, the analytics script is not loaded. The choice can be changed later using the Privacy settings control. We do not use advertising pixels or cross-site behavioural advertising. The public marketing pages do not require an account or tracking cookie.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Essential Cookies</h2>
@@ -83,7 +83,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">No Tracking</h2>
         <p className="mb-4">
-          VELNARO does not use its own cross-site tracking or behavioural advertising. Third-party project previews, if opened, are outside VELNARO&apos;s cookie controls.
+          VELNARO does not use cross-site behavioural advertising. Google Analytics, if enabled, is limited to aggregate website measurement and loads only after explicit visitor consent. Third-party project previews, if opened, are outside VELNARO&apos;s cookie controls.
         </p>
 
         <p className="mt-8 text-sm text-muted">
