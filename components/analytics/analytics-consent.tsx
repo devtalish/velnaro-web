@@ -29,7 +29,7 @@ export function AnalyticsConsent() {
   const initializeAnalytics = useCallback(() => {
     if (!validMeasurementId(GA_ID) || loadAnalytics) return;
     window.dataLayer = window.dataLayer || [];
-    window.gtag = (...args: unknown[]) => { window.dataLayer.push(args); };
+    window.gtag = function gtag() { window.dataLayer.push(arguments as unknown as unknown[]); };
     window.gtag("consent", "default", {
       analytics_storage: "denied",
       ad_storage: "denied",
