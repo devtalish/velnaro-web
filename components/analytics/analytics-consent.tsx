@@ -87,7 +87,7 @@ export function AnalyticsConsent() {
     }
   };
 
-  if (!validMeasurementId(GA_ID)) return null;
+  if (!validMeasurementId(GA_ID) || pathname?.startsWith("/admin")) return null;
 
   return (
     <>
