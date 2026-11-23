@@ -4,7 +4,8 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
+// Public GA4 Measurement ID. Can be overridden by the Netlify environment variable.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-EKMLZ7NK9E";
 const CONSENT_KEY = "velnaro-analytics-consent";
 type Consent = "unknown" | "granted" | "denied";
 
@@ -27,11 +28,8 @@ export function AnalyticsConsent() {
 
   const initializeAnalytics = useCallback(() => {
     if (!validMeasurementId(GA_ID) || loadAnalytics) return;
-
     window.dataLayer = window.dataLayer || [];
-    window.gtag = (...args: unknown[]) => {
-      window.dataLayer.push(args);
-    };
+    window.gtag = (...args: unknown[]) => { window.dataLayer.push(args); };
     window.gtag("consent", "default", {
       analytics_storage: "denied",
       ad_storage: "denied",
@@ -75,7 +73,6 @@ export function AnalyticsConsent() {
     try {
       window.localStorage.setItem(CONSENT_KEY, next);
     } catch {
-      // If storage is unavailable, do not enable analytics without a saved choice.
       if (next === "granted") return;
     }
     setConsent(next);
