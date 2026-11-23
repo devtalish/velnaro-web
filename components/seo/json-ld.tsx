@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import { MY_SOCIALS } from "@/constants/social-constants";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -56,6 +57,7 @@ const graph = {
       "@id": organizationId,
       name: SITE_NAME,
       url: SITE_URL,
+      sameAs: MY_SOCIALS.map((social) => social.href),
       description: SITE_DESCRIPTION,
       knowsAbout: [
         "Generative Engine Optimization",
