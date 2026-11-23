@@ -80,10 +80,11 @@ export function AnalyticsConsent() {
       if (next === "granted") return;
     }
     setConsent(next);
-    if (next === "granted") initializeAnalytics();
-    else {
-      setLoadAnalytics(false);
-      setScriptReady(false);
+    if (next === "granted") {
+      if (loadAnalytics) window.gtag?.("consent", "update", { analytics_storage: "granted" });
+      else initializeAnalytics();
+    } else {
+      window.gtag?.("consent", "update", { analytics_storage: "denied" });
     }
   };
 
