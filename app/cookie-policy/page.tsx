@@ -57,7 +57,7 @@ export default function CookiePolicy(): React.ReactElement {
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Cookies We Use</h2>
         <p className="mb-4">
-          Google Analytics 4 analytics storage is used only after a visitor explicitly opts in through the consent notice. If a visitor rejects analytics, the analytics script is not loaded. The choice can be changed later using the Privacy settings control. We do not use advertising pixels or cross-site behavioural advertising. The public marketing pages do not require an account or tracking cookie.
+          Google Analytics 4 analytics storage is used only after a visitor explicitly opts in through the consent notice. If a visitor rejects analytics, the analytics script is not loaded. The consent choice is stored in browser local storage and can be changed later using the Privacy settings control. We do not use advertising pixels or cross-site behavioural advertising. The public marketing pages do not require an account or tracking cookie.
         </p>
 
         <h2 className="text-2xl font-semibold text-graphite mb-8">Essential Cookies</h2>
