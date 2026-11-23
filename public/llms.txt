@@ -43,3 +43,9 @@
 ## Contact & Booking
 
 - [Contact VELNARO](https://velnaro.agency/#contact): Use the website contact form to describe a business challenge or project. Engagement scope and availability are confirmed directly.
+
+
+## Additional machine-readable reference
+
+- [Extended VELNARO reference](https://velnaro.agency/llms-full.txt): service details, scope boundaries, target markets and factual usage guidance.
+- [Machine-readable brand facts](https://velnaro.agency/.well-known/brand-facts.json): canonical brand facts and claims that should not be inferred.
