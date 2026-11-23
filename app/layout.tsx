@@ -53,7 +53,14 @@ export const metadata: Metadata = {
   ...(GOOGLE_SITE_VERIFICATION
     ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
     : {}),
-  icons: {\n    icon: [\n      { url: "/favicon.svg", type: "image/svg+xml" },\n      { url: "/icon", type: "image/png", sizes: "32x32" },\n    ],\n    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],\n  },\n  formatDetection: {
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+  },
+  formatDetection: {
     email: false,
     address: false,
     telephone: false,
@@ -91,6 +98,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preload" href="/models/astronaut.glb" as="fetch" crossOrigin="anonymous" />
       </head>
       <body
