@@ -45,7 +45,7 @@ export function AnalyticsConsent() {
   }, [loadAnalytics]);
 
   useEffect(() => {
-    if (!validMeasurementId(GA_ID)) return;
+    if (!validMeasurementId(GA_ID) || pathname?.startsWith("/admin")) return;
     const frame = window.requestAnimationFrame(() => {
       try {
         const saved = window.localStorage.getItem(CONSENT_KEY);
@@ -60,10 +60,10 @@ export function AnalyticsConsent() {
       }
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [initializeAnalytics]);
+  }, [initializeAnalytics, pathname]);
 
   useEffect(() => {
-    if (!scriptReady || consent !== "granted" || !pathname) return;
+    if (!scriptReady || consent !== "granted" || !pathname || pathname.startsWith("/admin")) return;
     window.gtag?.("event", "page_view", {
       page_path: pathname,
       page_location: window.location.href,
