@@ -4,6 +4,7 @@ import { useRef, type FC } from "react";
 import { motion, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import Link from "next/link";
 import { VelnaroLogoWithWordmark } from "@/components/ui/velnaro-logo";
+import { MY_SOCIALS } from "@/constants/social-constants";
 
 const WaterWordmark: FC = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -84,6 +85,24 @@ export const Footer: FC = () => {
           <Link href="/#contact" className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-graphite underline decoration-slate/30 underline-offset-4 transition-colors hover:text-deep-teal hover:decoration-deep-teal">
             Contact VELNARO
           </Link>
+          <div className="mt-7">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Follow VELNARO</p>
+            <nav aria-label="VELNARO social media" className="flex flex-wrap gap-2">
+              {MY_SOCIALS.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`VELNARO on ${social.name} (opens in a new tab)`}
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-slate/15 bg-white/65 px-4 text-xs font-medium text-graphite transition-all duration-200 hover:-translate-y-0.5 hover:border-deep-teal/40 hover:bg-white hover:text-deep-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-deep-teal focus-visible:ring-offset-2"
+                >
+                  {social.name}
+                  <span aria-hidden="true" className="text-[10px] opacity-60">↗</span>
+                </a>
+              ))}
+            </nav>
+          </div>
         </div>
 
         <div className="flex flex-col gap-7 md:items-end">
