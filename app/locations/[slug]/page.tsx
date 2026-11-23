@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
-import { SITE_NAME, SITE_URL } from "@/constants/seo-constants";
+import { OG_IMAGES, OG_LOCALE, SITE_NAME, SITE_URL } from "@/constants/seo-constants";
 
 type Market = { country: string; title: string; intro: string; context: string; sectors: string[]; considerations: string[] };
 const MARKETS: Record<string, Market> = {
@@ -18,7 +18,7 @@ export function generateStaticParams() { return Object.keys(MARKETS).map((slug) 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params; const market = MARKETS[slug]; if (!market) return {};
   const path = `/locations/${slug}`; const title = `${market.country} GEO & AEO Agency Services | ${SITE_NAME}`;
-  return { title, description: market.intro, alternates: { canonical: path }, openGraph: { type: "website", url: `${SITE_URL}${path}`, title, description: market.intro, siteName: SITE_NAME }, twitter: { card: "summary_large_image", title, description: market.intro } };
+  return { title, description: market.intro, alternates: { canonical: path }, openGraph: { type: "website", url: `${SITE_URL}${path}`, title, description: market.intro, siteName: SITE_NAME, locale: OG_LOCALE, images: OG_IMAGES }, twitter: { card: "summary_large_image", title, description: market.intro, images: OG_IMAGES } };
 }
 export default async function MarketPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const market = MARKETS[slug]; if (!market) notFound();

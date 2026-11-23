@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Funnel_Display } from "next/font/google";
 import { JsonLd } from "@/components/seo/json-ld";
+import { AnalyticsConsent } from "@/components/analytics/analytics-consent";
 import Script from "next/script";
 import {
   GOOGLE_SITE_VERIFICATION,
@@ -52,6 +53,13 @@ export const metadata: Metadata = {
   ...(GOOGLE_SITE_VERIFICATION
     ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
     : {}),
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+  },
   formatDetection: {
     email: false,
     address: false,
@@ -90,6 +98,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preload" href="/models/astronaut.glb" as="fetch" crossOrigin="anonymous" />
       </head>
       <body
@@ -106,6 +115,7 @@ export default function RootLayout({
         </noscript>
         <JsonLd />
         {children}
+        <AnalyticsConsent />
       </body>
     </html>
   );

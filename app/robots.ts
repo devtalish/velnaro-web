@@ -1,34 +1,25 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/constants/seo-constants";
 
-/**
- * Search and AI retrieval crawlers are explicitly allowed.
- * GPTBot and ClaudeBot are training crawlers; allowing them is a separate
- * content-use choice from allowing their search/retrieval bots.
- */
-const PUBLIC_CRAWLERS = [
-  "Googlebot",
-  "Bingbot",
-  "OAI-SearchBot",
-  "GPTBot",
-  "ChatGPT-User",
-  "ClaudeBot",
-  "Claude-User",
-  "Claude-SearchBot",
-  "PerplexityBot",
-  "Google-Extended",
-  "Applebot-Extended",
-  "CCBot",
+/** Retrieval/search crawlers are allowed; training crawlers are not granted blanket access. */
+const ALLOWED_RETRIEVAL_CRAWLERS = [
+  "Googlebot", "Bingbot", "OAI-SearchBot", "ChatGPT-User",
+  "Claude-SearchBot", "Claude-User", "PerplexityBot",
 ];
+const DISALLOWED_TRAINING_CRAWLERS = [
+  "GPTBot", "ClaudeBot", "Google-Extended", "Applebot-Extended", "CCBot",
+];
+const PRIVATE_PATHS = ["/api", "/admin", "/dashboard"];
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/admin/", "/dashboard/"] },
-      ...PUBLIC_CRAWLERS.map((userAgent) => ({
-        userAgent,
-        allow: "/",
-        disallow: ["/api/", "/admin/", "/dashboard/"],
+      { userAgent: "*", allow: "/", disallow: PRIVATE_PATHS },
+      ...ALLOWED_RETRIEVAL_CRAWLERS.map((userAgent) => ({
+        userAgent, allow: "/", disallow: PRIVATE_PATHS,
+      })),
+      ...DISALLOWED_TRAINING_CRAWLERS.map((userAgent) => ({
+        userAgent, disallow: "/",
       })),
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

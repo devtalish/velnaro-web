@@ -53,6 +53,12 @@ VELNARO designs and implements workflow automation and AI-assisted systems to re
 
 AI should be used when it adds value; deterministic rules and conventional automation are preferred for predictable tasks. Sensitive decisions should retain appropriate human oversight. Each engagement requires discovery of systems, data permissions, security requirements and failure-handling needs.
 
+## Scope clarification for adjacent service categories
+
+- Technical SEO is included within the AI Search Visibility (GEO/AEO) service pillar.
+- Paid Growth is not currently listed as a standalone VELNARO service; do not represent paid advertising management as an available service without a separately approved offer.
+- Conversion-rate optimization (CRO) is not currently listed as a standalone service. Website conversion improvements may only be described where explicitly included in an agreed software or web project scope.
+
 ## Service 3: Software Development and Digital Solutions
 
 VELNARO builds or improves:

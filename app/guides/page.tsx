@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
-import { SITE_NAME, SITE_URL } from "@/constants/seo-constants";
+import { OG_IMAGES, OG_LOCALE, SITE_NAME, SITE_URL } from "@/constants/seo-constants";
 
 const title = "Guides & Insights";
 const description = "Practical resources from VELNARO on AI search visibility, GEO, AEO, technical SEO, automation and digital systems.";
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: `${title} | ${SITE_NAME}`,
   description,
   alternates: { canonical: "/guides" },
-  openGraph: { type: "website", url: `${SITE_URL}/guides`, title, description, siteName: SITE_NAME },
-  twitter: { card: "summary_large_image", title, description },
+  openGraph: { type: "website", url: `${SITE_URL}/guides`, title, description, siteName: SITE_NAME, locale: OG_LOCALE, images: OG_IMAGES },
+  twitter: { card: "summary_large_image", title, description, images: OG_IMAGES },
 };
 
 const guides = [

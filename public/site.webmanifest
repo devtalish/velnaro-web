@@ -1,0 +1,14 @@
+{
+  "name": "VELNARO — AI Search Visibility, Automation & Software",
+  "short_name": "VELNARO",
+  "description": "AI search visibility, automation and custom software for business growth.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F3F1EA",
+  "theme_color": "#176B65",
+  "icons": [
+    { "src": "/icon", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-icon", "sizes": "180x180", "type": "image/png" }
+  ]
+}

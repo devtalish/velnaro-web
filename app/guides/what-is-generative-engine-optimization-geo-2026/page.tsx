@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
-import { SITE_NAME, SITE_URL } from "@/constants/seo-constants";
+import { OG_IMAGES, OG_LOCALE, SITE_NAME, SITE_URL } from "@/constants/seo-constants";
 
 const title = "What Is Generative Engine Optimization (GEO)? A Practical 2026 Guide";
 const description = "A practical guide to Generative Engine Optimization: how GEO relates to SEO and AEO, and the technical, content and entity foundations that support AI-assisted discovery.";
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: `${title} | ${SITE_NAME}`,
   description,
   alternates: { canonical: "/guides/what-is-generative-engine-optimization-geo-2026" },
-  openGraph: { type: "article", url, title, description, siteName: SITE_NAME },
-  twitter: { card: "summary_large_image", title, description }
+  openGraph: { type: "article", url, title, description, siteName: SITE_NAME, locale: OG_LOCALE, images: OG_IMAGES },
+  twitter: { card: "summary_large_image", title, description, images: OG_IMAGES }
 };
 const schema = {
   "@context": "https://schema.org",

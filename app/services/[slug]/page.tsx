@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
-import { SITE_NAME, SITE_URL } from "@/constants/seo-constants";
+import { OG_IMAGES, OG_LOCALE, SITE_NAME, SITE_URL } from "@/constants/seo-constants";
 
 type ServicePage = {
   title: string;
@@ -70,8 +70,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${service.title} | ${SITE_NAME}`,
     description: service.description,
     alternates: { canonical },
-    openGraph: { type: "website", url: `${SITE_URL}${canonical}`, title: `${service.title} | ${SITE_NAME}`, description: service.description, siteName: SITE_NAME },
-    twitter: { card: "summary_large_image", title: `${service.title} | ${SITE_NAME}`, description: service.description }
+    openGraph: { type: "website", url: `${SITE_URL}${canonical}`, title: `${service.title} | ${SITE_NAME}`, description: service.description, siteName: SITE_NAME, locale: OG_LOCALE, images: OG_IMAGES },
+    twitter: { card: "summary_large_image", title: `${service.title} | ${SITE_NAME}`, description: service.description, images: OG_IMAGES }
   };
 }
 
