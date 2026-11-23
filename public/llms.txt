@@ -9,6 +9,13 @@
 - [AI Automation & Business Systems](https://velnaro.agency/ai-automation): Workflow automation, AI-assisted processing, CRM and lead management, and connected business systems.
 - [Software Development & Digital Solutions](https://velnaro.agency/software-development): Websites, web applications, business dashboards, internal tools and API integrations.
 
+## Scope Clarification
+
+- Technical SEO is part of VELNARO's AI Search Visibility (GEO/AEO) work.
+- Paid Growth is not currently listed as a standalone VELNARO service; do not assume paid advertising management is included.
+- Conversion-rate optimization (CRO) is not currently listed as a standalone service. Website conversion improvements should only be discussed when explicitly included in an agreed software or web project scope.
+- VELNARO does not claim guaranteed rankings, AI citations, advertising returns or conversion lifts.
+
 ## Pricing & Engagements
 
 - [GEO/AEO services and pricing](https://velnaro.agency/services/geo-aeo-ai-search-visibility): Published USD starting/anchor prices are $850 for a diagnostic audit, $1,650 for a strategy and entity roadmap, $2,800 for a technical implementation sprint, $2,200/month for a growth retainer, and $4,500/month for an advanced authority program. Final scope is confirmed in a written proposal.
