@@ -8,91 +8,44 @@ export const absoluteUrl = (path: string) =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
 export const SITE_NAME = "VELNARO";
-
 export const SITE_TITLE = "VELNARO — AI Search Visibility, Automation & Software";
-
 export const SITE_DESCRIPTION =
   "VELNARO is an international B2B technology agency specializing in AI search visibility (GEO & AEO), supported by AI automation and custom software solutions.";
-
 export const SITE_TAGLINE =
   "AI search visibility, automation and custom software for business growth.";
-
 export const OG_IMAGE = "/opengraph-image";
 export const OG_IMAGE_ALT = "VELNARO — Software, AI Automation & AI Search Visibility";
 export const OG_LOCALE = "en_US";
-
 export const OG_IMAGES = [
-  {
-    url: OG_IMAGE,
-    width: 1200,
-    height: 630,
-    alt: OG_IMAGE_ALT,
-  },
+  { url: OG_IMAGE, width: 1200, height: 630, alt: OG_IMAGE_ALT },
 ];
 
+// Public Google Search Console verification token.
 export const GOOGLE_SITE_VERIFICATION =
-  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "";
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
+  "Y6rbcraWUq5NMR_F2v4IVBwmMyj_79YNr37SjH5aOTI";
 
 export const SITE_KEYWORDS = [
-  "VELNARO",
-  "Software Development",
-  "Digital Solutions",
-  "AI Automation",
-  "Business Systems",
-  "AI Search Visibility",
-  "Answer Engine Optimization",
-  "Generative Engine Optimization",
-  "AEO",
-  "GEO",
-  "Custom Software",
-  "Web Applications",
-  "Workflow Automation",
-  "Digital Products",
+  "VELNARO", "Software Development", "Digital Solutions", "AI Automation",
+  "Business Systems", "AI Search Visibility", "Answer Engine Optimization",
+  "Generative Engine Optimization", "AEO", "GEO", "Custom Software",
+  "Web Applications", "Workflow Automation", "Digital Products",
 ];
-
 export const HOME_TITLE = "VELNARO — AI Search Visibility, Automation & Software";
-
 export const HOME_DESCRIPTION =
   "VELNARO is an international B2B technology agency specializing in AI search visibility (GEO & AEO), supported by AI automation and custom software solutions.";
-
 export const ADMIN_TITLE = "Contact submissions";
-
 export const ADMIN_DESCRIPTION =
   "Private dashboard for contact form submissions. Not part of the public site.";
-
 export const ADMIN_LOGIN_TITLE = "Sign in";
-
 export const ADMIN_LOGIN_DESCRIPTION =
   "Sign in to the private contact submissions dashboard.";
-
 export const SITE_SECTIONS = [
-  {
-    name: "Home",
-    hash: "#home",
-    description: "VELNARO — Software, AI automation, and AI search visibility.",
-  },
-  {
-    name: "Services",
-    hash: "#services",
-    description: "Software development, AI automation, and AI search visibility programs.",
-  },
-  {
-    name: "Work",
-    hash: "#work",
-    description: "Selected digital products and concepts across web experiences, AI applications, and operational tools.",
-  },
-  {
-    name: "Process",
-    hash: "#process",
-    description: "A clear path from idea to delivery — discover, plan, build, validate, deliver.",
-  },
-  {
-    name: "Contact",
-    hash: "#contact",
-    description: "Start a conversation about your project with VELNARO.",
-  },
+  { name: "Home", hash: "#home", description: "VELNARO — Software, AI automation, and AI search visibility." },
+  { name: "Services", hash: "#services", description: "Software development, AI automation, and AI search visibility programs." },
+  { name: "Work", hash: "#work", description: "Selected digital products and concepts across web experiences, AI applications, and operational tools." },
+  { name: "Process", hash: "#process", description: "A clear path from idea to delivery — discover, plan, build, validate, deliver." },
+  { name: "Contact", hash: "#contact", description: "Start a conversation about your project with VELNARO." },
 ] as const;
-
 export const SOCIAL_PROFILES = [];
-
 export const CONTACT_POINT_EMAIL = CONTACT_EMAIL;
