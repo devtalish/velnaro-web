@@ -9,7 +9,7 @@ const ALLOWED_RETRIEVAL_CRAWLERS = [
 const DISALLOWED_TRAINING_CRAWLERS = [
   "GPTBot", "ClaudeBot", "Google-Extended", "Applebot-Extended", "CCBot",
 ];
-const PRIVATE_PATHS = ["/api/", "/admin/", "/dashboard/"];
+const PRIVATE_PATHS = ["/api", "/admin", "/dashboard"];
 
 export default function robots(): MetadataRoute.Robots {
   return {
