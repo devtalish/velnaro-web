@@ -46,22 +46,21 @@ export function AnalyticsConsent() {
 
   useEffect(() => {
     if (!validMeasurementId(GA_ID)) return;
-    try {
-      const saved = window.localStorage.getItem(CONSENT_KEY);
-      if (saved === "granted") {
-        setConsent("granted");
-        initializeAnalytics();
-      } else if (saved === "denied") {
-        setConsent("denied");
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        const saved = window.localStorage.getItem(CONSENT_KEY);
+        if (saved === "granted") {
+          setConsent("granted");
+          initializeAnalytics();
+        } else if (saved === "denied") {
+          setConsent("denied");
+        }
+      } catch {
+        setConsent("unknown");
       }
-    } catch {
-      setConsent("unknown");
-    }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [initializeAnalytics]);
-
-  useEffect(() => {
-    if (consent === "granted") initializeAnalytics();
-  }, [consent, initializeAnalytics]);
 
   useEffect(() => {
     if (!scriptReady || consent !== "granted" || !pathname) return;
