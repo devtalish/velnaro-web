@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Funnel_Display } from "next/font/google";
 import { JsonLd } from "@/components/seo/json-ld";
+import { AnalyticsConsent } from "@/components/analytics/analytics-consent";
 import Script from "next/script";
 import {
   GOOGLE_SITE_VERIFICATION,
@@ -106,6 +107,7 @@ export default function RootLayout({
         </noscript>
         <JsonLd />
         {children}
+        <AnalyticsConsent />
       </body>
     </html>
   );
