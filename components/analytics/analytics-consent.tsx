@@ -114,7 +114,11 @@ export function AnalyticsConsent() {
       ) : (
         <button
           type="button"
-          onClick={() => {\n            window.gtag?.("consent", "update", { analytics_storage: "denied" });\n            try { window.localStorage.removeItem(CONSENT_KEY); } catch { /* ignore unavailable storage */ }\n            setConsent("unknown");\n          }}
+          onClick={() => {
+            window.gtag?.("consent", "update", { analytics_storage: "denied" });
+            try { window.localStorage.removeItem(CONSENT_KEY); } catch { /* ignore unavailable storage */ }
+            setConsent("unknown");
+          }}
           className="fixed bottom-3 left-3 z-[90] rounded-full border border-slate/20 bg-ivory/95 px-3 py-2 text-xs text-muted shadow-lg"
           aria-label="Open privacy settings"
         >
